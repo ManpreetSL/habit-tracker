@@ -30,6 +30,7 @@ To gain parity with existing processes/workflow/tools:
 - Be able to view overview of habits currently assigned to yourself over the course of a configurable time period (week, fortnight, month, etc.)
 - View history of one specific habit
 - Mark a habit as non-negotiable/compulsory
+  Group level habit tracking - exercise but split into multiple e.g. gym, tennis, badminton, but the habit progress can be viewed by the category
 
 ### Peer Motivation
 

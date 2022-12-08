@@ -1,7 +1,7 @@
 import { useLoaderData } from 'react-router-dom';
 
 type Profile = {
-  id?: string;
+  id: string;
 };
 
 type LoaderProps = {

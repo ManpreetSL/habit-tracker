@@ -4,12 +4,12 @@ type Profile = {
   id?: string;
 };
 
-type loaderProps = {
+type LoaderProps = {
   request?: Object;
   params?: Profile;
 };
 
-export const loader = async ({ params: { id } = { id: '' } }: loaderProps) => {
+export const loader = async ({ params: { id } = { id: '' } }: LoaderProps) => {
   return { id };
 };
 

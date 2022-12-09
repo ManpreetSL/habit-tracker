@@ -8,7 +8,19 @@ on:
       - '**' # matches every branch
 
 jobs:
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run lint
+
   build:
+    name: Build project on Ubuntu
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

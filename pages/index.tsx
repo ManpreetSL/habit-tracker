@@ -65,15 +65,11 @@ const Home = () => {
         <h1 css={styles.title}>Welcome to .SHIFT habit tracker!</h1>
         <ViewHabits />
 
-        <p>
-          <Link href={`/about`}>About the app</Link>
-        </p>
-
-        <p css={styles.links}>
-          <Link href={`/profile/Manpreet`}>Manpreet Singh</Link>
-          <Link href={`profile/Harjot`}>Harjot Singh</Link>
-          <Link href={`profile/Gurpreet`}>Gurpreet Kaur</Link>
-          <Link href={`/profile/Hardeep`}>Hardeep Kaur</Link>
+        <p className={styles.links}>
+          <Link href='/profile/Manpreet'>Manpreet Singh</Link>
+          <Link href='profile/Harjot'>Harjot Singh</Link>
+          <Link href='profile/Gurpreet'>Gurpreet Kaur</Link>
+          <Link href='/profile/Hardeep'>Hardeep Kaur</Link>
           <br />
         </p>
       </main>

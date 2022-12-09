@@ -6,10 +6,10 @@ type Profile = {
 
 type LoaderProps = {
   request?: Object;
-  params?: Profile;
+  params: Profile;
 };
 
-export const loader = async ({ params: { id } = { id: '' } }: LoaderProps) => {
+export const loader = async ({ params: { id } }: LoaderProps) => {
   return { id };
 };
 

@@ -40,8 +40,8 @@ jobs:
       - run: npm test
 
   build:
-    name: Build project on Ubuntu
-    runs-on: ubuntu-latest
+    name: Build project
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

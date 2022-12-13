@@ -17,6 +17,7 @@ jobs:
       - name: Build project
         run: npm ci
       - run: npm run build
+      - run: npx vercel build
       - uses: amondnet/vercel-action@v20 # Deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required

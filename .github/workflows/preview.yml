@@ -10,6 +10,9 @@ env:
 
 jobs:
   preview:
+    environment:
+      name: Preview
+      url: ${{ steps.deploy.outputs.url }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -30,7 +33,8 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         id: deploy
-        run: echo "::set-output name=url::$(npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+        run: echo "url=$(npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
+  
       - name: Add comment to pull request
         uses: actions/github-script@v6
         with:

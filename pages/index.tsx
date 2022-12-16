@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import { css } from '@emotion/react';
 import { ReactNode } from 'react';
+import ViewHabits from '../components/ViewHabits';
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to .SHIFT habit tracker!</h1>
+        <ViewHabits />
 
         <p>
           <StyledLink href={`/about`}>About the app</StyledLink>

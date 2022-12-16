@@ -1,12 +1,9 @@
+# Enabled on every branch by default
 name: Continuous Integration
-
 on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - '**' # matches every branch
-
 jobs:
   test:
     name: Run tests

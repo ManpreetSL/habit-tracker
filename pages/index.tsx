@@ -2,10 +2,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
+import { css } from '@emotion/react';
+import { ReactNode } from 'react';
 
 const Home = () => {
   return (
-    <div className={styles.container}>
+    <div css={containerStyle}>
       <Head>
         <title>.SHIFT habit tracker</title>
         <meta name='description' content='A habit tracker' />
@@ -16,14 +18,14 @@ const Home = () => {
         <h1 className={styles.title}>Welcome to .SHIFT habit tracker!</h1>
 
         <p>
-          <Link href={`/about`}>About the app</Link>
+          <StyledLink href={`/about`}>About the app</StyledLink>
         </p>
 
         <p className={styles.links}>
-          <Link href={`/profile/Manpreet`}>Manpreet Singh</Link>
-          <Link href={`profile/Harjot`}>Harjot Singh</Link>
-          <Link href={`profile/Gurpreet`}>Gurpreet Kaur</Link>
-          <Link href={`/profile/Hardeep`}>Hardeep Kaur</Link>
+          <StyledLink href={`/profile/Manpreet`}>Manpreet Singh</StyledLink>
+          <StyledLink href={`profile/Harjot`}>Harjot Singh</StyledLink>
+          <StyledLink href={`profile/Gurpreet`}>Gurpreet Kaur</StyledLink>
+          <StyledLink href={`/profile/Hardeep`}>Hardeep Kaur</StyledLink>
           <br />
         </p>
       </main>
@@ -42,6 +44,33 @@ const Home = () => {
       </footer>
     </div>
   );
-}
+};
 
 export default Home;
+
+const containerStyle = css({
+  boxSizing: 'border-box',
+  backgroundColor: '#0066ff',
+  color: '#fff',
+  textAlign: 'center'
+});
+
+type StyledLinkProps = {
+  href: string;
+  children: ReactNode;
+};
+
+const StyledLink = ({ href, children }: StyledLinkProps) => {
+  const linkStyle = css({
+    fontSize: '1.2em',
+    '&:hover': {
+      color: 'orange'
+    }
+  });
+
+  return (
+    <Link css={linkStyle} href={href}>
+      <>{children}</>
+    </Link>
+  );
+};

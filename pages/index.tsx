@@ -10,6 +10,7 @@ const containerStyle = css({
   color: '#fff',
   textAlign: 'center'
 });
+import ViewHabits from '../components/ViewHabits';
 
 const Home = () => {
   return (
@@ -22,6 +23,7 @@ const Home = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to .SHIFT habit tracker!</h1>
+        <ViewHabits />
 
         <p>
           <Link href={`/about`}>About the app</Link>

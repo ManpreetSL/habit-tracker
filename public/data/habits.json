@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "name": "Do 5 mins of Simran",
+    "frequency": "daily",
+    "streak": 237,
+    "complete": true
+  },
+  {
+    "id": "2",
+    "name": "Do Sehaj Paath Ang",
+    "frequency": "weekly",
+    "streak": 2,
+    "complete": true
+  },
+  {
+    "id": "3",
+    "name": "Drink 8 glasses of water",
+    "frequency": "daily",
+    "streak": 2,
+    "complete": false
+  }
+]

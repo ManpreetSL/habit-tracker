@@ -4,6 +4,46 @@ import { css } from '@emotion/react';
 import Link from '../src/components/Link';
 import ViewHabits from '../components/ViewHabits';
 
+const containerStyle = css({
+  boxSizing: 'border-box',
+  backgroundColor: '#0066ff',
+  color: '#fff',
+  textAlign: 'center',
+  minHeight: '100vh',
+  padding: '4rem 0',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+});
+
+const titleStyle = css({
+  margin: '24px 0px',
+  lineHeight: '1.15',
+  fontSize: '3rem'
+});
+
+const linksStyle = css({
+  display: 'flex',
+  flexDirection: 'column'
+});
+
+const logoStyle = css({
+  height: '1em',
+  marginLeft: '0.5rem'
+});
+
+const footerStyle = css({
+  display: 'flex',
+  flex: 1,
+  maxHeight: 70,
+  padding: '2rem 0',
+  borderTop: '1px solid #eaeaea',
+  justifyContent: 'center',
+  alignItems: 'center'
+});
+
 const Home = () => {
   return (
     <div css={containerStyle}>
@@ -47,43 +87,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const containerStyle = css({
-  boxSizing: 'border-box',
-  backgroundColor: '#0066ff',
-  color: '#fff',
-  textAlign: 'center',
-  minHeight: '100vh',
-  padding: '4rem 0',
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center'
-});
-
-const titleStyle = css({
-  margin: '24px 0px',
-  lineHeight: '1.15',
-  fontSize: '3rem'
-});
-
-const linksStyle = css({
-  display: 'flex',
-  flexDirection: 'column'
-});
-
-const logoStyle = css({
-  height: '1em',
-  marginLeft: '0.5rem'
-});
-
-const footerStyle = css({
-  display: 'flex',
-  flex: 1,
-  maxHeight: 70,
-  padding: '2rem 0',
-  borderTop: '1px solid #eaeaea',
-  justifyContent: 'center',
-  alignItems: 'center'
-});

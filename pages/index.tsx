@@ -4,6 +4,13 @@ import styles from '../styles/Home.module.css';
 import { css } from '@emotion/react';
 import Link from '../src/components/Link';
 
+const containerStyle = css({
+  boxSizing: 'border-box',
+  backgroundColor: '#0066ff',
+  color: '#fff',
+  textAlign: 'center'
+});
+
 const Home = () => {
   return (
     <div css={containerStyle}>
@@ -46,10 +53,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const containerStyle = css({
-  boxSizing: 'border-box',
-  backgroundColor: '#0066ff',
-  color: '#fff',
-  textAlign: 'center'
-});

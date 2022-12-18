@@ -1,16 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from '../styles/Home.module.css';
 import { css } from '@emotion/react';
 import Link from '../src/components/Link';
 import ViewHabits from '../components/ViewHabits';
-
-const containerStyle = css({
-  boxSizing: 'border-box',
-  backgroundColor: '#0066ff',
-  color: '#fff',
-  textAlign: 'center'
-});
 
 const Home = () => {
   return (
@@ -21,15 +13,15 @@ const Home = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to .SHIFT habit tracker!</h1>
+      <main>
+        <h1 css={titleStyle}>Welcome to .SHIFT habit tracker!</h1>
         <ViewHabits />
 
         <p>
           <Link href={`/about`}>About the app</Link>
         </p>
 
-        <p className={styles.links}>
+        <p css={linksStyle}>
           <Link href={`/profile/Manpreet`}>Manpreet Singh</Link>
           <Link href={`profile/Harjot`}>Harjot Singh</Link>
           <Link href={`profile/Gurpreet`}>Gurpreet Kaur</Link>
@@ -38,14 +30,14 @@ const Home = () => {
         </p>
       </main>
 
-      <footer className={styles.footer}>
+      <footer css={footerStyle}>
         <a
           href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
           target='_blank'
           rel='noopener noreferrer'
         >
           Powered by{' '}
-          <span className={styles.logo}>
+          <span css={logoStyle}>
             <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
           </span>
         </a>
@@ -55,3 +47,43 @@ const Home = () => {
 };
 
 export default Home;
+
+const containerStyle = css({
+  boxSizing: 'border-box',
+  backgroundColor: '#0066ff',
+  color: '#fff',
+  textAlign: 'center',
+  minHeight: '100vh',
+  padding: '4rem 0',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+});
+
+const titleStyle = css({
+  margin: '24px 0px',
+  lineHeight: '1.15',
+  fontSize: '3rem'
+});
+
+const linksStyle = css({
+  display: 'flex',
+  flexDirection: 'column'
+});
+
+const logoStyle = css({
+  height: '1em',
+  marginLeft: '0.5rem'
+});
+
+const footerStyle = css({
+  display: 'flex',
+  flex: 1,
+  maxHeight: 70,
+  padding: '2rem 0',
+  borderTop: '1px solid #eaeaea',
+  justifyContent: 'center',
+  alignItems: 'center'
+});

@@ -3,13 +3,11 @@ import Image from 'next/image';
 
 type Props = {};
 
-const ViewHabits = (props: Props) => {
-  return (
-    <div css={containerStyle}>
-      <Image src='/logo.svg' alt='.SHIFT logo' fill />
-    </div>
-  );
-};
+const ViewHabits = (props: Props) => (
+  <div css={containerStyle}>
+    <Image src='/logo.svg' alt='.SHIFT logo' fill />
+  </div>
+);
 
 const containerStyle = css({
   position: 'relative',

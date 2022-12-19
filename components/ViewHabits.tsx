@@ -3,8 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Habit from './Habit';
 import { Habit as HabitType } from '../data-types';
-
-const fetchData = () => fetch('../data/habits.json').then(res => res.json())
+import { fetchData } from '../src/api/habits';
 
 const ViewHabits = () => {
   const [habitsData, setHabitsData] = useState<HabitType[]>([]);

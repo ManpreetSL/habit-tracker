@@ -3,13 +3,6 @@ import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import { css } from '@emotion/react';
 import Link from '../src/components/Link';
-
-const containerStyle = css({
-  boxSizing: 'border-box',
-  backgroundColor: '#0066ff',
-  color: '#fff',
-  textAlign: 'center'
-});
 import ViewHabits from '../components/ViewHabits';
 
 const containerStyle = css({
@@ -18,26 +11,6 @@ const containerStyle = css({
   color: '#fff',
   textAlign: 'center'
 });
-
-type StyledLinkProps = {
-  href: string;
-  children: ReactNode;
-};
-
-const StyledLink = ({ href, children }: StyledLinkProps) => {
-  const linkStyle = css({
-    fontSize: '1.2em',
-    '&:hover': {
-      color: 'orange'
-    }
-  });
-
-  return (
-    <Link css={linkStyle} href={href}>
-      <>{children}</>
-    </Link>
-  );
-};
 
 const Home = () => {
   return (

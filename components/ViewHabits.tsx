@@ -4,11 +4,7 @@ import { useEffect, useState } from 'react';
 import Habit from './Habit';
 import { Habit as HabitType } from '../data-types';
 
-const fetchData = async () => {
-  const data = await fetch('../data/habits.json');
-  const json = await data.json();
-  return json;
-};
+const fetchData = () => fetch('../data/habits.json').then(res => res.json())
 
 const ViewHabits = () => {
   const [habitsData, setHabitsData] = useState<HabitType[]>([]);

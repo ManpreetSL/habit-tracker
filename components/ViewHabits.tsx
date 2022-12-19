@@ -17,13 +17,11 @@ const ViewHabits = () => {
 
   return (
     <div css={containerStyle}>
-      <>
-        <div css={logoContainerStyle}></div>
-        <Image css={logoStyle} src='/logo.svg' alt='.SHIFT logo' fill />
-        {habitsData.map((habit) => (
-          <Habit key={habit.id} habit={habit} />
-        ))}
-      </>
+      <div css={logoContainerStyle}></div>
+      <Image css={logoStyle} src='/logo.svg' alt='.SHIFT logo' fill />
+      {habitsData.map((habit) => (
+        <Habit key={habit.id} habit={habit} />
+      ))}
     </div>
   );
 };

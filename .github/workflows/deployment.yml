@@ -9,7 +9,7 @@ on:
 jobs:
   deploy-production:
     environment:
-      name: production
+      name: Production
       url: ${{ steps.deploy.outputs.url }}
     runs-on: ubuntu-latest
     steps:

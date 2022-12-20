@@ -4,7 +4,19 @@ on:
   workflow_dispatch:
   pull_request:
   push:
+
 jobs:
+  typescript-checks:
+    name: Run TypeScript type checks
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run tsc
+
   test:
     name: Run tests
     runs-on: ubuntu-22.04
@@ -15,14 +27,3 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm test
-
-  typescript:
-    name: Run TypeScript type checks
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run tsc

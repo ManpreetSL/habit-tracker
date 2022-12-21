@@ -10,16 +10,14 @@ type LinkProps = {
 const linkStyle = css({
   fontSize: '1.2em',
   '&:hover': {
-    color: 'orange'
-  }
+    color: 'orange',
+  },
 });
 
-const Link = ({ href, children }: LinkProps) => {
-  return (
-    <NextLink css={linkStyle} href={href}>
-      <>{children}</>
-    </NextLink>
-  );
-};
+const Link = ({ href, children }: LinkProps) => (
+  <NextLink css={linkStyle} href={href}>
+    {children}
+  </NextLink>
+);
 
 export default Link;

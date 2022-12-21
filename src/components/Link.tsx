@@ -7,15 +7,17 @@ type LinkProps = {
   children: ReactNode;
 };
 
-const linkStyle = css({
-  fontSize: '1.2em',
-  '&:hover': {
-    color: 'orange'
-  }
-});
+const styles = {
+  link: css({
+    fontSize: '1.2em',
+    '&:hover': {
+      color: 'orange'
+    }
+  })
+};
 
 const Link = ({ href, children }: LinkProps) => (
-  <NextLink css={linkStyle} href={href}>
+  <NextLink css={styles.link} href={href}>
     {children}
   </NextLink>
 );

@@ -10,10 +10,3 @@ declare module '@emotion/react' {
     };
   }
 }
-
-// Prevents errors with using 'CSS' prop on React components
-declare module 'react' {
-  interface HTMLAttributes<T> extends DOMAttributes<T> {
-    css?: SerializedStyles;
-  }
-}

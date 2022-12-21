@@ -17,7 +17,7 @@ const linkStyle = css({
 const Link = ({ href, children }: LinkProps) => {
   return (
     <NextLink css={linkStyle} href={href}>
-      <>{children}</>
+      {children}
     </NextLink>
   );
 };

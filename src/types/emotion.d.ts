@@ -1,4 +1,3 @@
-import '@emotion/react';
 import { SerializedStyles } from '@emotion/react';
 
 declare module '@emotion/react' {

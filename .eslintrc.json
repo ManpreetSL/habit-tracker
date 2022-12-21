@@ -23,6 +23,7 @@
       "react/function-component-definition": ["error", {
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
-      }]
+      }],
+      "jsx-quotes": ["error", "prefer-single"]
     }
 }

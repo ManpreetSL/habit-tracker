@@ -2,11 +2,11 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Habit from './Habit';
-import { Habit as HabitType } from '../data-types';
+import { Goal as Goal } from '../src/types/habits';
 import { fetchData } from '../src/api/habits';
 
 const ViewHabits = () => {
-  const [habitsData, setHabitsData] = useState<HabitType[]>([]);
+  const [habitsData, setHabitsData] = useState<Goal[]>([]);
   useEffect(() => {
     const fetch = async () => {
       const data = await fetchData();
@@ -17,11 +17,14 @@ const ViewHabits = () => {
 
   return (
     <div css={containerStyle}>
-      <div css={logoContainerStyle}></div>
-      <Image css={logoStyle} src='/logo.svg' alt='.SHIFT logo' fill />
-      {habitsData.map((habit) => (
-        <Habit key={habit.id} habit={habit} />
-      ))}
+      <div css={logoContainerStyle}>
+        <Image css={logoStyle} src='/logo.svg' alt='.SHIFT logo' fill />
+      </div>
+      {habitsData.map((goal) =>
+        goal.habitHistories.map((habitHistory) => (
+          <Habit key={habitHistory.habit.id} habitHistory={habitHistory} />
+        ))
+      )}
     </div>
   );
 };

@@ -11,7 +11,8 @@
             "sessions": 7,
             "perDays": 7
           },
-          "type": "non-binary"
+          "type": "non-binary",
+          "target": 5
         },
         "entries": [
           {
@@ -24,6 +25,10 @@
           },
           {
             "completionDate": "2022-12-18T20:16:49.193Z",
+            "quantity": 2
+          },
+          {
+            "completionDate": "2022-12-22T20:16:49.193Z",
             "quantity": 2
           }
         ],
@@ -48,9 +53,13 @@
           {
             "completionDate": "2022-12-20T20:05:07.193Z",
             "complete": true
+          },
+          {
+            "completionDate": "2022-12-22T20:05:07.193Z",
+            "complete": true
           }
         ],
-        "streak": 2
+        "streak": 234
       }
     ]
   }

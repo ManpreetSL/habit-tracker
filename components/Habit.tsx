@@ -31,11 +31,8 @@ const checkCompletionQuantity = (entries: NonBinaryEntry[]) => {
   // for binary habits, if there's been a habit today, we can say it's complete
 };
 
-const getCompletionPercentage = (quantity: number, target: number) => {
-  if (!quantity || !target) return 0;
-
-  return (quantity / target) * 100;
-};
+const getCompletionPercentage = (quantity: number, target: number) =>
+  (quantity / target) * 100;
 
 const Habit = ({ habitHistory }: HabitProps) => {
   const [entriesToday, setEntriesToday] = useState<Entry[]>([]);
@@ -62,6 +59,12 @@ const Habit = ({ habitHistory }: HabitProps) => {
           <span>{habitHistory.habit.name}</span>
           <span css={deadlineStyle}>1 day left</span>
         </div>
+        {/* <span css={deadlineStyle}>
+            {habitHistory.habit.type === 'binary' ?
+              habitHistory.habit.type complete ? 'Complete' : 'Incomplete'
+              :
+            }
+          </span> */}
         {isBinary(habitHistory.habit) ? (
           <Image
             src={

@@ -2,17 +2,17 @@
   {
     "name": "Improve health",
     "description": "Improve physical and mental health so I can feel better about living life",
-    "habitHistories": [
+    "habits": [
       {
-        "habit": {
-          "id": "1",
-          "name": "Do 5 mins of Simran",
-          "frequency": {
-            "sessions": 7,
-            "perDays": 7
-          },
-          "type": "non-binary",
-          "target": 5
+        "id": "1",
+        "name": "Do 5 mins of Simran",
+        "frequency": {
+          "unit": "daily",
+          "count": 1
+        },
+        "target": {
+          "quantity": 5,
+          "unit": "minutes"
         },
         "entries": [
           {
@@ -35,28 +35,29 @@
         "streak": 2
       },
       {
-        "habit": {
-          "id": "2",
-          "name": "Play badminton",
-          "description": "Play badminton twice per week so I can get my heart rate into zones 2-3 more regularly",
-          "frequency": {
-            "sessions": 2,
-            "perDays": 7
-          },
-          "type": "binary"
+        "id": "2",
+        "name": "Play badminton",
+        "description": "Play badminton twice per week so I can get my heart rate into zones 2-3 more regularly",
+        "frequency": {
+          "unit": "weekly",
+          "count": 2
+        },
+        "target": {
+          "quantity": 1,
+          "unit": "session"
         },
         "entries": [
           {
             "completionDate": "2022-12-21T20:05:07.193Z",
-            "complete": true
+            "quantity": 1
           },
           {
             "completionDate": "2022-12-20T20:05:07.193Z",
-            "complete": true
+            "quantity": 1
           },
           {
             "completionDate": "2022-12-22T20:05:07.193Z",
-            "complete": true
+            "quantity": 1
           }
         ],
         "streak": 234

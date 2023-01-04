@@ -2,17 +2,14 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Habit from './Habit';
-import { Goal as Goal } from '../src/types/habits';
+import { GoalWithHabitHistory } from '../src/types/habits';
 import { fetchData } from '../src/api/habits';
 
 const ViewHabits = () => {
-  const [habitsData, setHabitsData] = useState<Goal[]>([]);
+  const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
+
   useEffect(() => {
-    const fetch = async () => {
-      const data = await fetchData();
-      setHabitsData(data);
-    };
-    fetch();
+    fetchData().then(setHabitsData);
   }, []);
 
   return (
@@ -20,9 +17,15 @@ const ViewHabits = () => {
       <div css={logoContainerStyle}>
         <Image css={logoStyle} src='/logo.svg' alt='.SHIFT logo' fill />
       </div>
-      {habitsData.map((goal) =>
-        goal.habitHistories.map((habitHistory) => (
-          <Habit key={habitHistory.habit.id} habitHistory={habitHistory} />
+
+      {habitsData.map(({ habits }) =>
+        habits.map(({ entries, streak, ...habit }) => (
+          <Habit
+            key={habit.id}
+            entries={entries}
+            streak={streak}
+            habit={habit}
+          />
         ))
       )}
     </div>

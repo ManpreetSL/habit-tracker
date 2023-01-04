@@ -1,62 +1,52 @@
-// How many sessions per how many days?
-export type Frequency = {
-  sessions: number;
-  perDays: number;
+// Single recording of a habit
+// Captures the completion, effort, metadata.
+export type Entry = {
+  completionDate: Date;
+  effort?: number;
+  notes?: string;
+  quantity: number; // How many of the thing?
 };
 
-// If binary, then yes/no completion, if not, then it's numerical completion
-export type HabitType = 'binary' | 'non-binary';
+// Q1 read 10 pages of a book 3 times a week
+// A1 target: 10, unit: weekly, count: 3
+// Q2 badminton twice a week
+// A2 target: 2, count: 2, unit: weekly
+// Q3 10 hours of badminton per week
+// A3 target: 2, unit: weekly, count: 5
+export type Frequency = {
+  unit: 'daily' | 'weekly' | 'monthly';
+  count: number;
+}
 
 // Action that leads to fulfilment in your life
-export type CoreHabit = {
+export type Habit = {
   id: string;
   name: string;
   description?: string;
   frequency: Frequency; // How often? Daily/Weekly/Twice weekly habit?
   intensity?: number;
   impact?: number; // Life-wise and feelings-wise
+  target: {
+    // How many times do we want to do this habit in the day?
+    unit: string,
+    // Pages, km, miles, etc.
+    quantity: number,
+  }
 };
 
-export type Binary = CoreHabit & {
-  type: 'binary';
-};
-
-export type NonBinary = CoreHabit & {
-  type: 'non-binary';
-  target: number; // How many times do we want to do this habit in the day?
-  unit: string; // Pages, km, miles, etc.
-};
-
-export type Habit = Binary | NonBinary;
-
-// Single recording of a habit
-// Captures the completion, effort, metadata.
-export type EntryCore = {
-  completionDate: Date;
-  effort?: number;
-  notes?: string;
-};
-
-export type BinaryEntry = EntryCore & {
-  complete: boolean;
-};
-
-export type NonBinaryEntry = EntryCore & {
-  quantity: number; // How many of the thing?
-};
-
-export type Entry = BinaryEntry | NonBinaryEntry;
-
-// The full history of a habit
-export type HabitHistory = {
-  habit: Habit;
-  entries: Entry[];
+export type History = {
   streak: number;
-};
+  entries: Entry[]
+}
+
+export type HabitWithHistory = Habit & History
 
 // An overarching objective, formed by a collection of habits
 export type Goal = {
   name: string;
   description?: string;
-  habitHistories: HabitHistory[];
 };
+
+export type GoalWithHabitHistory = Goal & {
+  habits: HabitWithHistory[]
+}

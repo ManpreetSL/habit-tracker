@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import { Entry, History, Habit as THabit } from '../src/types/habits';
+import { Entry, Habit as THabit } from '../src/types/habits';
 
 const styles = {
   container: css({

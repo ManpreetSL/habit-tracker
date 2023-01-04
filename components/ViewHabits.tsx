@@ -5,6 +5,22 @@ import Habit from './Habit';
 import { GoalWithHabitHistory } from '../src/types/habits';
 import { fetchData } from '../src/api/habits';
 
+const styles = {
+  container: css({
+    position: 'relative',
+    width: '100vw',
+    maxWidth: '100%',
+    height: '100vh',
+    backgroundColor: '#111'
+  }),
+  logoContainer: css({
+    height: '20vh'
+  }),
+  logo: css({
+    maxHeight: '16vh'
+  })
+};
+
 const ViewHabits = () => {
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
 
@@ -13,9 +29,9 @@ const ViewHabits = () => {
   }, []);
 
   return (
-    <div css={containerStyle}>
-      <div css={logoContainerStyle}>
-        <Image css={logoStyle} src='/logo.svg' alt='.SHIFT logo' fill />
+    <div css={styles.container}>
+      <div css={styles.logoContainer}>
+        <Image css={styles.logo} src='/logo.svg' alt='.SHIFT logo' fill />
       </div>
 
       {habitsData.map(({ habits }) =>
@@ -31,21 +47,5 @@ const ViewHabits = () => {
     </div>
   );
 };
-
-const containerStyle = css({
-  position: 'relative',
-  width: '100vw',
-  maxWidth: '100%',
-  height: '100vh',
-  backgroundColor: '#111'
-});
-
-const logoContainerStyle = css({
-  height: '20vh'
-});
-
-const logoStyle = css({
-  maxHeight: '16vh'
-});
 
 export default ViewHabits;

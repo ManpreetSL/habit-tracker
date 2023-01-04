@@ -2,44 +2,46 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { Entry, History, Habit as THabit } from '../src/types/habits';
 
-const containerStyle = css({
-  maxWidth: '500px',
-  margin: '0 auto'
-});
+const styles = {
+  container: css({
+    maxWidth: '500px',
+    margin: '0 auto'
+  }),
 
-const contentStyle = css({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  backgroundColor: '#333',
-  margin: '12px 0px',
-  padding: '12px',
-  gap: '8px'
-});
+  content: css({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#333',
+    margin: '12px 0px',
+    padding: '12px',
+    gap: '8px'
+  }),
 
-const middleContainerStyle = css({
-  display: 'flex',
-  flexDirection: 'column',
-  textAlign: 'left',
-  minWidth: '30%'
-});
+  middleContainer: css({
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'left',
+    minWidth: '30%'
+  }),
 
-const deadlineStyle = css({
-  color: '#91E220'
-});
+  deadline: css({
+    color: '#91E220'
+  }),
 
-const streakContainerStyle = css({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  maxWidth: '100px',
-  padding: '0px 12px'
-});
+  streakContainer: css({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: '100px',
+    padding: '0px 12px'
+  }),
 
-const streakTextStyle = css({
-  color: '#fad15c',
-  paddingLeft: '4px'
-});
+  streakText: css({
+    color: '#fad15c',
+    paddingLeft: '4px'
+  })
+};
 
 // Get the entry for today from the entries history
 const getEntriesForDay = (entries: Entry[], date: Date) =>
@@ -74,21 +76,21 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
   const todayEntries = getEntriesForToday(entries);
 
   return (
-    <div css={containerStyle}>
-      <div css={contentStyle}>
-        <div css={streakContainerStyle}>
+    <div css={styles.container}>
+      <div css={styles.content}>
+        <div css={styles.streakContainer}>
           <Image
             src='/images/fire.svg'
             alt='.SHIFT logo'
             width='32'
             height='32'
           />
-          <span css={streakTextStyle}>{streak}</span>
+          <span css={styles.streakText}>{streak}</span>
         </div>
 
-        <div css={middleContainerStyle}>
+        <div css={styles.middleContainer}>
           <span>{habit.name}</span>
-          <span css={deadlineStyle}>1 day left</span>
+          <span css={styles.deadline}>1 day left</span>
         </div>
         {/* <span css={deadlineStyle}>
             {habitHistory.habit.type === 'binary' ?

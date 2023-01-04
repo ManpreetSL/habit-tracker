@@ -54,14 +54,10 @@ const getEntriesForToday = (entries: Entry[]) =>
   getEntriesForDay(entries, new Date());
 
 /**
- * For a non-binary habit, check how much of the target habit has been completed
+ * Check how much of the target habit has been completed
  */
-const checkCompletionQuantity = (entries: Entry[]) => {
-  let total = 0;
-  entries.forEach((entry) => (total += entry.quantity));
-  return total;
-  // for binary habits, if there's been a habit today, we can say it's complete
-};
+const checkCompletionQuantity = (entries: Entry[]) =>
+  entries.reduce((total, entry) => (total += entry.quantity), 0);
 
 const getCompletionPercentage = (quantity: number, target: number) =>
   (quantity / target) * 100;

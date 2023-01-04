@@ -1,30 +1,21 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { Entry, NonBinaryEntry, HabitHistory } from '../src/types/habits';
-import { isBinary } from '../src/helpers/habits';
-
-type HabitProps = {
-  habitHistory: HabitHistory;
-};
+import { Entry, History, Habit as THabit } from '../src/types/habits';
 
 // Get the entry for today from the entries history
-const getEntriesForDay = (history: HabitHistory, date: Date) => {
-  return history.entries.filter(
-    (entry) =>
-      new Date(entry.completionDate).toDateString() === date.toDateString()
+const getEntriesForDay = (entries: Entry[], date: Date) =>
+  entries.filter(
+    ({ completionDate }) =>
+      completionDate.toDateString() === date.toDateString()
   );
-};
 
-const getEntriesForToday = (history: HabitHistory) => {
-  const today = new Date();
-  return getEntriesForDay(history, today);
-};
+const getEntriesForToday = (entries: Entry[]) =>
+  getEntriesForDay(entries, new Date());
 
 /**
  * For a non-binary habit, check how much of the target habit has been completed
  */
-const checkCompletionQuantity = (entries: NonBinaryEntry[]) => {
+const checkCompletionQuantity = (entries: Entry[]) => {
   let total = 0;
   entries.forEach((entry) => (total += entry.quantity));
   return total;
@@ -34,14 +25,14 @@ const checkCompletionQuantity = (entries: NonBinaryEntry[]) => {
 const getCompletionPercentage = (quantity: number, target: number) =>
   (quantity / target) * 100;
 
-const Habit = ({ habitHistory }: HabitProps) => {
-  const [entriesToday, setEntriesToday] = useState<Entry[]>([]);
-  const completeToday = useState(false);
+type HabitProps = {
+  streak: number;
+  habit: THabit;
+  entries: Entry[];
+};
 
-  useEffect(() => {
-    const entries = getEntriesForToday(habitHistory);
-    setEntriesToday(entries);
-  }, [habitHistory]);
+const Habit = ({ entries, habit, streak }: HabitProps) => {
+  const todayEntries = getEntriesForToday(entries);
 
   return (
     <div css={containerStyle}>
@@ -53,10 +44,11 @@ const Habit = ({ habitHistory }: HabitProps) => {
             width='32'
             height='32'
           />
-          <span css={streakTextStyle}>{habitHistory.streak}</span>
+          <span css={streakTextStyle}>{streak}</span>
         </div>
+
         <div css={middleContainerStyle}>
-          <span>{habitHistory.habit.name}</span>
+          <span>{habit.name}</span>
           <span css={deadlineStyle}>1 day left</span>
         </div>
         {/* <span css={deadlineStyle}>
@@ -65,10 +57,11 @@ const Habit = ({ habitHistory }: HabitProps) => {
               :
             }
           </span> */}
-        {isBinary(habitHistory.habit) ? (
+
+        {habit.target.quantity === 1 ? (
           <Image
             src={
-              entriesToday.length >= 1
+              todayEntries.length >= 1
                 ? '/images/habit-complete.svg'
                 : '/images/habit-incomplete.svg'
             }
@@ -79,8 +72,8 @@ const Habit = ({ habitHistory }: HabitProps) => {
         ) : (
           <span>
             {getCompletionPercentage(
-              checkCompletionQuantity(entriesToday as NonBinaryEntry[]),
-              habitHistory.habit.target
+              checkCompletionQuantity(todayEntries),
+              habit.target.quantity
             )}
             %
           </span>

@@ -55,9 +55,10 @@ To gain parity with existing processes/workflow/tools:
 
 ## Concepts
 
-- Goal: An overarching objective, formed by a collection of habits
-- Habit: Action that leads to fulfilment in your life. Defined by action, frequency, intensity, impact (life-wise and feelings-wise).
-- Entry: Recording of a habit against the defined frequency. Captures the completion, effort, metadata.
+- Goal: An overarching objective, formed by a collection of habits.
+- Habit: An action that leads to fulfilment in your life. Defined by action, frequency, intensity, impact (life-wise and feelings-wise).
+- Entry: A recording of a habit against the defined frequency. Captures the completion, effort, metadata.
+- History: A collection of entries to show the recorded entries for a given habit.
 
 ## Brand meaning
 

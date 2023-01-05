@@ -70,6 +70,10 @@ type HabitProps = {
 
 const Habit = ({ entries, habit, streak }: HabitProps) => {
   const todayEntries = getEntriesForToday(entries);
+  const completionPercentage = getCompletionPercentage(
+    checkCompletionQuantity(todayEntries),
+    habit.target.quantity
+  );
 
   return (
     <div css={styles.container}>
@@ -86,15 +90,10 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
 
         <div css={styles.middleContainer}>
           <span>{habit.name}</span>
-          <span css={styles.deadline}>1 day left</span>
+          <span css={styles.deadline}>
+            {completionPercentage < 100 ? '1 day left' : 'Complete'}
+          </span>
         </div>
-        {/* <span css={deadlineStyle}>
-            {habitHistory.habit.type === 'binary' ?
-              habitHistory.habit.type complete ? 'Complete' : 'Incomplete'
-              :
-            }
-          </span> */}
-
         {habit.target.quantity === 1 ? (
           <Image
             src={
@@ -107,13 +106,7 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
             height='32'
           />
         ) : (
-          <span>
-            {getCompletionPercentage(
-              checkCompletionQuantity(todayEntries),
-              habit.target.quantity
-            )}
-            %
-          </span>
+          <span>{completionPercentage}%</span>
         )}
       </div>
     </div>

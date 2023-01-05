@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import About from './about';
+import About from './about.page';
 
 describe('<About />', () => {
   it('should render without crashing', async () => {

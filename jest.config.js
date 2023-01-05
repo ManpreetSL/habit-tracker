@@ -6,5 +6,6 @@ module.exports = {
   moduleNameMapper: {
     '\\.css$': 'identity-obj-proxy'
   },
-  modulePathIgnorePatterns: ['.next']
+  modulePathIgnorePatterns: ['.next'],
+  setupFilesAfterEnv: ['<rootDir>/setUpTests.js']
 };

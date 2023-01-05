@@ -11,12 +11,18 @@ const styles = {
     color: '#fff',
     textAlign: 'center',
     minHeight: '100vh',
+    maxWidth: '100%',
     padding: '4rem 0',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  }),
+
+  main: css({
+    width: '100vw',
+    maxWidth: '100%'
   }),
 
   title: css({
@@ -55,7 +61,7 @@ const Home = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>
+      <main css={styles.main}>
         <h1 css={styles.title}>Welcome to .SHIFT habit tracker!</h1>
         <ViewHabits />
 

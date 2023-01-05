@@ -8,9 +8,9 @@ import { fetchData } from '../src/api/habits';
 const styles = {
   container: css({
     position: 'relative',
-    width: '100vw',
     maxWidth: '100%',
     height: '100vh',
+    maxHeight: '100vh',
     backgroundColor: '#111'
   }),
   logoContainer: css({

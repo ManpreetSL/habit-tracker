@@ -57,7 +57,7 @@ const getEntriesForToday = (entries: Entry[]) =>
  * Check how much of the target habit has been completed
  */
 const checkCompletionQuantity = (entries: Entry[]) =>
-  entries.reduce((total, entry) => (total += entry.quantity), 0);
+  entries.reduce((total, entry) => total + entry.quantity, 0);
 
 const getCompletionPercentage = (quantity: number, target: number) =>
   (quantity / target) * 100;

@@ -102,7 +102,7 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
                 ? '/images/habit-complete.svg'
                 : '/images/habit-incomplete.svg'
             }
-            alt='.SHIFT logo'
+            alt={todayEntries.length >= 1 ? 'complete' : 'incomplete'}
             width='32'
             height='32'
           />

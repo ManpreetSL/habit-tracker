@@ -9,7 +9,7 @@ const containerStyle = css({
   boxSizing: 'border-box',
   backgroundColor: '#0066ff',
   color: '#fff',
-  textAlign: 'center',
+  textAlign: 'center'
 });
 
 const Home = () => (
@@ -39,8 +39,7 @@ const Home = () => (
         target='_blank'
         rel='noopener noreferrer'
       >
-        Powered by
-        {' '}
+        Powered by{' '}
         <span className={styles.logo}>
           <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
         </span>

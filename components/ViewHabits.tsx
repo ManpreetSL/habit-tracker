@@ -6,7 +6,7 @@ const containerStyle = css({
   width: '100vw',
   maxWidth: '100%',
   height: '20vh',
-  backgroundColor: '#111',
+  backgroundColor: '#111'
 });
 
 const ViewHabits = () => (

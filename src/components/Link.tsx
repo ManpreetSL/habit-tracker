@@ -10,8 +10,8 @@ type LinkProps = {
 const linkStyle = css({
   fontSize: '1.2em',
   '&:hover': {
-    color: 'orange',
-  },
+    color: 'orange'
+  }
 });
 
 const Link = ({ href, children }: LinkProps) => (

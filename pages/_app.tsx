@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { Global, css } from '@emotion/react';
+import { appWithTranslation } from 'next-i18next';
 
 const globalStyles = css({
   '*': {
@@ -26,11 +27,13 @@ const globalStyles = css({
   },
 });
 
-const App = ({ Component, pageProps }: AppProps) => (
-  <>
-    <Global styles={globalStyles} />
-    <Component {...pageProps} />
-  </>
-);
+const App = ({ Component, pageProps }: AppProps) => {
+  return (
+    <>
+      <Global styles={globalStyles} />
+      <Component {...pageProps} />
+    </>
+  );
+};
 
-export default App;
+export default appWithTranslation(App);

@@ -96,7 +96,7 @@ const Home = () => {
           target='_blank'
           rel='noopener noreferrer'
         >
-          Powered by{' '}
+          {t('app:vercelPowered')}{' '}
           <span className={styles.logo}>
             <Image
               src='/vercel.svg'

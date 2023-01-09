@@ -73,8 +73,8 @@ const Home = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>{t('app:welcome')}</h1>
+      <main css={styles.main}>
+        <h1 css={styles.title}>{t('app:welcome')}</h1>
         <ViewHabits />
 
         <p>
@@ -97,7 +97,7 @@ const Home = () => {
           rel='noopener noreferrer'
         >
           {t('app:vercelPowered')}{' '}
-          <span className={styles.logo}>
+          <span css={styles.logo}>
             <Image
               src='/vercel.svg'
               alt={t('app:images.vercel')}

@@ -3,6 +3,17 @@ import Image from 'next/image';
 import { css } from '@emotion/react';
 import Link from '../src/components/Link';
 import ViewHabits from '../components/ViewHabits';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export async function getStaticProps({ locale = 'en' }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'app']))
+      // Will be passed to the page component as props
+    }
+  };
+}
 
 const styles = {
   container: css({
@@ -53,20 +64,21 @@ const styles = {
 };
 
 const Home = () => {
+  const { t } = useTranslation();
   return (
     <div css={styles.container}>
       <Head>
-        <title>.SHIFT habit tracker</title>
-        <meta name='description' content='A habit tracker' />
+        <title>{t('common:app.title')}</title>
+        <meta name='description' content={t('common:app.description') || ''} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main css={styles.main}>
-        <h1 css={styles.title}>Welcome to .SHIFT habit tracker!</h1>
+      <main className={styles.main}>
+        <h1 className={styles.title}>{t('app:welcome')}</h1>
         <ViewHabits />
 
         <p>
-          <Link href={`/about`}>About the app</Link>
+          <Link href={`/about`}>{t('app:links.about')}</Link>
         </p>
 
         <p css={styles.links}>
@@ -85,8 +97,13 @@ const Home = () => {
           rel='noopener noreferrer'
         >
           Powered by{' '}
-          <span css={styles.logo}>
-            <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
+          <span className={styles.logo}>
+            <Image
+              src='/vercel.svg'
+              alt={t('app:images.vercel')}
+              width={72}
+              height={16}
+            />
           </span>
         </a>
       </footer>

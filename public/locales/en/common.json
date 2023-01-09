@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": ".SHIFT habit tracker"
-  },
-  "test": "asdf"
+    "title": ".SHIFT habit tracker",
+    "description": "A habit tracker"
+  }
 }

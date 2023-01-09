@@ -1,0 +1,9 @@
+{
+  "welcome": "Welcome to .SHIFT habit tracker!",
+  "images": {
+    "vercel": "Vercel Logo"
+  },
+  "links": {
+    "about": "About the app"
+  }
+}

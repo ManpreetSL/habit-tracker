@@ -1,30 +1,33 @@
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 
 const styles = {
   button: css({
-    padding: '1em 2em'
+    padding: '0.5em 2em'
   })
 };
 
 type ButtonProps = {
-  text: string;
   color?: string;
   backgroundColor?: string;
+  children?: React.ReactNode;
+  stylesProp?: SerializedStyles;
 };
 
 const Button = ({
-  text = '',
   color = '#000',
-  backgroundColor = '#91E220'
+  backgroundColor = '#91E220',
+  stylesProp,
+  children
 }: ButtonProps) => {
   return (
     <button
       css={[
         styles.button,
-        { color: `${color}`, backgroundColor: `${backgroundColor}` }
+        { color: `${color}`, backgroundColor: `${backgroundColor}` },
+        { ...stylesProp }
       ]}
     >
-      {text}
+      {children}
     </button>
   );
 };

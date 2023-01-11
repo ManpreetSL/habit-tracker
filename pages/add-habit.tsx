@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
+import habitsApi from '../src/api/habits';
 import { addHabit } from '../src/api/habits';
 
 const styles = {
@@ -51,7 +52,7 @@ const styles = {
 
 const addNewHabit = () => {
   console.log('adding habit :)');
-  addHabit();
+  habitsApi.addHabit();
 };
 
 const AddHabit = () => {

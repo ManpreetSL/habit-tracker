@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
+import { addHabit } from '../src/api/habits';
 
 const styles = {
   screen: css({
@@ -48,6 +49,11 @@ const styles = {
   })
 };
 
+const addNewHabit = () => {
+  console.log('adding habit :)');
+  addHabit();
+};
+
 const AddHabit = () => {
   return (
     <div css={styles.screen}>
@@ -82,7 +88,7 @@ const AddHabit = () => {
               <span css={styles.buttonText}>Cancel</span>
             </Button>
           </Link>
-          <Button stylesProp={styles.button}>
+          <Button stylesProp={styles.button} onClick={() => addNewHabit()}>
             <Image
               src='/icons/add.svg'
               alt='Add habit'

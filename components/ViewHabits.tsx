@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Habit from './Habit';
 import { GoalWithHabitHistory } from '../src/types/habits';
-import { fetchData } from '../src/api/habits';
+import habitsApi from '../src/api/habits';
 import Link from '../src/components/Link';
 
 const styles = {
@@ -37,7 +37,7 @@ const ViewHabits = () => {
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
 
   useEffect(() => {
-    fetchData().then(setHabitsData);
+    habitsApi.getHabits().then(setHabitsData);
   }, []);
 
   return (

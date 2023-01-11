@@ -9,13 +9,17 @@ export const fetchData = (): Promise<GoalWithHabitHistory[]> =>
     .then((json) =>
       json.map(({ habits, ...rest }) => ({
         ...rest,
-        habits: habits.map(({ entries, frequency, ...rest }) =>  ({
+        habits: habits.map(({ entries, frequency, ...rest }) => ({
           ...rest,
           frequency: frequency as Frequency,
           entries: entries.map(({ completionDate, ...rest }) => ({
             ...rest,
             completionDate: new Date(completionDate)
           }))
-        })),
+        }))
       }))
     );
+
+export const addHabit = () => {
+  console.log('adding habit');
+};

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
-import { addHabit } from '../src/api/habits';
+import { FormEvent } from 'react';
 
 const styles = {
   screen: css({
@@ -50,7 +50,8 @@ const styles = {
   })
 };
 
-const addNewHabit = () => {
+const handleSubmit = (event: FormEvent) => {
+  event.preventDefault();
   console.log('adding habit :)');
   habitsApi.addHabit();
 };
@@ -60,7 +61,7 @@ const AddHabit = () => {
     <div css={styles.screen}>
       <div css={styles.container}>
         <h2>Add a habit</h2>
-        <form css={styles.form}>
+        <form css={styles.form} onSubmit={handleSubmit}>
           <label htmlFor='name'>Name</label>
           <input css={styles.inputField} type='text' name='name' />
 
@@ -75,30 +76,31 @@ const AddHabit = () => {
 
           <label htmlFor='frequency'>Frequency</label>
           <input css={styles.inputField} type='text' name='frequency' />
-        </form>
 
-        <div css={styles.buttonsContainer}>
-          <Link href='/'>
-            <Button stylesProp={styles.button}>
+          <div css={styles.buttonsContainer}>
+            <Link href='/'>
+              <Button stylesProp={styles.button} type='button'>
+                <Image
+                  src='/icons/cancel.svg'
+                  alt='Cancel'
+                  width='32'
+                  height='32'
+                />
+                <span css={styles.buttonText}>Cancel</span>
+              </Button>
+            </Link>
+
+            <Button stylesProp={styles.button} type='submit'>
               <Image
-                src='/icons/cancel.svg'
-                alt='Cancel'
+                src='/icons/add.svg'
+                alt='Add habit'
                 width='32'
                 height='32'
               />
-              <span css={styles.buttonText}>Cancel</span>
+              <span css={styles.buttonText}>Add</span>
             </Button>
-          </Link>
-          <Button stylesProp={styles.button} onClick={() => addNewHabit()}>
-            <Image
-              src='/icons/add.svg'
-              alt='Add habit'
-              width='32'
-              height='32'
-            />
-            <span css={styles.buttonText}>Add</span>
-          </Button>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

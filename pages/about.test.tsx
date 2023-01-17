@@ -3,11 +3,10 @@ import About from './about.page';
 
 describe('<About />', () => {
   it('should render without crashing', async () => {
+    // Act
     render(<About />);
 
-    // Act
-    await screen.findByRole('heading');
-
-    expect(screen.getByRole('heading')).toHaveTextContent('About');
+    // Assert
+    expect(screen.getByRole('heading', { name: 'About' })).toBeInTheDocument();
   });
 });

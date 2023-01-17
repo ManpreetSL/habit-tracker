@@ -17,28 +17,28 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   }),
 
   main: css({
     width: '100vw',
-    maxWidth: '100%'
+    maxWidth: '100%',
   }),
 
   title: css({
     margin: '24px 0px',
     lineHeight: '1.15',
-    fontSize: '3rem'
+    fontSize: '3rem',
   }),
 
   links: css({
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   }),
 
   logo: css({
     height: '1em',
-    marginLeft: '0.5rem'
+    marginLeft: '0.5rem',
   }),
 
   footer: css({
@@ -48,46 +48,44 @@ const styles = {
     padding: '2rem 0',
     borderTop: '1px solid #eaeaea',
     justifyContent: 'center',
-    alignItems: 'center'
-  })
+    alignItems: 'center',
+  }),
 };
 
-const Home = () => {
-  return (
-    <div css={styles.container}>
-      <Head>
-        <title>.SHIFT habit tracker</title>
-        <meta name='description' content='A habit tracker' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
+const Home = () => (
+  <div css={styles.container}>
+    <Head>
+      <title>.SHIFT habit tracker</title>
+      <meta name='description' content='A habit tracker' />
+      <link rel='icon' href='/favicon.ico' />
+    </Head>
 
-      <main css={styles.main}>
-        <h1 css={styles.title}>Welcome to .SHIFT habit tracker!</h1>
-        <ViewHabits />
+    <main css={styles.main}>
+      <h1 css={styles.title}>Welcome to .SHIFT habit tracker!</h1>
+      <ViewHabits />
 
-        <p css={styles.links}>
-          <Link href='/profile/Manpreet'>Manpreet Singh</Link>
-          <Link href='profile/Harjot'>Harjot Singh</Link>
-          <Link href='profile/Gurpreet'>Gurpreet Kaur</Link>
-          <Link href='/profile/Hardeep'>Hardeep Kaur</Link>
-          <br />
-        </p>
-      </main>
+      <p css={styles.links}>
+        <Link href='/profile/Manpreet'>Manpreet Singh</Link>
+        <Link href='profile/Harjot'>Harjot Singh</Link>
+        <Link href='profile/Gurpreet'>Gurpreet Kaur</Link>
+        <Link href='/profile/Hardeep'>Hardeep Kaur</Link>
+        <br />
+      </p>
+    </main>
 
-      <footer css={styles.footer}>
-        <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Powered by{' '}
-          <span css={styles.logo}>
-            <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
-  );
-};
+    <footer css={styles.footer}>
+      <a
+        href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        Powered by{' '}
+        <span css={styles.logo}>
+          <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
+        </span>
+      </a>
+    </footer>
+  </div>
+);
 
 export default Home;

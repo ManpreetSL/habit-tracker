@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Habit from './Habit';
 import { GoalWithHabitHistory } from '../src/types/habits';
-import { fetchData } from '../src/api/habits';
+import fetchData from '../src/api/habits';
 
 const styles = {
   container: css({
@@ -11,14 +11,14 @@ const styles = {
     maxWidth: '100%',
     height: '100vh',
     maxHeight: '100vh',
-    backgroundColor: '#111'
+    backgroundColor: '#111',
   }),
   logoContainer: css({
-    height: '20vh'
+    height: '20vh',
   }),
   logo: css({
-    maxHeight: '16vh'
-  })
+    maxHeight: '16vh',
+  }),
 };
 
 const ViewHabits = () => {

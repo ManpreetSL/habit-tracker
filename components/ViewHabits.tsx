@@ -5,7 +5,6 @@ import Habit from './Habit';
 import { GoalWithHabitHistory } from '../src/types/habits';
 import habitsApi from '../src/api/habits';
 import Link from '../src/components/Link';
-import Button from './Button';
 
 const styles = {
   container: css({
@@ -13,36 +12,24 @@ const styles = {
     maxWidth: '100%',
     height: '100vh',
     maxHeight: '100vh',
-    backgroundColor: '#111',
-    margin: '0'
+    backgroundColor: '#111'
   }),
   header: css({
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    margin: '20px',
-    height: '130px'
+    margin: '20px'
   }),
   logoContainer: css({
-    height: '200px',
-    width: '100vw',
-    position: 'relative'
+    height: '20vh',
+    width: '100vw'
   }),
   logo: css({
     maxHeight: '16vh',
     maxWidth: '100vw'
   }),
-  habits: css({}),
   addHabitButton: css({
-    borderRadius: '7px',
-    position: 'absolute',
-    padding: '0',
-    height: '48px',
-    width: '48px',
-
-    top: '65px',
-    right: '30px',
-    transform: 'translateY(-50%)'
+    position: 'relative'
   })
 };
 
@@ -56,18 +43,13 @@ const ViewHabits = () => {
   return (
     <div css={styles.container}>
       <header css={styles.header}>
-        <Image css={styles.logo} src='/logo.svg' alt='.SHIFT logo' fill />
+        <div css={styles.logoContainer}>
+          <Image css={styles.logo} src='/logo.svg' alt='.SHIFT logo' fill />
+        </div>
 
-        <Link href={`/add-habit`}>
-          <Button stylesProp={styles.addHabitButton} type='button'>
-            <Image
-              src='/icons/add.svg'
-              alt='Add habit'
-              width='32'
-              height='32'
-            />
-          </Button>
-        </Link>
+        <div css={styles.addHabitButton}>
+          <Link href={`/add-habit`}>Addddddd</Link>
+        </div>
       </header>
 
       {habitsData.map(({ habits }) =>

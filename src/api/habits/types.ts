@@ -5,6 +5,6 @@ export type HabitService = {
   retrieve?: () => {};
   get?: () => {};
   set?: () => {};
-  addHabit: () => void;
+  addHabit: () => Promise<string>;
   getHabits: () => Promise<GoalWithHabitHistory[]>;
 };

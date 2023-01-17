@@ -32,10 +32,7 @@ const styles = {
     maxHeight: '16vh',
     maxWidth: '100vw'
   }),
-  habitsContainer: css({
-    maxWidth: '500px',
-    margin: '0 auto'
-  }),
+  habits: css({}),
   addHabitButton: css({
     borderRadius: '7px',
     position: 'absolute',
@@ -73,18 +70,16 @@ const ViewHabits = () => {
         </Link>
       </header>
 
-      <div css={styles.habitsContainer}>
-        {habitsData.map(({ habits }) =>
-          habits.map(({ entries, streak, ...habit }) => (
-            <Habit
-              key={habit.id}
-              entries={entries}
-              streak={streak}
-              habit={habit}
-            />
-          ))
-        )}
-      </div>
+      {habitsData.map(({ habits }) =>
+        habits.map(({ entries, streak, ...habit }) => (
+          <Habit
+            key={habit.id}
+            entries={entries}
+            streak={streak}
+            habit={habit}
+          />
+        ))
+      )}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
 import { FormEvent, useState } from 'react';
-import { NextRouter, useRouter } from 'next/router';
 
 type FormType = {
   name?: string;
@@ -79,18 +78,14 @@ const styles = {
   })
 };
 
-const handleSubmit = (event: FormEvent, router: NextRouter) => {
+const handleSubmit = (event: FormEvent) => {
   event.preventDefault();
-  habitsApi.addHabit().then((message) => {
-    console.log(message);
-    router.push('/');
-  });
+  console.log('adding habit :)');
+  habitsApi.addHabit();
 };
 
 const AddHabit = () => {
   const [formData, setFormData] = useState<FormType>(defaultFormValues);
-
-  const router = useRouter();
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -106,7 +101,7 @@ const AddHabit = () => {
     <div css={styles.screen}>
       <div css={styles.container}>
         <h2>Add a habit</h2>
-        <form css={styles.form} onSubmit={(e) => handleSubmit(e, router)}>
+        <form css={styles.form} onSubmit={handleSubmit}>
           <label htmlFor='name'>Name</label>
           <input
             css={styles.inputField}

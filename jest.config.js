@@ -7,5 +7,5 @@ module.exports = {
     '\\.css$': 'identity-obj-proxy'
   },
   modulePathIgnorePatterns: ['.next'],
-  setupFilesAfterEnv: ['<rootDir>/setUpTests.js']
+  setupFilesAfterEnv: ['<rootDir>/test/set-up-tests.js']
 };

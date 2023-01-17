@@ -3,20 +3,7 @@ import Image from 'next/image';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
-import { FormEvent, useState } from 'react';
-
-type FormType = {
-  name?: string;
-  description?: string;
-  target?: number;
-  unit?: string;
-  frequency?: string;
-};
-
-const defaultFormValues = {
-  name: 'Drink water',
-  target: 1
-};
+import { FormEvent } from 'react';
 
 const styles = {
   screen: css({
@@ -70,65 +57,25 @@ const handleSubmit = (event: FormEvent) => {
 };
 
 const AddHabit = () => {
-  const [formData, setFormData] = useState<FormType>(defaultFormValues);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    // const value = target?.type === 'checkbox' ? target.checked : target.value;
-
-    setFormData({ ...formData, [name]: value });
-    console.log(`${name} changed to ${value}`);
-  };
-
   return (
     <div css={styles.screen}>
       <div css={styles.container}>
         <h2>Add a habit</h2>
         <form css={styles.form} onSubmit={handleSubmit}>
           <label htmlFor='name'>Name</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='name'
-            value={formData.name}
-            onChange={handleInputChange}
-          />
+          <input css={styles.inputField} type='text' name='name' />
 
           <label htmlFor='description'>Description</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='description'
-            value={formData.description}
-            onChange={handleInputChange}
-          />
+          <input css={styles.inputField} type='text' name='description' />
 
           <label htmlFor='target'>Target</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='target'
-            value={formData.target}
-            onChange={handleInputChange}
-          />
+          <input css={styles.inputField} type='text' name='target' />
 
           <label htmlFor='unit'>Unit</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='unit'
-            value={formData.unit}
-            onChange={handleInputChange}
-          />
+          <input css={styles.inputField} type='text' name='unit' />
 
           <label htmlFor='frequency'>Frequency</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='frequency'
-            value={formData.frequency}
-            onChange={handleInputChange}
-          />
+          <input css={styles.inputField} type='text' name='frequency' />
 
           <div css={styles.buttonsContainer}>
             <Link href='/'>

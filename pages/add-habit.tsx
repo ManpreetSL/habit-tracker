@@ -10,15 +10,12 @@ type FormType = {
   description?: string;
   target?: number;
   unit?: string;
-  frequency: number;
-  frequencyUnit: string;
+  frequency?: string;
 };
 
 const defaultFormValues = {
   name: 'Drink water',
-  target: 1,
-  frequency: 1,
-  frequencyUnit: 'daily'
+  target: 1
 };
 
 const styles = {
@@ -34,14 +31,12 @@ const styles = {
     flexDirection: 'column',
     width: '80%',
     margin: '0 auto',
-    padding: '2em',
-    alignItems: 'center'
+    padding: '2em'
   }),
 
   form: css({
     display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '800px'
+    flexDirection: 'column'
   }),
 
   inputField: css({
@@ -49,16 +44,6 @@ const styles = {
     padding: '0.7em',
     backgroundColor: '#220000',
     color: '#fff'
-  }),
-
-  horizontalFlexContainer: css({
-    display: 'flex',
-    alignItems: 'center'
-  }),
-  verticalFlexContainer: css({
-    display: 'flex',
-    flexDirection: 'column',
-    width: '33%'
   }),
 
   buttonsContainer: css({
@@ -87,9 +72,7 @@ const handleSubmit = (event: FormEvent) => {
 const AddHabit = () => {
   const [formData, setFormData] = useState<FormType>(defaultFormValues);
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     // const value = target?.type === 'checkbox' ? target.checked : target.value;
 
@@ -110,6 +93,7 @@ const AddHabit = () => {
             value={formData.name}
             onChange={handleInputChange}
           />
+
           <label htmlFor='description'>Description</label>
           <input
             css={styles.inputField}
@@ -118,6 +102,7 @@ const AddHabit = () => {
             value={formData.description}
             onChange={handleInputChange}
           />
+
           <label htmlFor='target'>Target</label>
           <input
             css={styles.inputField}
@@ -126,6 +111,7 @@ const AddHabit = () => {
             value={formData.target}
             onChange={handleInputChange}
           />
+
           <label htmlFor='unit'>Unit</label>
           <input
             css={styles.inputField}
@@ -134,43 +120,16 @@ const AddHabit = () => {
             value={formData.unit}
             onChange={handleInputChange}
           />
-          <div css={styles.horizontalFlexContainer}>
-            <div css={styles.verticalFlexContainer}>
-              <label htmlFor='frequency'>Frequency</label>
-              <input
-                css={styles.inputField}
-                type='text'
-                name='frequency'
-                value={formData.frequency}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div
-              css={[
-                styles.verticalFlexContainer,
-                {
-                  textAlign: 'center',
-                  position: 'relative',
-                  alignSelf: 'center'
-                }
-              ]}
-            >
-              per
-            </div>
-            <div css={styles.verticalFlexContainer}>
-              <label htmlFor='frequencyUnit'>Time unit</label>
-              <select
-                css={styles.inputField}
-                name='frequencyUnit'
-                value={formData.frequencyUnit}
-                onChange={handleInputChange}
-              >
-                <option value='daily'>Day</option>
-                <option value='weekly'>Week</option>
-                <option value='monthly'>Month</option>
-              </select>
-            </div>
-          </div>
+
+          <label htmlFor='frequency'>Frequency</label>
+          <input
+            css={styles.inputField}
+            type='text'
+            name='frequency'
+            value={formData.frequency}
+            onChange={handleInputChange}
+          />
+
           <div css={styles.buttonsContainer}>
             <Link href='/'>
               <Button stylesProp={styles.button} type='button'>

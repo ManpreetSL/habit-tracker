@@ -8,7 +8,7 @@ const globalStyles = css({
   '@media (prefers-color-scheme: dark)': {
     body: {
       color: '#fff',
-      backgroundColor: '#292735'
+      backgroundColor: '#000'
     },
     html: {
       colorScheme: 'dark'

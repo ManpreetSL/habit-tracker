@@ -20,10 +20,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '0 auto',
-    height: '130px',
-    maxWidth: '500px',
-    position: 'relative'
+    margin: '20px',
+    height: '130px'
   }),
   logoContainer: css({
     height: '200px',
@@ -44,8 +42,9 @@ const styles = {
     padding: '0',
     height: '48px',
     width: '48px',
+
     top: '65px',
-    right: '8px',
+    right: '30px',
     transform: 'translateY(-50%)'
   })
 };

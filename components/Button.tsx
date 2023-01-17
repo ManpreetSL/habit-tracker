@@ -11,23 +11,24 @@ type ButtonProps = {
   backgroundColor?: string;
   children?: React.ReactNode;
   stylesProp?: SerializedStyles;
-} & React.ComponentProps<'button'>;
+  onClick?: () => void;
+};
 
 const Button = ({
   color = '#000',
   backgroundColor = '#91E220',
   stylesProp,
   children,
-  ...rest
+  onClick
 }: ButtonProps) => {
   return (
     <button
+      onClick={onClick}
       css={[
         styles.button,
         { color: `${color}`, backgroundColor: `${backgroundColor}` },
         { ...stylesProp }
       ]}
-      {...rest}
     >
       {children}
     </button>

@@ -6,8 +6,9 @@ import { Frequency, GoalWithHabitHistory, Habit } from '../../../types/habits';
 type Response = typeof habits;
 
 const jsonHabitServiceFactory = (): HabitService => {
-  const addHabit = () => {
-    console.log('adding habit in ze factorie');
+  const addHabit = (): Promise<string> => {
+    
+    return Promise.resolve('adding habit in ze factorie');
   };
 
   const getHabits = (): Promise<GoalWithHabitHistory[]> =>

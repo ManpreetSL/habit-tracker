@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
-import Image from 'next/image';
 import Button from '../components/Button';
-import Link from '../src/components/Link';
 
 const styles = {
   screen: css({
@@ -10,7 +8,6 @@ const styles = {
     minWidth: '100vw',
     color: '#fff'
   }),
-
   container: css({
     display: 'flex',
     flexDirection: 'column',
@@ -29,22 +26,6 @@ const styles = {
     padding: '0.7em',
     backgroundColor: '#220000',
     color: '#fff'
-  }),
-
-  buttonsContainer: css({
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: '1em'
-  }),
-  button: css({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '150px',
-    borderRadius: '1em'
-  }),
-  buttonText: css({
-    margin: '0 0.7em'
   })
 };
 
@@ -70,28 +51,8 @@ const AddHabit = () => {
           <input css={styles.inputField} type='text' name='frequency' />
         </form>
 
-        <div css={styles.buttonsContainer}>
-          <Link href='/'>
-            <Button stylesProp={styles.button}>
-              <Image
-                src='/icons/cancel.svg'
-                alt='Cancel'
-                width='32'
-                height='32'
-              />
-              <span css={styles.buttonText}>Cancel</span>
-            </Button>
-          </Link>
-          <Button stylesProp={styles.button}>
-            <Image
-              src='/icons/add.svg'
-              alt='Add habit'
-              width='32'
-              height='32'
-            />
-            <span css={styles.buttonText}>Add</span>
-          </Button>
-        </div>
+        <Button text='Cancel' />
+        <Button text='Add' />
       </div>
     </div>
   );

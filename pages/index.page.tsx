@@ -5,6 +5,8 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from '../src/components/Link';
 import ViewHabits from '../components/ViewHabits';
+import habitsApi from '../src/api/habits';
+import Button from '../components/Button';
 
 export async function getStaticProps({ locale = 'en' }) {
   return {
@@ -76,6 +78,8 @@ const Home = () => {
       <main css={styles.main}>
         <h1 css={styles.title}>{t('app:welcome')}</h1>
         <ViewHabits />
+
+        <Button onClick={habitsApi.saveDefaultData}>save default habits</Button>
 
         <p>
           <Link href='/about'>{t('app:links.about')}</Link>

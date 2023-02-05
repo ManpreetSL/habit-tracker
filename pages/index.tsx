@@ -1,17 +1,17 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { css } from '@emotion/react';
-import Link from '../src/components/Link';
-import ViewHabits from '../components/ViewHabits';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from '../src/components/Link';
+import ViewHabits from '../components/ViewHabits';
 
 export async function getStaticProps({ locale = 'en' }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'app']))
+      ...(await serverSideTranslations(locale, ['common', 'app'])),
       // Will be passed to the page component as props
-    }
+    },
   };
 }
 
@@ -78,17 +78,17 @@ const Home = () => {
         <ViewHabits />
 
         <p>
-          <Link href={`/about`}>{t('app:links.about')}</Link>
+          <Link href='/about'>{t('app:links.about')}</Link>
         </p>
 
-      <p css={styles.links}>
-        <Link href='/profile/Manpreet'>Manpreet Singh</Link>
-        <Link href='profile/Harjot'>Harjot Singh</Link>
-        <Link href='profile/Gurpreet'>Gurpreet Kaur</Link>
-        <Link href='/profile/Hardeep'>Hardeep Kaur</Link>
-        <br />
-      </p>
-    </main>
+        <p css={styles.links}>
+          <Link href='/profile/Manpreet'>Manpreet Singh</Link>
+          <Link href='profile/Harjot'>Harjot Singh</Link>
+          <Link href='profile/Gurpreet'>Gurpreet Kaur</Link>
+          <Link href='/profile/Hardeep'>Hardeep Kaur</Link>
+          <br />
+        </p>
+      </main>
 
       <footer css={styles.footer}>
         <a

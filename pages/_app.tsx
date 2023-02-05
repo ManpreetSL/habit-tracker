@@ -27,13 +27,11 @@ const globalStyles = css({
   },
 });
 
-const App = ({ Component, pageProps }: AppProps) => {
-  return (
+const App = ({ Component, pageProps }: AppProps) => (
     <>
       <Global styles={globalStyles} />
       <Component {...pageProps} />
     </>
   );
-};
 
 export default appWithTranslation(App);

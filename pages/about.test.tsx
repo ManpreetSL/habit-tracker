@@ -7,6 +7,8 @@ describe('<About />', () => {
     render(<About />);
 
     // Assert
-    expect(screen.getByRole('heading', { name: 'About' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'about:about' })
+    ).toBeInTheDocument();
   });
 });

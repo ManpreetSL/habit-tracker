@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
-import Profile from './index.page';
 import * as router from 'next/router';
+import Profile from './index.page';
 
 describe('<Profile />', () => {
   it('should render without crashing', () => {
@@ -10,7 +10,7 @@ describe('<Profile />', () => {
       query: { id: 'manpreet' },
       asPath: '',
       basePath: '/',
-      isLocaleDomain: false
+      isLocaleDomain: false,
     } as unknown as router.NextRouter);
 
     render(<Profile />);

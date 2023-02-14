@@ -15,14 +15,12 @@ describe('<Home />', () => {
       status: 200,
     } as any);
 
-      render(<Home />);
+    render(<Home />);
 
-      // Act
+    // Act
     await screen.findByRole('heading');
 
     // Assert
-    expect(screen.getByRole('heading')).toHaveTextContent(
-      'Welcome to .SHIFT habit tracker!'
-    );
+    expect(screen.getByRole('heading')).toHaveTextContent('app:welcome');
   });
 });

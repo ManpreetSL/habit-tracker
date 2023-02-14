@@ -4,23 +4,26 @@ import Home from './index.page';
 
 describe('<Home />', () => {
   it('should render without crashing', async () => {
-    global.fetch = jest.fn();
     // Arrange
+    global.fetch = jest.fn();
+
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: () =>
         Promise.resolve({
           data: 'url',
-          map: () => 'asdf',
+          map: () => {},
         }),
       status: 200,
     } as any);
 
-    render(<Home />);
+    const { unmount } = render(<Home />);
 
     // Act
     await screen.findByRole('heading');
 
     // Assert
     expect(screen.getByRole('heading')).toHaveTextContent('app:welcome');
+
+    unmount();
   });
 });

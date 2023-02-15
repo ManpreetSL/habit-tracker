@@ -3,7 +3,9 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Habit from './Habit';
 import { GoalWithHabitHistory } from '../src/types/habits';
-import fetchData from '../src/api/habits';
+import habitsApi from '../src/api/habits';
+import Link from '../src/components/Link';
+import Button from './Button';
 
 const styles = {
   container: css({
@@ -12,12 +14,39 @@ const styles = {
     height: '100vh',
     maxHeight: '100vh',
     backgroundColor: '#111',
+    margin: '0',
+  }),
+  header: css({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 auto',
+    height: '130px',
+    maxWidth: '500px',
+    position: 'relative',
   }),
   logoContainer: css({
-    height: '20vh',
+    height: '200px',
+    width: '100vw',
+    position: 'relative',
   }),
   logo: css({
     maxHeight: '16vh',
+    maxWidth: '100vw',
+  }),
+  habitsContainer: css({
+    maxWidth: '500px',
+    margin: '0 auto',
+  }),
+  addHabitButton: css({
+    borderRadius: '7px',
+    position: 'absolute',
+    padding: '0',
+    height: '48px',
+    width: '48px',
+    top: '65px',
+    right: '8px',
+    transform: 'translateY(-50%)',
   }),
 };
 
@@ -25,25 +54,38 @@ const ViewHabits = () => {
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
 
   useEffect(() => {
-    fetchData().then(setHabitsData);
+    habitsApi.getHabits().then(setHabitsData);
   }, []);
 
   return (
     <div css={styles.container}>
-      <div css={styles.logoContainer}>
+      <header css={styles.header}>
         <Image css={styles.logo} src='/logo.svg' alt='.SHIFT logo' fill />
-      </div>
 
-      {habitsData.map(({ habits }) =>
-        habits.map(({ entries, streak, ...habit }) => (
-          <Habit
-            key={habit.id}
-            entries={entries}
-            streak={streak}
-            habit={habit}
-          />
-        ))
-      )}
+        <Link href='/add-habit'>
+          <Button stylesProp={styles.addHabitButton} type='button'>
+            <Image
+              src='/icons/add.svg'
+              alt='Add habit'
+              width='32'
+              height='32'
+            />
+          </Button>
+        </Link>
+      </header>
+
+      <div css={styles.habitsContainer}>
+        {habitsData.map(({ habits }) =>
+          habits.map(({ entries, streak, ...habit }) => (
+            <Habit
+              key={habit.id}
+              entries={entries}
+              streak={streak}
+              habit={habit}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };

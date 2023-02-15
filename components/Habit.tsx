@@ -3,11 +3,6 @@ import Image from 'next/image';
 import { Entry, Habit as THabit } from '../src/types/habits';
 
 const styles = {
-  container: css({
-    maxWidth: '500px',
-    margin: '0 auto'
-  }),
-
   content: css({
     display: 'flex',
     justifyContent: 'space-between',
@@ -76,39 +71,37 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
   );
 
   return (
-    <div css={styles.container}>
-      <div css={styles.content}>
-        <div css={styles.streakContainer}>
-          <Image
-            src='/images/fire.svg'
-            alt='.SHIFT logo'
-            width='32'
-            height='32'
-          />
-          <span css={styles.streakText}>{streak}</span>
-        </div>
-
-        <div css={styles.middleContainer}>
-          <span>{habit.name}</span>
-          <span css={styles.deadline}>
-            {completionPercentage < 100 ? '1 day left' : 'Complete'}
-          </span>
-        </div>
-        {habit.target.quantity === 1 ? (
-          <Image
-            src={
-              todayEntries.length >= 1
-                ? '/images/habit-complete.svg'
-                : '/images/habit-incomplete.svg'
-            }
-            alt={todayEntries.length >= 1 ? 'complete' : 'incomplete'}
-            width='32'
-            height='32'
-          />
-        ) : (
-          <span>{completionPercentage}%</span>
-        )}
+    <div css={styles.content}>
+      <div css={styles.streakContainer}>
+        <Image
+          src='/images/fire.svg'
+          alt='.SHIFT logo'
+          width='32'
+          height='32'
+        />
+        <span css={styles.streakText}>{streak}</span>
       </div>
+
+      <div css={styles.middleContainer}>
+        <span>{habit.name}</span>
+        <span css={styles.deadline}>
+          {completionPercentage < 100 ? '1 day left' : 'Complete'}
+        </span>
+      </div>
+      {habit.target.quantity === 1 ? (
+        <Image
+          src={
+            todayEntries.length >= 1
+              ? '/images/habit-complete.svg'
+              : '/images/habit-incomplete.svg'
+          }
+          alt={todayEntries.length >= 1 ? 'complete' : 'incomplete'}
+          width='32'
+          height='32'
+        />
+      ) : (
+        <span>{completionPercentage}%</span>
+      )}
     </div>
   );
 };

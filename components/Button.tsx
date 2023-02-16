@@ -2,8 +2,8 @@ import { css, SerializedStyles } from '@emotion/react';
 
 const styles = {
   button: css({
-    padding: '0.5em 2em'
-  })
+    padding: '0.5em 2em',
+  }),
 };
 
 type ButtonProps = {
@@ -19,19 +19,17 @@ const Button = ({
   stylesProp,
   children,
   ...rest
-}: ButtonProps) => {
-  return (
-    <button
-      css={[
-        styles.button,
-        { color: `${color}`, backgroundColor: `${backgroundColor}` },
-        { ...stylesProp }
-      ]}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-};
+}: ButtonProps) => (
+  <button
+    css={[
+      styles.button,
+      { color: `${color}`, backgroundColor: `${backgroundColor}` },
+      { ...stylesProp },
+    ]}
+    {...rest}
+  >
+    {children}
+  </button>
+);
 
 export default Button;

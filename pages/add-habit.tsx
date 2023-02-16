@@ -96,7 +96,6 @@ const AddHabit = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    // const value = target?.type === 'checkbox' ? target.checked : target.value;
 
     setFormData({ ...formData, [name]: value });
     console.log(`${name} changed to ${value}`);

@@ -19,7 +19,7 @@ const defaultFormValues = {
   name: 'Drink water',
   target: 1,
   frequency: 1,
-  frequencyUnit: 'daily'
+  frequencyUnit: 'daily',
 };
 
 const styles = {
@@ -27,7 +27,7 @@ const styles = {
     backgroundColor: '#292735',
     minHeight: '100vh',
     minWidth: '100vw',
-    color: '#fff'
+    color: '#fff',
   }),
 
   container: css({
@@ -36,47 +36,47 @@ const styles = {
     width: '80%',
     margin: '0 auto',
     padding: '2em',
-    alignItems: 'center'
+    alignItems: 'center',
   }),
 
   form: css({
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: '800px'
+    maxWidth: '800px',
   }),
 
   inputField: css({
     margin: '1em 0',
     padding: '0.7em',
     backgroundColor: '#220000',
-    color: '#fff'
+    color: '#fff',
   }),
 
   horizontalFlexContainer: css({
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   }),
   verticalFlexContainer: css({
     display: 'flex',
     flexDirection: 'column',
-    width: '33%'
+    width: '33%',
   }),
 
   buttonsContainer: css({
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop: '1em'
+    marginTop: '1em',
   }),
   button: css({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '150px',
-    borderRadius: '1em'
+    borderRadius: '1em',
   }),
   buttonText: css({
-    margin: '0 0.7em'
-  })
+    margin: '0 0.7em',
+  }),
 };
 
 const handleSubmit = (event: FormEvent, router: NextRouter) => {
@@ -156,8 +156,8 @@ const AddHabit = () => {
                 {
                   textAlign: 'center',
                   position: 'relative',
-                  alignSelf: 'center'
-                }
+                  alignSelf: 'center',
+                },
               ]}
             >
               per

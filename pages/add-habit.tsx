@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
@@ -44,7 +44,6 @@ const styles = {
     flexDirection: 'column',
     maxWidth: '800px',
   }),
-
   inputField: css({
     margin: '1em 0',
     padding: '0.7em',
@@ -79,14 +78,6 @@ const styles = {
   }),
 };
 
-const handleSubmit = (event: FormEvent, router: NextRouter) => {
-  event.preventDefault();
-  habitsApi.addHabit().then((message) => {
-    console.log(message);
-    router.push('/');
-  });
-};
-
 const AddHabit = () => {
   const [formData, setFormData] = useState<FormType>(defaultFormValues);
 
@@ -101,11 +92,19 @@ const AddHabit = () => {
     console.log(`${name} changed to ${value}`);
   };
 
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    habitsApi.addHabit().then((message) => {
+      console.log(message);
+      router.push('/');
+    });
+  };
+
   return (
     <div css={styles.screen}>
       <div css={styles.container}>
         <h2>Add a habit</h2>
-        <form css={styles.form} onSubmit={(e) => handleSubmit(e, router)}>
+        <form css={styles.form} onSubmit={handleSubmit}>
           <label htmlFor='name'>
             Name
             <input

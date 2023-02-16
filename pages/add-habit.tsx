@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import { FormEvent, useState } from 'react';
+import { NextRouter, useRouter } from 'next/router';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
-import { FormEvent, useState } from 'react';
-import { NextRouter, useRouter } from 'next/router';
 
 type FormType = {
   name?: string;
@@ -106,48 +106,59 @@ const AddHabit = () => {
       <div css={styles.container}>
         <h2>Add a habit</h2>
         <form css={styles.form} onSubmit={(e) => handleSubmit(e, router)}>
-          <label htmlFor='name'>Name</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='name'
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-          <label htmlFor='description'>Description</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='description'
-            value={formData.description}
-            onChange={handleInputChange}
-          />
-          <label htmlFor='target'>Target</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='target'
-            value={formData.target}
-            onChange={handleInputChange}
-          />
-          <label htmlFor='unit'>Unit</label>
-          <input
-            css={styles.inputField}
-            type='text'
-            name='unit'
-            value={formData.unit}
-            onChange={handleInputChange}
-          />
+          <label htmlFor='name'>
+            Name
+            <input
+              css={styles.inputField}
+              type='text'
+              id='name'
+              name='name'
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label htmlFor='description'>
+            Description
+            <input
+              css={styles.inputField}
+              type='text'
+              name='description'
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label htmlFor='target'>
+            Target
+            <input
+              css={styles.inputField}
+              type='text'
+              name='target'
+              value={formData.target}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label htmlFor='unit'>
+            Unit
+            <input
+              css={styles.inputField}
+              type='text'
+              name='unit'
+              value={formData.unit}
+              onChange={handleInputChange}
+            />
+          </label>
           <div css={styles.horizontalFlexContainer}>
             <div css={styles.verticalFlexContainer}>
-              <label htmlFor='frequency'>Frequency</label>
-              <input
-                css={styles.inputField}
-                type='text'
-                name='frequency'
-                value={formData.frequency}
-                onChange={handleInputChange}
-              />
+              <label htmlFor='frequency'>
+                Frequency
+                <input
+                  css={styles.inputField}
+                  type='text'
+                  name='frequency'
+                  value={formData.frequency}
+                  onChange={handleInputChange}
+                />
+              </label>
             </div>
             <div
               css={[
@@ -162,17 +173,19 @@ const AddHabit = () => {
               per
             </div>
             <div css={styles.verticalFlexContainer}>
-              <label htmlFor='frequencyUnit'>Time unit</label>
-              <select
-                css={styles.inputField}
-                name='frequencyUnit'
-                value={formData.frequencyUnit}
-                onChange={handleInputChange}
-              >
-                <option value='daily'>Day</option>
-                <option value='weekly'>Week</option>
-                <option value='monthly'>Month</option>
-              </select>
+              <label htmlFor='frequencyUnit'>
+                Time unit
+                <select
+                  css={styles.inputField}
+                  name='frequencyUnit'
+                  value={formData.frequencyUnit}
+                  onChange={handleInputChange}
+                >
+                  <option value='daily'>Day</option>
+                  <option value='weekly'>Week</option>
+                  <option value='monthly'>Month</option>
+                </select>
+              </label>
             </div>
           </div>
           <div css={styles.buttonsContainer}>

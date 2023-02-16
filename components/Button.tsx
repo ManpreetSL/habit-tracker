@@ -26,6 +26,7 @@ const Button = ({
       { color: `${color}`, backgroundColor: `${backgroundColor}` },
       { ...stylesProp },
     ]}
+    type='button'
     {...rest}
   >
     {children}

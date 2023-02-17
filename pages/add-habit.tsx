@@ -2,9 +2,19 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
+
+export async function getStaticProps({ locale = 'en' }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['add-habit'])),
+    },
+  };
+}
 
 type FormType = {
   name?: string;
@@ -79,9 +89,11 @@ const styles = {
 };
 
 const AddHabit = () => {
-  const [formData, setFormData] = useState<FormType>(defaultFormValues);
-
   const router = useRouter();
+
+  const { t } = useTranslation();
+
+  const [formData, setFormData] = useState<FormType>(defaultFormValues);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -103,10 +115,10 @@ const AddHabit = () => {
   return (
     <div css={styles.screen}>
       <div css={styles.container}>
-        <h2>Add a habit</h2>
+        <h2>{t('add-habit:title')}</h2>
         <form css={styles.form} onSubmit={handleSubmit}>
           <label htmlFor='name'>
-            Name
+            {t('add-habit:form.name')}
             <input
               css={styles.inputField}
               type='text'
@@ -117,7 +129,7 @@ const AddHabit = () => {
             />
           </label>
           <label htmlFor='description'>
-            Description
+            {t('add-habit:form.description')}
             <input
               css={styles.inputField}
               type='text'
@@ -127,7 +139,7 @@ const AddHabit = () => {
             />
           </label>
           <label htmlFor='target'>
-            Target
+            {t('add-habit:form.target')}
             <input
               css={styles.inputField}
               type='text'
@@ -137,7 +149,7 @@ const AddHabit = () => {
             />
           </label>
           <label htmlFor='unit'>
-            Unit
+            {t('add-habit:form.unit')}
             <input
               css={styles.inputField}
               type='text'
@@ -149,7 +161,7 @@ const AddHabit = () => {
           <div css={styles.horizontalFlexContainer}>
             <div css={styles.verticalFlexContainer}>
               <label htmlFor='frequency'>
-                Frequency
+                {t('add-habit:form.frequency')}
                 <input
                   css={styles.inputField}
                   type='text'
@@ -169,20 +181,20 @@ const AddHabit = () => {
                 },
               ]}
             >
-              per
+              {t('add-habit:form.per')}
             </div>
             <div css={styles.verticalFlexContainer}>
               <label htmlFor='frequencyUnit'>
-                Time unit
+                {t('add-habit:form.timeUnit')}
                 <select
                   css={styles.inputField}
                   name='frequencyUnit'
                   value={formData.frequencyUnit}
                   onChange={handleInputChange}
                 >
-                  <option value='daily'>Day</option>
-                  <option value='weekly'>Week</option>
-                  <option value='monthly'>Month</option>
+                  <option value='daily'>{t('add-habit:form.day')}</option>
+                  <option value='weekly'>{t('add-habit:form.week')}</option>
+                  <option value='monthly'>{t('add-habit:form.month')}</option>
                 </select>
               </label>
             </div>
@@ -196,7 +208,9 @@ const AddHabit = () => {
                   width='32'
                   height='32'
                 />
-                <span css={styles.buttonText}>Cancel</span>
+                <span css={styles.buttonText}>
+                  {t('add-habit:form.cancel')}
+                </span>
               </Button>
             </Link>
 
@@ -207,7 +221,9 @@ const AddHabit = () => {
                 width='32'
                 height='32'
               />
-              <span css={styles.buttonText}>Add</span>
+              <span css={styles.buttonText}>
+                {t('add-habit:form.addHabit')}
+              </span>
             </Button>
           </div>
         </form>

@@ -121,11 +121,12 @@ const AddHabit = () => {
         <h2>{t('add-habit:title')}</h2>
 
         <form css={styles.form} onSubmit={handleSubmit}>
-          <label>
+          <label htmlFor='name'>
             {t('add-habit:form.name')}
             <input
               css={styles.inputField}
               type='text'
+              id='name'
               name='name'
               value={formData.name}
               onChange={handleInputChange}
@@ -149,6 +150,7 @@ const AddHabit = () => {
             <input
               css={styles.inputField}
               type='text'
+              id='target'
               name='target'
               value={formData.target}
               onChange={handleInputChange}
@@ -160,6 +162,7 @@ const AddHabit = () => {
             <input
               css={styles.inputField}
               type='text'
+              id='unit'
               name='unit'
               value={formData.unit}
               onChange={handleInputChange}
@@ -173,6 +176,7 @@ const AddHabit = () => {
                 <input
                   css={styles.inputField}
                   type='text'
+                  id='frequency'
                   name='frequency'
                   value={formData.frequency}
                   onChange={handleInputChange}
@@ -196,6 +200,7 @@ const AddHabit = () => {
                 {t('add-habit:form.timeUnit')}
                 <select
                   css={styles.inputField}
+                  id='frequencyUnit'
                   name='frequencyUnit'
                   value={formData.frequencyUnit}
                   onChange={handleInputChange}

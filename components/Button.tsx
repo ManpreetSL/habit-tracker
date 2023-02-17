@@ -9,7 +9,7 @@ const styles = {
 type ButtonProps = {
   color?: string;
   backgroundColor?: string;
-  children?: React.ReactNode;
+  children: React.ReactNode;
   stylesProp?: SerializedStyles;
 } & React.ComponentProps<'button'>;
 

@@ -1,0 +1,17 @@
+{
+  "title": "Add a habit",
+  "form": {
+    "name": "Name",
+    "description": "Description",
+    "target": "Target",
+    "unit": "Unit",
+    "frequency": "Frequency",
+    "per": "per",
+    "timeUnit": "Time unit",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "cancel": "Cancel",
+    "addHabit": "Add"
+  }
+}

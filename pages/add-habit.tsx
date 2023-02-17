@@ -106,10 +106,13 @@ const AddHabit = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    habitsApi.addHabit().then((message) => {
-      console.log(message);
-      router.push('/');
-    });
+    habitsApi
+      .addHabit()
+      .then((message) => {
+        console.log(message);
+        router.push('/');
+      })
+      .catch((error) => console.error(error));
   };
 
   return (

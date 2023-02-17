@@ -1,9 +1,9 @@
 import { HabitService } from '../types';
-import habits from '../../../../public/data/habits.json';
+import habitsData from '../../../../public/data/habits.json';
 
 import { Frequency, GoalWithHabitHistory } from '../../../types/habits';
 
-type Response = typeof habits;
+type Response = typeof habitsData;
 
 const jsonHabitServiceFactory = (): HabitService => {
   const addHabit = (): Promise<string> =>
@@ -15,11 +15,11 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then((json) =>
         json.map(({ habits, ...rest }) => ({
           ...rest,
-          habits: habits.map(({ entries, frequency, ...rest }) => ({
-            ...rest,
+          habits: habits.map(({ entries, frequency, ...restHabits }) => ({
+            ...restHabits,
             frequency: frequency as Frequency,
-            entries: entries.map(({ completionDate, ...rest }) => ({
-              ...rest,
+            entries: entries.map(({ completionDate, ...restEntries }) => ({
+              ...restEntries,
               completionDate: new Date(completionDate),
             })),
           })),

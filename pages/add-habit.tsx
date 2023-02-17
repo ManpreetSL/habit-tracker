@@ -116,28 +116,31 @@ const AddHabit = () => {
     <div css={styles.screen}>
       <div css={styles.container}>
         <h2>{t('add-habit:title')}</h2>
+
         <form css={styles.form} onSubmit={handleSubmit}>
-          <label htmlFor='name'>
+          <label>
             {t('add-habit:form.name')}
             <input
               css={styles.inputField}
               type='text'
-              id='name'
               name='name'
               value={formData.name}
               onChange={handleInputChange}
             />
           </label>
+
           <label htmlFor='description'>
             {t('add-habit:form.description')}
             <input
               css={styles.inputField}
               type='text'
+              id='description'
               name='description'
               value={formData.description}
               onChange={handleInputChange}
             />
           </label>
+
           <label htmlFor='target'>
             {t('add-habit:form.target')}
             <input
@@ -148,6 +151,7 @@ const AddHabit = () => {
               onChange={handleInputChange}
             />
           </label>
+
           <label htmlFor='unit'>
             {t('add-habit:form.unit')}
             <input
@@ -158,6 +162,7 @@ const AddHabit = () => {
               onChange={handleInputChange}
             />
           </label>
+
           <div css={styles.horizontalFlexContainer}>
             <div css={styles.verticalFlexContainer}>
               <label htmlFor='frequency'>
@@ -199,6 +204,7 @@ const AddHabit = () => {
               </label>
             </div>
           </div>
+
           <div css={styles.buttonsContainer}>
             <Link href='/'>
               <Button stylesProp={styles.button} type='button'>

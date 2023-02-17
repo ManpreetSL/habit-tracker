@@ -1,7 +1,7 @@
 import { HabitService } from '../types';
 import habits from '../../../../public/data/habits.json';
 
-import { Frequency, GoalWithHabitHistory, Habit } from '../../../types/habits';
+import { Frequency, GoalWithHabitHistory } from '../../../types/habits';
 
 type Response = typeof habits;
 

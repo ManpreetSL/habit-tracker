@@ -215,7 +215,7 @@ const AddHabit = () => {
 
           <div css={styles.buttonsContainer}>
             <Link href='/'>
-              <Button stylesProp={styles.button} type='button'>
+              <Button stylesProp={styles.button}>
                 <Image
                   src='/icons/cancel.svg'
                   alt='Cancel'

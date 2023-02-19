@@ -72,7 +72,7 @@ const ViewHabits = () => {
           fill
         />
         <Link href='/add-habit'>
-          <Button stylesProp={styles.addHabitButton} type='button'>
+          <Button stylesProp={styles.addHabitButton}>
             <Image
               src='/icons/add.svg'
               alt={t('add-habit:title')}

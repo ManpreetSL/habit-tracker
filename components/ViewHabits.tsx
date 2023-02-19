@@ -56,7 +56,10 @@ const ViewHabits = () => {
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
 
   useEffect(() => {
-    habitsApi.getHabits().then(setHabitsData);
+    habitsApi
+      .getHabits()
+      .then(setHabitsData)
+      .catch((error) => console.error(error));
   }, []);
 
   return (

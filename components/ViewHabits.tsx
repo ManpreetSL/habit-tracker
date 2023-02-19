@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'next-i18next';
 import Habit from './Habit';
 import { GoalWithHabitHistory } from '../src/types/habits';
 import habitsApi from '../src/api/habits';
@@ -51,6 +52,7 @@ const styles = {
 };
 
 const ViewHabits = () => {
+  const { t } = useTranslation(['common', 'add-habit']);
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
 
   useEffect(() => {
@@ -60,13 +62,17 @@ const ViewHabits = () => {
   return (
     <div css={styles.container}>
       <header css={styles.header}>
-        <Image css={styles.logo} src='/logo.svg' alt='.SHIFT logo' fill />
-
+        <Image
+          css={styles.logo}
+          src='/logo.svg'
+          alt={t('common:alt.logo')}
+          fill
+        />
         <Link href='/add-habit'>
           <Button stylesProp={styles.addHabitButton} type='button'>
             <Image
               src='/icons/add.svg'
-              alt='Add habit'
+              alt={t('add-habit:title')}
               width='32'
               height='32'
             />

@@ -1,0 +1,8 @@
+{
+  "complete": "Complete",
+  "incomplete": "Incomplete",
+  "dayLeft": "{{ quantity }} day left",
+  "alt": {
+    "fire": "Streak fire"
+  }
+}

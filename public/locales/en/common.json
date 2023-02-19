@@ -2,5 +2,10 @@
   "app": {
     "title": ".SHIFT habit tracker",
     "description": "A habit tracker"
-  }
+  },
+  "alt": {
+    "logo": ".SHIFT logo"
+  },
+  "dayLeft": "1 day left",
+  "daysLeft": "{{ quantity }} days left"
 }

@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import { useTranslation } from 'next-i18next';
 import { Entry, Habit as THabit } from '../src/types/habits';
 
 const styles = {
@@ -64,6 +65,8 @@ type HabitProps = {
 };
 
 const Habit = ({ entries, habit, streak }: HabitProps) => {
+  const { t } = useTranslation(['common', 'habit']);
+
   const todayEntries = getEntriesForToday(entries);
   const completionPercentage = getCompletionPercentage(
     checkCompletionQuantity(todayEntries),
@@ -75,7 +78,7 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
       <div css={styles.streakContainer}>
         <Image
           src='/images/fire.svg'
-          alt='.SHIFT logo'
+          alt={t('habit:alt.fire')}
           width='32'
           height='32'
         />
@@ -85,7 +88,9 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
       <div css={styles.middleContainer}>
         <span>{habit.name}</span>
         <span css={styles.deadline}>
-          {completionPercentage < 100 ? '1 day left' : 'Complete'}
+          {completionPercentage < 100
+            ? t('common:dayLeft', { quantity: '2' })
+            : t('habit:complete')}
         </span>
       </div>
       {habit.target.quantity === 1 ? (
@@ -95,7 +100,11 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
               ? '/images/habit-complete.svg'
               : '/images/habit-incomplete.svg'
           }
-          alt={todayEntries.length >= 1 ? 'complete' : 'incomplete'}
+          alt={
+            todayEntries.length >= 1
+              ? t('habit:complete')
+              : t('habit:incomplete')
+          }
           width='32'
           height='32'
         />

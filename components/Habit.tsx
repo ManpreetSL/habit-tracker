@@ -11,18 +11,18 @@ const styles = {
     backgroundColor: '#333',
     margin: '12px 0px',
     padding: '12px',
-    gap: '8px'
+    gap: '8px',
   }),
 
   middleContainer: css({
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'left',
-    minWidth: '30%'
+    minWidth: '30%',
   }),
 
   deadline: css({
-    color: '#91E220'
+    color: '#91E220',
   }),
 
   streakContainer: css({
@@ -30,13 +30,13 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     maxWidth: '100px',
-    padding: '0px 12px'
+    padding: '0px 12px',
   }),
 
   streakText: css({
     color: '#fad15c',
-    paddingLeft: '4px'
-  })
+    paddingLeft: '4px',
+  }),
 };
 
 // Get the entry for today from the entries history

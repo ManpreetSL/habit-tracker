@@ -39,7 +39,15 @@ const jsonHabitServiceFactory = (): HabitService => {
   };
 
   const saveHabits = (habits: GoalWithHabitHistory[]) => {
-    localStorage.setItem('habits', JSON.stringify(habits));
+    try {
+      localStorage.setItem('habits', JSON.stringify(habits));
+    } catch (error) {
+      return Promise.reject(
+        new Error('Failed to save habits to local storage.')
+      );
+    }
+
+    return Promise.resolve('Saved habits successfully.');
   };
 
   // Save a default set of habits to local storage
@@ -50,7 +58,7 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))));
   };
 
-  return { addHabit, getHabits, saveDefaultData };
+  return { addHabit, getHabits, saveHabits, saveDefaultData };
 };
 
 export default jsonHabitServiceFactory;

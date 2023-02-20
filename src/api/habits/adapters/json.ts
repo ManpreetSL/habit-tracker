@@ -28,7 +28,7 @@ const jsonHabitServiceFactory = (): HabitService => {
   const getHabits = (): Promise<GoalWithHabitHistory[]> => {
     const localHabits = localStorage.getItem('habits');
     console.log('localHabits', localHabits);
-    if (!localHabits) return Promise.reject(new Error('No habits found'));
+    if (!localHabits) return Promise.resolve([]);
 
     try {
       return Promise.resolve(parseJsonHabits(localHabits));

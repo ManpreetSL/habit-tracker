@@ -2,13 +2,13 @@ import { render, screen } from '@testing-library/react';
 import About from './about.page';
 
 describe('<About />', () => {
-  it('should render without crashing', async () => {
+  it('should render without crashing', () => {
     // Act
     render(<About />);
 
     // Assert
     expect(
-      screen.getByRole('heading', { name: 'about:about' })
+      screen.queryByRole('heading', { name: 'about:about' })
     ).toBeInTheDocument();
   });
 });

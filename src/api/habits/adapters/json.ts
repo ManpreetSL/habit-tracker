@@ -1,7 +1,10 @@
 import { HabitService } from '../types';
 import habitsData from '../../../../public/data/habits.json';
-
-import { Frequency, GoalWithHabitHistory } from '../../../types/habits';
+import {
+  Frequency,
+  GoalWithHabitHistory,
+  HabitWithHistory,
+} from '../../../types/habits';
 import logger from '../../../services/logger';
 
 type Response = typeof habitsData;
@@ -56,7 +59,41 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
       .then(() => Promise.resolve());
 
-  return { addHabit, getHabits, saveHabits, saveDefaultData };
+  const addEntry = (
+    goals: GoalWithHabitHistory[],
+    habitId: string,
+    date: Date = new Date(),
+    quantity: number = 1
+  ) => {
+    try {
+      const updatedGoals = goals.map((goal) => ({
+        ...goal,
+        habits: goal.habits.reduce((habitsAcc, currentHabit) => {
+          let habit = currentHabit;
+
+          if (habit.id === habitId) {
+            // Add an entry here
+            const newEntries = habit.entries.concat([
+              { completionDate: date, quantity },
+            ]);
+            habit = {
+              ...habit,
+              entries: newEntries,
+            };
+          }
+
+          // Otherwise just return this habit as-is
+          return habitsAcc.concat(habit);
+        }, [] as HabitWithHistory[]),
+      }));
+
+      return Promise.resolve(updatedGoals);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  return { addHabit, getHabits, addEntry, saveHabits, saveDefaultData };
 };
 
 export default jsonHabitServiceFactory;

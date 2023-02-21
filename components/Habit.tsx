@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
+import { useEffect, useState } from 'react';
 import { Entry, Habit as THabit } from '../src/types/habits';
 import Button from './Button';
 
@@ -69,22 +70,34 @@ type HabitProps = {
   streak: number;
   habit: THabit;
   entries: Entry[];
-  handleCompleteButtonClick: any;
+  addHabitEntry: () => void;
+  removeHabitEntry: () => void;
 };
 
 const Habit = ({
   entries,
   habit,
   streak,
-  handleCompleteButtonClick,
+  addHabitEntry,
+  removeHabitEntry,
 }: HabitProps) => {
   const { t } = useTranslation(['common', 'habit']);
 
-  const todayEntries = getEntriesForToday(entries);
+  const [todayEntries, setTodayEntries] = useState<Entry[]>([]);
+
   const completionPercentage = getCompletionPercentage(
     checkCompletionQuantity(todayEntries),
     habit.target.quantity
   );
+
+  const toggleComplete = () => {
+    if (todayEntries.length >= 1) removeHabitEntry();
+    else addHabitEntry();
+  };
+
+  useEffect(() => {
+    setTodayEntries(getEntriesForToday(entries));
+  }, [entries]);
 
   return (
     <div css={styles.content}>
@@ -107,10 +120,7 @@ const Habit = ({
         </span>
       </div>
       {habit.target.quantity === 1 ? (
-        <Button
-          stylesProp={styles.completeButton}
-          onClick={handleCompleteButtonClick}
-        >
+        <Button stylesProp={styles.completeButton} onClick={toggleComplete}>
           <Image
             src={
               todayEntries.length >= 1

@@ -13,4 +13,8 @@ export type HabitService = {
     habits: GoalWithHabitHistory[],
     habitId: string
   ) => Promise<GoalWithHabitHistory[]>;
+  removeEntry: (
+    habits: GoalWithHabitHistory[],
+    habitId: string
+  ) => Promise<GoalWithHabitHistory[]>;
 };

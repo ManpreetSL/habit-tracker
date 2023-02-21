@@ -56,6 +56,15 @@ const ViewHabits = () => {
   const { t } = useTranslation(['common', 'add-habit']);
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
 
+  const addHabitEntry = (habitId: string) => {
+    habitsApi
+      .addEntry(habitsData, habitId)
+      .then(setHabitsData)
+      .catch((error) =>
+        console.error('addHabitEntry encountered an issue', error)
+      );
+  };
+
   useEffect(() => {
     habitsApi
       .getHabits()
@@ -92,6 +101,7 @@ const ViewHabits = () => {
               entries={entries}
               streak={streak}
               habit={habit}
+              handleCompleteButtonClick={() => addHabitEntry(habit.id)}
             />
           ))
         )}

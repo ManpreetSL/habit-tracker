@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { Entry, Habit as THabit } from '../src/types/habits';
+import Button from './Button';
 
 const styles = {
   content: css({
@@ -37,6 +38,12 @@ const styles = {
     color: '#fad15c',
     paddingLeft: '4px',
   }),
+
+  completeButton: css({
+    background: 'none',
+    padding: '0.5em',
+    border: '0px',
+  }),
 };
 
 // Get the entry for today from the entries history
@@ -62,9 +69,15 @@ type HabitProps = {
   streak: number;
   habit: THabit;
   entries: Entry[];
+  handleCompleteButtonClick: any;
 };
 
-const Habit = ({ entries, habit, streak }: HabitProps) => {
+const Habit = ({
+  entries,
+  habit,
+  streak,
+  handleCompleteButtonClick,
+}: HabitProps) => {
   const { t } = useTranslation(['common', 'habit']);
 
   const todayEntries = getEntriesForToday(entries);
@@ -94,20 +107,25 @@ const Habit = ({ entries, habit, streak }: HabitProps) => {
         </span>
       </div>
       {habit.target.quantity === 1 ? (
-        <Image
-          src={
-            todayEntries.length >= 1
-              ? '/images/habit-complete.svg'
-              : '/images/habit-incomplete.svg'
-          }
-          alt={
-            todayEntries.length >= 1
-              ? t('habit:complete')
-              : t('habit:incomplete')
-          }
-          width='32'
-          height='32'
-        />
+        <Button
+          stylesProp={styles.completeButton}
+          onClick={handleCompleteButtonClick}
+        >
+          <Image
+            src={
+              todayEntries.length >= 1
+                ? '/images/habit-complete.svg'
+                : '/images/habit-incomplete.svg'
+            }
+            alt={
+              todayEntries.length >= 1
+                ? t('habit:complete')
+                : t('habit:incomplete')
+            }
+            width='32'
+            height='32'
+          />
+        </Button>
       ) : (
         <span>{completionPercentage}%</span>
       )}

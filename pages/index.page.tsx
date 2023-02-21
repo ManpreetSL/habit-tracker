@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Habits from '../components/Habits';
 import Link from '../src/components/Link';
-import ViewHabits from '../components/ViewHabits';
 import habitsApi from '../src/api/habits';
 import Button from '../components/Button';
 
@@ -78,7 +78,7 @@ const Home = () => {
 
       <main css={styles.main}>
         <h1 css={styles.title}>{t('app:welcome')}</h1>
-        <ViewHabits />
+        <Habits />
 
         <Button onClick={habitsApi.saveDefaultData}>save default habits</Button>
 

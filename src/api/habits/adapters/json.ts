@@ -117,6 +117,23 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then(saveHabits)
       .catch((error) => Promise.reject(error));
 
+  const getHabitsFromDate = (date: Date) =>
+    getHabits()
+      .then((goals) =>
+        Promise.resolve(
+          goals.map((goal) => ({
+            ...goal,
+            habits: goal.habits.map((habit) => ({
+              ...habit,
+              entries: habit.entries.filter(
+                (entry) => entry.completionDate >= date
+              ),
+            })),
+          }))
+        )
+      )
+      .catch((error) => Promise.reject(error));
+
   return {
     addHabit,
     getHabits,
@@ -124,6 +141,7 @@ const jsonHabitServiceFactory = (): HabitService => {
     removeEntry,
     saveHabits,
     saveDefaultData,
+    getHabitsFromDate
   };
 };
 

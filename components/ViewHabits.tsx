@@ -65,6 +65,15 @@ const ViewHabits = () => {
       );
   };
 
+  const removeHabitEntry = (habitId: string) => {
+    habitsApi
+      .removeEntry(habitsData, habitId)
+      .then(setHabitsData)
+      .catch((error) =>
+        console.error('removeHabitEntry encountered an issue', error)
+      );
+  };
+
   useEffect(() => {
     habitsApi
       .getHabits()
@@ -101,7 +110,8 @@ const ViewHabits = () => {
               entries={entries}
               streak={streak}
               habit={habit}
-              handleCompleteButtonClick={() => addHabitEntry(habit.id)}
+              addHabitEntry={() => addHabitEntry(habit.id)}
+              removeHabitEntry={() => removeHabitEntry(habit.id)}
             />
           ))
         )}

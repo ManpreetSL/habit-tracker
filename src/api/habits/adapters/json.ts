@@ -75,17 +75,17 @@ const jsonHabitServiceFactory = (): HabitService => {
 
                 if (habit.id === habitId) {
                   // Add an entry here
-                  const newEntries = habit.entries.concat([
-                    { completionDate: date, quantity },
-                  ]);
                   habit = {
                     ...habit,
-                    entries: newEntries,
+                    entries: [
+                      ...habit.entries,
+                      { completionDate: date, quantity },
+                    ],
                   };
                 }
 
                 // Otherwise just return this habit as-is
-              return habitsAcc.concat(habit);
+                return [...habitsAcc, habit];
               }, [] as HabitWithHistory[]),
             }))
           )

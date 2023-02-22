@@ -70,16 +70,16 @@ type HabitProps = {
   streak: number;
   habit: THabit;
   entries: Entry[];
-  addHabitEntry: () => void;
-  removeHabitEntry: () => void;
+  onAddHabitEntry: () => void;
+  onRemoveHabitEntry: () => void;
 };
 
 const Habit = ({
   entries,
   habit,
   streak,
-  addHabitEntry,
-  removeHabitEntry,
+  onAddHabitEntry,
+  onRemoveHabitEntry,
 }: HabitProps) => {
   const { t } = useTranslation(['common', 'habit']);
 
@@ -92,8 +92,8 @@ const Habit = ({
   );
 
   const toggleComplete = () => {
-    if (todayEntries.length >= 1) removeHabitEntry();
-    else addHabitEntry();
+    if (todayEntries.length >= 1) onRemoveHabitEntry();
+    else onAddHabitEntry();
   };
 
   useEffect(() => {

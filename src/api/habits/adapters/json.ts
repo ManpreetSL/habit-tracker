@@ -60,34 +60,35 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then(() => Promise.resolve());
 
   const addEntry = (
-    goals: GoalWithHabitHistory[],
     habitId: string,
     date: Date = new Date(),
     quantity: number = 1
   ) => {
     try {
-      const updatedGoals = goals.map((goal) => ({
-        ...goal,
-        habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-          let habit = currentHabit;
+      return getHabits().then((goals) =>
+        Promise.resolve(
+          goals.map((goal) => ({
+            ...goal,
+            habits: goal.habits.reduce((habitsAcc, currentHabit) => {
+              let habit = currentHabit;
 
-          if (habit.id === habitId) {
-            // Add an entry here
-            const newEntries = habit.entries.concat([
-              { completionDate: date, quantity },
-            ]);
-            habit = {
-              ...habit,
-              entries: newEntries,
-            };
-          }
+              if (habit.id === habitId) {
+                // Add an entry here
+                const newEntries = habit.entries.concat([
+                  { completionDate: date, quantity },
+                ]);
+                habit = {
+                  ...habit,
+                  entries: newEntries,
+                };
+              }
 
-          // Otherwise just return this habit as-is
-          return habitsAcc.concat(habit);
-        }, [] as HabitWithHistory[]),
-      }));
-
-      return Promise.resolve(updatedGoals);
+              // Otherwise just return this habit as-is
+              return habitsAcc.concat(habit);
+            }, [] as HabitWithHistory[]),
+          }))
+        )
+      );
     } catch (error) {
       return Promise.reject(error);
     }

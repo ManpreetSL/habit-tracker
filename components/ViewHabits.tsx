@@ -58,7 +58,7 @@ const ViewHabits = () => {
 
   const addHabitEntry = (habitId: string) => {
     habitsApi
-      .addEntry(habitsData, habitId)
+      .addEntry(habitId)
       .then(setHabitsData)
       .catch((error) =>
         console.error('addHabitEntry encountered an issue', error)

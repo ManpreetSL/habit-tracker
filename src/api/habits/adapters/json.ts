@@ -6,8 +6,7 @@ import { Frequency, GoalWithHabitHistory } from '../../../types/habits';
 type Response = typeof habitsData;
 
 const jsonHabitServiceFactory = (): HabitService => {
-  const addHabit = (): Promise<string> =>
-    Promise.resolve('adding habit in ze factorie');
+  const addHabit = (): Promise<void> => Promise.resolve();
 
   const parseJsonHabits = (json: string) => {
     const jsonHabits = JSON.parse(json) as unknown as Response;
@@ -27,7 +26,6 @@ const jsonHabitServiceFactory = (): HabitService => {
 
   const getHabits = (): Promise<GoalWithHabitHistory[]> => {
     const localHabits = localStorage.getItem('habits');
-    console.log('localHabits', localHabits);
     if (!localHabits) return Promise.resolve([]);
 
     try {
@@ -47,17 +45,15 @@ const jsonHabitServiceFactory = (): HabitService => {
       );
     }
 
-    return Promise.resolve('Saved habits successfully.');
+    return Promise.resolve();
   };
 
   // Save a default set of habits to local storage
-  const saveDefaultData = () => {
-    console.log('saving default data');
-    return fetch('../data/habits.json')
+  const saveDefaultData = () =>
+    fetch('../data/habits.json')
       .then((res) => res.json())
       .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
       .then(() => Promise.resolve());
-  };
 
   return { addHabit, getHabits, saveHabits, saveDefaultData };
 };

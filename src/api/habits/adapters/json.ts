@@ -109,17 +109,16 @@ const jsonHabitServiceFactory = (): HabitService => {
               let habit = currentHabit;
 
               if (habit.id === habitId) {
-                const newEntries = habit.entries.filter(
-                  (entry) => entry.completionDate.toDateString() !== dateString
-                );
-
                 habit = {
                   ...habit,
-                  entries: newEntries,
+                  entries: habit.entries.filter(
+                    (entry) =>
+                      entry.completionDate.toDateString() !== dateString
+                  ),
                 };
               }
 
-              return habitsAcc.concat(habit);
+              return [...habitsAcc, habit];
             }, [] as HabitWithHistory[]),
           }))
         )

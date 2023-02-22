@@ -116,7 +116,7 @@ const Habit = ({
         <span>{habit.name}</span>
         <span css={styles.deadline}>
           {completionPercentage < 100
-            ? t('common:dayLeft', { quantity: '2' })
+            ? t('common:daysLeft', { quantity: '2' })
             : t('habit:complete')}
         </span>
       </div>

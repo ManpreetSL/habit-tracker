@@ -53,9 +53,10 @@ const jsonHabitServiceFactory = (): HabitService => {
   // Save a default set of habits to local storage
   const saveDefaultData = () => {
     console.log('saving default data');
-    fetch('../data/habits.json')
+    return fetch('../data/habits.json')
       .then((res) => res.json())
-      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))));
+      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
+      .then(() => Promise.resolve());
   };
 
   return { addHabit, getHabits, saveHabits, saveDefaultData };

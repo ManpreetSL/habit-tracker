@@ -8,5 +8,5 @@ export type HabitService = {
   addHabit: () => Promise<string>;
   getHabits: () => Promise<GoalWithHabitHistory[]>;
   saveHabits: (habits: GoalWithHabitHistory[]) => Promise<string>;
-  saveDefaultData: () => void;
+  saveDefaultData: () => Promise<void>;
 };

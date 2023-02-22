@@ -84,6 +84,7 @@ const Habit = ({
   const { t } = useTranslation(['common', 'habit']);
 
   const [todayEntries, setTodayEntries] = useState<Entry[]>([]);
+  const isComplete = () => todayEntries.length >= 1;
 
   const completionPercentage = getCompletionPercentage(
     checkCompletionQuantity(todayEntries),
@@ -123,15 +124,11 @@ const Habit = ({
         <Button stylesProp={styles.completeButton} onClick={toggleComplete}>
           <Image
             src={
-              todayEntries.length >= 1
+              isComplete()
                 ? '/images/habit-complete.svg'
                 : '/images/habit-incomplete.svg'
             }
-            alt={
-              todayEntries.length >= 1
-                ? t('habit:complete')
-                : t('habit:incomplete')
-            }
+            alt={isComplete() ? t('habit:complete') : t('habit:incomplete')}
             width='32'
             height='32'
           />

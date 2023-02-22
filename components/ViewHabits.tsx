@@ -110,8 +110,8 @@ const ViewHabits = () => {
               entries={entries}
               streak={streak}
               habit={habit}
-              addHabitEntry={() => addHabitEntry(habit.id)}
-              removeHabitEntry={() => removeHabitEntry(habit.id)}
+              onAddHabitEntry={() => addHabitEntry(habit.id)}
+              onRemoveHabitEntry={() => removeHabitEntry(habit.id)}
             />
           ))
         )}

@@ -97,35 +97,33 @@ const jsonHabitServiceFactory = (): HabitService => {
     }
   };
 
-  const removeEntry = (
-    goals: GoalWithHabitHistory[],
-    habitId: string,
-    date: Date = new Date()
-  ) => {
+  const removeEntry = (habitId: string, date: Date = new Date()) => {
     const dateString = date.toDateString();
 
     try {
-      const updatedGoals = goals.map((goal) => ({
-        ...goal,
-        habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-          let habit = currentHabit;
+      return getHabits().then((goals) =>
+        Promise.resolve(
+          goals.map((goal) => ({
+            ...goal,
+            habits: goal.habits.reduce((habitsAcc, currentHabit) => {
+              let habit = currentHabit;
 
-          if (habit.id === habitId) {
-            const newEntries = habit.entries.filter(
-              (entry) => entry.completionDate.toDateString() !== dateString
-            );
+              if (habit.id === habitId) {
+                const newEntries = habit.entries.filter(
+                  (entry) => entry.completionDate.toDateString() !== dateString
+                );
 
-            habit = {
-              ...habit,
-              entries: newEntries,
-            };
-          }
+                habit = {
+                  ...habit,
+                  entries: newEntries,
+                };
+              }
 
-          return habitsAcc.concat(habit);
-        }, [] as HabitWithHistory[]),
-      }));
-
-      return Promise.resolve(updatedGoals);
+              return habitsAcc.concat(habit);
+            }, [] as HabitWithHistory[]),
+          }))
+        )
+      );
     } catch (error) {
       return Promise.reject(error);
     }

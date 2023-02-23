@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { HabitService } from '../types';
 import habitsData from '../../../../public/data/habits.json';
 import {
@@ -79,7 +80,7 @@ const jsonHabitServiceFactory = (): HabitService => {
                     ...habit,
                     entries: [
                       ...habit.entries,
-                      { completionDate: date, quantity },
+                      { id: uuidv4(), completionDate: date, quantity },
                     ],
                   };
                 }

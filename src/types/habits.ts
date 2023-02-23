@@ -1,6 +1,7 @@
 // Single recording of a habit
 // Captures the completion, effort, metadata.
 export type Entry = {
+  id: string;
   completionDate: Date;
   effort?: number;
   notes?: string;

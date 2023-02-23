@@ -17,7 +17,7 @@ export type Entry = {
 export type Frequency = {
   unit: 'daily' | 'weekly' | 'monthly';
   count: number;
-}
+};
 
 // Action that leads to fulfilment in your life
 export type Habit = {
@@ -29,18 +29,18 @@ export type Habit = {
   impact?: number; // Life-wise and feelings-wise
   target: {
     // How many times do we want to do this habit in the day?
-    unit: string,
+    unit: string;
     // Pages, km, miles, etc.
-    quantity: number,
-  }
+    quantity: number;
+  };
 };
 
 export type History = {
   streak: number;
-  entries: Entry[]
-}
+  entries: Entry[];
+};
 
-export type HabitWithHistory = Habit & History
+export type HabitWithHistory = Habit & History;
 
 // An overarching objective, formed by a collection of habits
 export type Goal = {
@@ -49,5 +49,5 @@ export type Goal = {
 };
 
 export type GoalWithHabitHistory = Goal & {
-  habits: HabitWithHistory[]
-}
+  habits: HabitWithHistory[];
+};

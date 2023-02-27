@@ -65,9 +65,10 @@ const ViewHabits = () => {
       );
   };
 
+  const removeHabitEntry = (entryId: string, habitId: string) => {
   const removeHabitEntry = (habitId: string) => {
     habitsApi
-      .removeEntry(habitId)
+      .removeEntry(entryId, habitId)
       .then(setHabitsData)
       .catch((error) =>
         console.error('removeHabitEntry encountered an issue', error)
@@ -111,7 +112,9 @@ const ViewHabits = () => {
               streak={streak}
               habit={habit}
               onAddHabitEntry={() => addHabitEntry(habit.id)}
-              onRemoveHabitEntry={() => removeHabitEntry(habit.id)}
+              onRemoveHabitEntry={(entryId) =>
+                removeHabitEntry(entryId, habit.id)
+              }
             />
           ))
         )}

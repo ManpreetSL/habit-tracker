@@ -71,7 +71,7 @@ type HabitProps = {
   habit: THabit;
   entries: Entry[];
   onAddHabitEntry: () => void;
-  onRemoveHabitEntry: () => void;
+  onRemoveHabitEntry: (entryId: string) => void;
 };
 
 const Habit = ({
@@ -92,7 +92,7 @@ const Habit = ({
   );
 
   const toggleComplete = () => {
-    if (todayEntries.length >= 1) onRemoveHabitEntry();
+    if (todayEntries.length >= 1) onRemoveHabitEntry(todayEntries[0].id);
     else onAddHabitEntry();
   };
 

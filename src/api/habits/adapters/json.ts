@@ -98,30 +98,28 @@ const jsonHabitServiceFactory = (): HabitService => {
     }
   };
 
-  const removeEntry = (habitId: string, date: Date = new Date()) => {
-    const dateString = date.toDateString();
-
+  const removeEntry = (entryId: string, habitId: string) => {
     try {
-      return getHabits().then((goals) =>
-        Promise.resolve(
-          goals.map((goal) => ({
-            ...goal,
-            habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-              let habit = currentHabit;
+      return getHabits()
+        .then((goals) =>
+          Promise.resolve(
+            goals.map((goal) => ({
+              ...goal,
+              habits: goal.habits.reduce((habitsAcc, currentHabit) => {
+                let habit = currentHabit;
 
-              if (habit.id === habitId) {
-                habit = {
-                  ...habit,
-                  entries: habit.entries.filter(
-                    (entry) =>
-                      entry.completionDate.toDateString() !== dateString
-                  ),
-                };
-              }
+                if (habit.id === habitId) {
+                  habit = {
+                    ...habit,
+                    entries: habit.entries.filter(
+                      (entry) => entry.id !== entryId
+                    ),
+                  };
+                }
 
-              return [...habitsAcc, habit];
-            }, [] as HabitWithHistory[]),
-          }))
+                return [...habitsAcc, habit];
+              }, [] as HabitWithHistory[]),
+            }))
         )
       );
     } catch (error) {

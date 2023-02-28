@@ -1,4 +1,9 @@
-import habitsApi from '.';
+import * as uuid from 'uuid';
+import { GoalWithHabitHistory } from '../../../types/habits';
+import jsonHabitFactory from './json';
+
+jest.mock('uuid', () => ({ v4: jest.fn() }));
+const mockUuid = (id: string) => jest.spyOn(uuid, 'v4').mockReturnValue(id);
 
 const habitsMockData = [
   {
@@ -60,22 +65,81 @@ const habitsMockData = [
       },
     ],
   },
-];
+] as GoalWithHabitHistory[];
 
 describe('JSON habit adapter', () => {
   describe('getHabits()', () => {
-    // Set up empty local storage and test that an empty array is returned
-    Storage.prototype.getItem = jest.fn().mockReturnValue(null);
-
     it('should return null when local storage has no goals stored', async () => {
-      await expect(habitsApi.getHabits()).resolves.toEqual([]);
+      const { getHabits } = jsonHabitFactory();
+      localStorage.clear();
+
+      await expect(getHabits()).resolves.toEqual([]);
     });
 
-    it("should return a goal when local storage there's one goal stored", async () => {
-      Storage.prototype.getItem = jest
-        .fn()
-        .mockReturnValue(JSON.stringify(habitsMockData));
-      await expect(habitsApi.getHabits()).resolves.toEqual(habitsMockData);
+    it('should return a goal when local storage has only one goal stored', async () => {
+      const { getHabits, saveHabits } = jsonHabitFactory();
+      saveHabits(habitsMockData);
+
+      await expect(getHabits()).resolves.toEqual(habitsMockData);
+    });
+  });
+
+  describe('saveHabits()', () => {
+    it.todo('should save habits to local storage');
+  });
+
+  describe('addEntry()', () => {
+    it('should return a blank array when there are no goals', async () => {
+      const { getHabits, saveHabits, addEntry } = jsonHabitFactory();
+      await saveHabits([]);
+
+      await addEntry('1234asdf');
+      const results = await getHabits();
+
+      expect(results).toEqual([]);
+    });
+
+    it('should add an entry when there is 1 goal with 1 habit and 0 entries', async () => {
+      const { addEntry, saveHabits, getHabits } = jsonHabitFactory();
+      const initialGoals = [
+        {
+          name: 'Improve health',
+          description:
+            'Improve physical and mental health so I can feel better about living life',
+          habits: [
+            {
+              id: '1',
+              name: 'Do 5 mins of Simran',
+              frequency: {
+                unit: 'daily',
+                count: 1,
+              },
+              target: {
+                quantity: 5,
+                unit: 'minutes',
+              },
+              entries: [],
+              streak: 2,
+            },
+          ],
+        },
+      ] as GoalWithHabitHistory[];
+      await saveHabits(initialGoals);
+
+      const entryId = '30230032';
+      mockUuid(entryId);
+      await addEntry(initialGoals[0].habits[0].id);
+
+      const [
+        {
+          habits: [{ entries }],
+        },
+      ] = await getHabits();
+      const entry = entries.find(({ id }) => id === entryId);
+      expect(entry).toBeDefined();
+      expect(entry?.completionDate.getTime()).toBeGreaterThan(
+        Date.now() - 30 * 1000
+      );
     });
   });
 });

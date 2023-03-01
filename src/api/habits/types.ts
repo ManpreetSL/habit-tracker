@@ -5,13 +5,10 @@ export type HabitService = {
   retrieve?: () => {};
   get?: () => {};
   set?: () => {};
-  addHabit: () => Promise<void>;
+  addHabit: () => Promise<string>;
   getHabits: () => Promise<GoalWithHabitHistory[]>;
   saveHabits: (habits: GoalWithHabitHistory[]) => Promise<void>;
   saveDefaultData: () => Promise<void>;
-  addEntry: (habitId: string) => Promise<GoalWithHabitHistory[]>;
-  removeEntry: (
-    entryId: string,
-    habitId: string
-  ) => Promise<GoalWithHabitHistory[]>;
+  addEntry: (habitId: string) => Promise<string>;
+  removeEntry: (entryId: string, habitId: string) => Promise<void>;
 };

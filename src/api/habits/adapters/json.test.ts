@@ -156,7 +156,6 @@ describe('JSON habit adapter', () => {
       await removeEntry(entryId, '1');
 
       // Assert
-
       const [
         {
           habits: [{ entries }],

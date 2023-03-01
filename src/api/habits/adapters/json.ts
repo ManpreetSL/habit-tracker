@@ -120,8 +120,9 @@ const jsonHabitServiceFactory = (): HabitService => {
                 return [...habitsAcc, habit];
               }, [] as HabitWithHistory[]),
             }))
+          )
         )
-      );
+        .then(saveHabits);
     } catch (error) {
       return Promise.reject(error);
     }

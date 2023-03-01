@@ -85,7 +85,15 @@ describe('JSON habit adapter', () => {
   });
 
   describe('saveHabits()', () => {
-    it.todo('should save habits to local storage');
+    it('should save habits to local storage', async () => {
+      localStorage.clear();
+      const { getHabits, saveHabits } = jsonHabitFactory();
+
+      await saveHabits(habitsMockData);
+      const goals = await getHabits();
+
+      expect(goals).toEqual(habitsMockData);
+    });
   });
 
   describe('addEntry()', () => {

@@ -140,6 +140,31 @@ describe('JSON habit adapter', () => {
       expect(entry?.completionDate.getTime()).toBeGreaterThan(
         Date.now() - 30 * 1000
       );
+      expect(entries.length).toBe(1);
+    });
+  });
+
+  describe('removeEntry()', () => {
+    it('should remove an entry given a valid entry ID and its associated habit ID', async () => {
+      // Arrange
+      const { getHabits, saveHabits, removeEntry } = jsonHabitFactory();
+      saveHabits(habitsMockData);
+      const originalEntries = habitsMockData[0].habits[0].entries;
+
+      // Act
+      const entryId = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
+      await removeEntry(entryId, '1');
+
+      // Assert
+
+      const [
+        {
+          habits: [{ entries }],
+        },
+      ] = await getHabits();
+      const entry = entries.find(({ id }) => id === entryId);
+      expect(entry).not.toBeDefined();
+      expect(entries.length).toBe(originalEntries.length - 1);
     });
   });
 });

@@ -11,7 +11,7 @@ import logger from '../../../services/logger';
 type Response = typeof habitsData;
 
 const jsonHabitServiceFactory = (): HabitService => {
-  const addHabit = (): Promise<void> => Promise.resolve();
+  const addHabit = () => Promise.resolve('new id');
 
   const parseJsonHabits = (json: string) => {
     const jsonHabits = JSON.parse(json) as unknown as Response;
@@ -57,8 +57,7 @@ const jsonHabitServiceFactory = (): HabitService => {
   const saveDefaultData = () =>
     fetch('../data/habits.json')
       .then((res) => res.json())
-      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
-      .then(() => Promise.resolve());
+      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))));
 
   const addEntry = (
     habitId: string,
@@ -66,6 +65,7 @@ const jsonHabitServiceFactory = (): HabitService => {
     quantity: number = 1
   ) => {
     try {
+      const newId = uuidv4();
       return getHabits()
         .then((goals) =>
           Promise.resolve(
@@ -80,7 +80,7 @@ const jsonHabitServiceFactory = (): HabitService => {
                     ...habit,
                     entries: [
                       ...habit.entries,
-                      { id: uuidv4(), completionDate: date, quantity },
+                      { id: newId, completionDate: date, quantity },
                     ],
                   };
                 }
@@ -92,7 +92,7 @@ const jsonHabitServiceFactory = (): HabitService => {
           )
         )
         .then((goals) => saveHabits(goals))
-        .then(() => getHabits());
+        .then(() => newId);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -105,11 +105,9 @@ const jsonHabitServiceFactory = (): HabitService => {
           Promise.resolve(
             goals.map((goal) => ({
               ...goal,
-              habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-                let habit = currentHabit;
-
+              habits: goal.habits.map((habit) => {
                 if (habit.id === habitId) {
-                  habit = {
+                  return {
                     ...habit,
                     entries: habit.entries.filter(
                       (entry) => entry.id !== entryId
@@ -117,7 +115,7 @@ const jsonHabitServiceFactory = (): HabitService => {
                   };
                 }
 
-                return [...habitsAcc, habit];
+                return habit;
               }, [] as HabitWithHistory[]),
             }))
           )

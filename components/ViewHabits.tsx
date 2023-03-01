@@ -59,6 +59,7 @@ const ViewHabits = () => {
   const addHabitEntry = (habitId: string) => {
     habitsApi
       .addEntry(habitId)
+      .then(() => habitsApi.getHabits())
       .then(setHabitsData)
       .catch((error) =>
         console.error('addHabitEntry encountered an issue', error)
@@ -66,9 +67,9 @@ const ViewHabits = () => {
   };
 
   const removeHabitEntry = (entryId: string, habitId: string) => {
-  const removeHabitEntry = (habitId: string) => {
     habitsApi
       .removeEntry(entryId, habitId)
+      .then(() => habitsApi.getHabits())
       .then(setHabitsData)
       .catch((error) =>
         console.error('removeHabitEntry encountered an issue', error)

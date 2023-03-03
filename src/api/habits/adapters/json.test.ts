@@ -101,7 +101,7 @@ describe('JSON habit adapter', () => {
       const { getHabits, saveHabits, addEntry } = jsonHabitFactory();
       await saveHabits([]);
 
-      await addEntry('1234asdf');
+      await addEntry({ habitId: '1234asdf' });
       const results = await getHabits();
 
       expect(results).toEqual([]);
@@ -136,7 +136,7 @@ describe('JSON habit adapter', () => {
 
       const entryId = '30230032';
       mockUuid(entryId);
-      await addEntry(initialGoals[0].habits[0].id);
+      await addEntry({ habitId: initialGoals[0].habits[0].id });
 
       const [
         {

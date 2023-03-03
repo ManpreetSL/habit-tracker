@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
-import { useEffect, useState } from 'react';
 import { Entry, Habit as THabit } from '../src/types/habits';
 import Button from './Button';
 
@@ -83,7 +82,7 @@ const Habit = ({
 }: HabitProps) => {
   const { t } = useTranslation(['common', 'habit']);
 
-  const [todayEntries, setTodayEntries] = useState<Entry[]>([]);
+  const todayEntries = getEntriesForToday(entries);
   const isComplete = () => todayEntries.length >= 1;
 
   const completionPercentage = getCompletionPercentage(
@@ -95,10 +94,6 @@ const Habit = ({
     if (todayEntries.length >= 1) onRemoveHabitEntry(todayEntries[0].id);
     else onAddHabitEntry();
   };
-
-  useEffect(() => {
-    setTodayEntries(getEntriesForToday(entries));
-  }, [entries]);
 
   return (
     <div css={styles.content}>

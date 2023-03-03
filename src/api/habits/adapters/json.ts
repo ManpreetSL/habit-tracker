@@ -1,4 +1,5 @@
-import { HabitService } from '../types';
+import { v4 as uuidv4 } from 'uuid';
+import { AddEntryParams, HabitService } from '../types';
 import habitsData from '../../../../public/data/habits.json';
 import {
   Frequency,
@@ -61,17 +62,19 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
       .then(() => Promise.resolve());
 
-  const addEntry = (
-    goals: GoalWithHabitHistory[],
-    habitId: string,
-    date: Date = new Date(),
-    quantity: number = 1
-  ) => {
-    try {
-      const updatedGoals = goals.map((goal) => ({
-        ...goal,
-        habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-          let habit = currentHabit;
+  const addEntry = ({
+    habitId,
+    date = new Date(),
+    quantity = 1,
+  }: AddEntryParams) => {
+    const newId = uuidv4();
+    return getHabits()
+      .then((goals) =>
+        Promise.resolve(
+          goals.map((goal) => ({
+            ...goal,
+            habits: goal.habits.reduce((habitsAcc, currentHabit) => {
+              let habit = currentHabit;
 
           if (habit.id === habitId) {
             // Add an entry here

@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { HabitService } from '../types';
 import habitsData from '../../../../public/data/habits.json';
 import {
@@ -11,7 +10,7 @@ import logger from '../../../services/logger';
 type Response = typeof habitsData;
 
 const jsonHabitServiceFactory = (): HabitService => {
-  const addHabit = () => Promise.resolve('new id');
+  const addHabit = (): Promise<void> => Promise.resolve();
 
   const parseJsonHabits = (json: string) => {
     const jsonHabits = JSON.parse(json) as unknown as Response;
@@ -57,83 +56,46 @@ const jsonHabitServiceFactory = (): HabitService => {
   const saveDefaultData = () =>
     fetch('../data/habits.json')
       .then((res) => res.json())
-      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))));
+      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
+      .then(() => Promise.resolve());
+      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
+      .then(() => Promise.resolve());
 
   const addEntry = (
+    goals: GoalWithHabitHistory[],
     habitId: string,
     date: Date = new Date(),
     quantity: number = 1
   ) => {
     try {
-      const newId = uuidv4();
-      return getHabits()
-        .then((goals) =>
-          Promise.resolve(
-            goals.map((goal) => ({
-              ...goal,
-              habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-                let habit = currentHabit;
+      const updatedGoals = goals.map((goal) => ({
+        ...goal,
+        habits: goal.habits.reduce((habitsAcc, currentHabit) => {
+          let habit = currentHabit;
 
-                if (habit.id === habitId) {
-                  // Add an entry here
-                  habit = {
-                    ...habit,
-                    entries: [
-                      ...habit.entries,
-                      { id: newId, completionDate: date, quantity },
-                    ],
-                  };
-                }
+          if (habit.id === habitId) {
+            // Add an entry here
+            const newEntries = habit.entries.concat([
+              { completionDate: date, quantity },
+            ]);
+            habit = {
+              ...habit,
+              entries: newEntries,
+            };
+          }
 
-                // Otherwise just return this habit as-is
-                return [...habitsAcc, habit];
-              }, [] as HabitWithHistory[]),
-            }))
-          )
-        )
-        .then((goals) => saveHabits(goals))
-        .then(() => newId);
+          // Otherwise just return this habit as-is
+          return habitsAcc.concat(habit);
+        }, [] as HabitWithHistory[]),
+      }));
+
+      return Promise.resolve(updatedGoals);
     } catch (error) {
       return Promise.reject(error);
     }
   };
 
-  const removeEntry = (entryId: string, habitId: string) => {
-    try {
-      return getHabits()
-        .then((goals) =>
-          Promise.resolve(
-            goals.map((goal) => ({
-              ...goal,
-              habits: goal.habits.map((habit) => {
-                if (habit.id === habitId) {
-                  return {
-                    ...habit,
-                    entries: habit.entries.filter(
-                      (entry) => entry.id !== entryId
-                    ),
-                  };
-                }
-
-                return habit;
-              }, [] as HabitWithHistory[]),
-            }))
-          )
-        )
-        .then(saveHabits);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
-
-  return {
-    addHabit,
-    getHabits,
-    addEntry,
-    removeEntry,
-    saveHabits,
-    saveDefaultData,
-  };
+  return { addHabit, getHabits, addEntry, saveHabits, saveDefaultData };
 };
 
 export default jsonHabitServiceFactory;

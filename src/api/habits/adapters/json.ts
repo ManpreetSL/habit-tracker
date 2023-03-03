@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash/cloneDeep';
 import { v4 as uuidv4 } from 'uuid';
 import { AddEntryParams, HabitService } from '../types';
 import habitsData from '../../../../public/data/habits.json';
@@ -69,33 +70,35 @@ const jsonHabitServiceFactory = (): HabitService => {
   }: AddEntryParams) => {
     const newId = uuidv4();
     return getHabits()
-      .then((goals) =>
-        Promise.resolve(
-          goals.map((goal) => ({
-            ...goal,
-            habits: goal.habits.reduce((habitsAcc, currentHabit) => {
-              let habit = currentHabit;
+      .then((goals) => {
+        const newGoals: GoalWithHabitHistory[] = cloneDeep(goals);
 
-          if (habit.id === habitId) {
-            // Add an entry here
-            const newEntries = habit.entries.concat([
-              { completionDate: date, quantity },
-            ]);
-            habit = {
-              ...habit,
-              entries: newEntries,
-            };
+        // Nested find - find the habit from within the array of goals
+        for (let i = 0; i < newGoals.length; i += 1) {
+          const newGoal = newGoals[i];
+          const tempHabit = newGoal.habits.find(
+            (habit) => habit.id === habitId
+          );
+
+          // Break the loop early if the habit has been found
+          if (tempHabit) {
+            tempHabit.entries.push({
+              id: newId,
+              completionDate: date,
+              quantity,
+            });
+
+            return newGoals;
           }
+        }
 
-          // Otherwise just return this habit as-is
-          return habitsAcc.concat(habit);
-        }, [] as HabitWithHistory[]),
-      }));
+        // if !habit
+        throw new Error('Unable to find habit to add an entry to');
+      })
 
-      return Promise.resolve(updatedGoals);
-    } catch (error) {
-      return Promise.reject(error);
-    }
+      .then((goals) => saveHabits(goals))
+      .then(() => newId)
+      .catch((error) => Promise.reject(error));
   };
 
   return { addHabit, getHabits, addEntry, saveHabits, saveDefaultData };

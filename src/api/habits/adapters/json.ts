@@ -2,6 +2,7 @@ import { HabitService } from '../types';
 import habitsData from '../../../../public/data/habits.json';
 
 import { Frequency, GoalWithHabitHistory } from '../../../types/habits';
+import logger from '../../../services/logger';
 
 type Response = typeof habitsData;
 
@@ -31,7 +32,7 @@ const jsonHabitServiceFactory = (): HabitService => {
     try {
       return Promise.resolve(parseJsonHabits(localHabits));
     } catch (error) {
-      console.error('Error fetching habits');
+      logger.error('Error fetching habits');
       return Promise.reject(new Error('Failed to fetch habits'));
     }
   };

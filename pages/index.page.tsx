@@ -67,6 +67,7 @@ const styles = {
 
 const Home = () => {
   const { t } = useTranslation();
+
   return (
     <div css={styles.container}>
       <Head>

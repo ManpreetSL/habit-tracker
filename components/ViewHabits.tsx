@@ -7,6 +7,7 @@ import { GoalWithHabitHistory } from '../src/types/habits';
 import habitsApi from '../src/api/habits';
 import Link from '../src/components/Link';
 import Button from './Button';
+import logger from '../src/services/logger';
 
 const styles = {
   container: css({
@@ -59,7 +60,7 @@ const ViewHabits = () => {
     habitsApi
       .getHabits()
       .then(setHabitsData)
-      .catch((error) => console.error(error));
+      .catch((error) => logger.error(error));
   }, []);
 
   return (

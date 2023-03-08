@@ -1,6 +1,7 @@
 import log from 'loglevel';
 
-log.setDefaultLevel('trace');
+const defaultLevel = process.env.NODE_ENV === 'production' ? 'info' : 'trace';
+log.setDefaultLevel(defaultLevel);
 
 const trace = (...msg: any[]) => {
   log.trace(...msg);

@@ -7,6 +7,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import habitsApi from '../src/api/habits';
+import logger from '../src/services/logger';
 
 export async function getStaticProps({ locale = 'en' }) {
   return {
@@ -101,7 +102,7 @@ const AddHabit = () => {
     const { name, value } = event.target;
 
     setFormData({ ...formData, [name]: value });
-    console.log(`${name} changed to ${value}`);
+    logger.debug(`${name} changed to ${value}`);
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -109,10 +110,10 @@ const AddHabit = () => {
     habitsApi
       .addHabit()
       .then((message) => {
-        console.log(message);
+        logger.debug(message);
         router.push('/');
       })
-      .catch((error) => console.error(error));
+      .catch((error) => logger.error(error));
   };
 
   return (

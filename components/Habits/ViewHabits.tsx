@@ -176,8 +176,9 @@ const ViewHabits = () => {
       </header>
 
       <div css={styles.habitsContainer}>
-        <Button onClick={saveDefaultData}>save default habits</Button>
-        
+        {habitsData.length === 0 && (
+          <Button onClick={saveDefaultData}>save default habits</Button>
+        )}
         {timeView === 'weekly' && (
           <HabitWeeklyView
             goals={habitsData}

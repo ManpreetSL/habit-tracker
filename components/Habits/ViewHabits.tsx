@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { GoalWithHabitHistory } from '../../src/types/habits';
 import habitsApi from '../../src/api/habits';
 import Link from '../../src/components/Link';
@@ -77,7 +78,7 @@ const calculateDates = (daysToShow: number) => {
   return days;
 };
 
-const defaultDataSavedToast = () => toast('Wau!');
+const defaultDataSavedToast = () => toast('Goals saved successfully!');
 
 type TimeView = 'daily' | 'weekly';
 
@@ -209,7 +210,18 @@ const ViewHabits = () => {
           )}
       </div>
 
-      <ToastContainer />
+      <ToastContainer
+        position='bottom-right'
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='dark'
+      />
     </div>
   );
 };

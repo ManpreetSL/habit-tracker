@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import { GoalWithHabitHistory } from '../../src/types/habits';
 import habitsApi from '../../src/api/habits';
 import Link from '../../src/components/Link';
@@ -76,6 +77,8 @@ const calculateDates = (daysToShow: number) => {
   return days;
 };
 
+const defaultDataSavedToast = () => toast('Wau!');
+
 type TimeView = 'daily' | 'weekly';
 
 const DAYS_TO_SHOW = 7;
@@ -86,6 +89,14 @@ const ViewHabits = () => {
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
   const dates = calculateDates(DAYS_TO_SHOW);
+
+  const saveDefaultData = () => {
+    habitsApi
+      .saveDefaultData()
+      .then(defaultDataSavedToast)
+      .then(habitsApi.getHabits)
+      .then(setHabitsData);
+  };
 
   // Now fetch the data based on the number of days to show
   // We don't want to fetch all habits data, as it would be inefficient to pull in potentially years' worth of data
@@ -165,6 +176,8 @@ const ViewHabits = () => {
       </header>
 
       <div css={styles.habitsContainer}>
+        <Button onClick={saveDefaultData}>save default habits</Button>
+        
         {timeView === 'weekly' && (
           <HabitWeeklyView
             goals={habitsData}
@@ -194,6 +207,8 @@ const ViewHabits = () => {
             ))
           )}
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

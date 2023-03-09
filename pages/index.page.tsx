@@ -4,10 +4,7 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Habits from '../components/Habits';
-import { ToastContainer, toast } from 'react-toastify';
 import Link from '../src/components/Link';
-import habitsApi from '../src/api/habits';
-import Button from '../components/Button';
 import 'react-toastify/dist/ReactToastify.css';
 
 export async function getStaticProps({ locale = 'en' }) {
@@ -67,12 +64,6 @@ const styles = {
   }),
 };
 
-const defaultDataSavedToast = () => toast('Wau!');
-
-const saveDefaultData = () => {
-  habitsApi.saveDefaultData().then(defaultDataSavedToast);
-};
-
 const Home = () => {
   const { t } = useTranslation();
 
@@ -87,8 +78,6 @@ const Home = () => {
       <main css={styles.main}>
         <h1 css={styles.title}>{t('app:welcome')}</h1>
         <Habits />
-
-        <Button onClick={saveDefaultData}>save default habits</Button>
 
         <p>
           <Link href='/about'>{t('app:links.about')}</Link>
@@ -120,7 +109,6 @@ const Home = () => {
           </span>
         </a>
       </footer>
-      <ToastContainer />
     </div>
   );
 };

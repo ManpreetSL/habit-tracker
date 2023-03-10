@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { Global, css } from '@emotion/react';
 import { appWithTranslation } from 'next-i18next';
+import UserContext from '../src/services/auth/UserContext';
 
 const globalStyles = css({
   '*': {
@@ -27,11 +28,17 @@ const globalStyles = css({
   },
 });
 
+const defaultUser = {
+  name: 'Natsu',
+  email: 'natsu@fairytail.guild',
+  password: 'LucyIsTheBest',
+};
+
 const App = ({ Component, pageProps }: AppProps) => (
-    <>
-      <Global styles={globalStyles} />
-      <Component {...pageProps} />
-    </>
-  );
+  <UserContext.Provider value={defaultUser}>
+    <Global styles={globalStyles} />
+    <Component {...pageProps} />
+  </UserContext.Provider>
+);
 
 export default appWithTranslation(App);

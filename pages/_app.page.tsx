@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { Global, css } from '@emotion/react';
 import { appWithTranslation } from 'next-i18next';
+import { useMemo, useState } from 'react';
 import UserContext from '../src/services/auth/UserContext';
 
 const globalStyles = css({
@@ -28,17 +29,21 @@ const globalStyles = css({
   },
 });
 
-const defaultUser = {
-  name: 'Natsu',
-  email: 'natsu@fairytail.guild',
-  password: 'LucyIsTheBest',
+const App = ({ Component, pageProps }: AppProps) => {
+  const [user, setUser] = useState(null);
+  const userContextValue = useMemo(
+    () => ({
+      user,
+      setUser,
+    }),
+    [user]
+  );
+
+  return (
+    <UserContext.Provider value={userContextValue}>
+      <Global styles={globalStyles} />
+      <Component {...pageProps} />
+    </UserContext.Provider>
+  );
 };
-
-const App = ({ Component, pageProps }: AppProps) => (
-  <UserContext.Provider value={defaultUser}>
-    <Global styles={globalStyles} />
-    <Component {...pageProps} />
-  </UserContext.Provider>
-);
-
 export default appWithTranslation(App);

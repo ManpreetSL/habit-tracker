@@ -1,14 +1,10 @@
-import { useContext } from 'react';
 import Button from '../components/Button';
-import { signUp } from '../src/services/auth/manage-users';
-import UserContext from '../src/services/auth/UserContext';
+import useAuth from '../src/services/auth/useAuth';
 
 const SignUp = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, signUp } = useAuth();
 
-  const handleSignUp = async () => {
-    signUp('Natsu@fairytail.guild', 'FairyHeart1313').then(setUser);
-  };
+  const handleSignUp = () => signUp('Laxus@fairytail.guild', 'FairyHeart1313');
 
   return (
     <div>

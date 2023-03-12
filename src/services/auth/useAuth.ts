@@ -7,13 +7,14 @@ import { AuthContext } from './AuthContext';
  * It should get the user info and methods from the context provider - put all logic there
  */
 const useAuth = () => {
-  const { user, loading, signIn, signOut } = useContext(AuthContext);
+  const { user, loading, signUp, signIn, signOut } = useContext(AuthContext);
 
   const isLoading = loading;
 
   return {
     user,
     isLoading,
+    signUp,
     signIn,
     signOut,
   };

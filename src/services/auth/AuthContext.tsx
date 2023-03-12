@@ -1,11 +1,12 @@
 import { User } from 'firebase/auth';
 import { createContext, ReactNode, useState, useEffect, useMemo } from 'react';
 import { auth } from './firebase';
-import { signIn, signOut } from './manage-users';
+import { signUp, signIn, signOut } from './manage-users';
 
 const AuthContext = createContext({
   user: null as User | null,
   loading: false,
+  signUp,
   signIn,
   signOut,
 });
@@ -38,7 +39,7 @@ const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   }, []);
 
   const authContextValue = useMemo(
-    () => ({ user, loading, signIn, signOut }),
+    () => ({ user, loading, signUp, signIn, signOut }),
     [loading, user]
   );
 

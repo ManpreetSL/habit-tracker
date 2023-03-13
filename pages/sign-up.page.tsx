@@ -1,8 +1,10 @@
 import Button from '../components/Button';
 import useAuth from '../src/services/auth/useAuth';
+import useUser from '../src/services/auth/useUser';
 
 const SignUp = () => {
-  const { user, signUp } = useAuth();
+  const { signUp } = useAuth();
+  const { user } = useUser();
 
   const handleSignUp = () => signUp('Laxus@fairytail.guild', 'FairyHeart1313');
 

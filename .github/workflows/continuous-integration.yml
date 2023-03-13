@@ -45,6 +45,8 @@ jobs:
       - run: npm test
 
   build:
+    environment:
+      name: Preview
     name: Build project
     runs-on: ubuntu-22.04
     steps:

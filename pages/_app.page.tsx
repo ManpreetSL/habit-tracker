@@ -21,6 +21,8 @@ const globalStyles = css({
     margin: 0,
     fontFamily:
       '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+    color: '#fff',
+    backgroundColor: '#292735',
   },
   a: {
     color: 'inherit',

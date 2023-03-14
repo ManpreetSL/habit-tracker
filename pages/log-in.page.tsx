@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { FormEvent, ReactNode, useState } from 'react';
 import Button from '../components/Button';
+import Link from '../src/components/Link';
 import useAuth from '../src/services/auth/useAuth';
 import useUser from '../src/services/auth/useUser';
 
@@ -27,6 +28,13 @@ const styles = {
       margin: '0.7em 0',
     }),
   }),
+
+  error: css({
+    backgroundColor: '#CF6679',
+    padding: '0.7em',
+    margin: '0.4em 0',
+    color: '#000',
+  }),
 };
 
 type FormType = {
@@ -39,6 +47,7 @@ const LogIn = () => {
     email: '',
     password: '',
   });
+  const [error, setError] = useState('');
 
   const { signIn, signOut } = useAuth();
   const { user } = useUser();
@@ -51,13 +60,33 @@ const LogIn = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleLogIn = () => {
-    signIn('Natsu@fairytail.guild', 'FairyHeart1313');
+  const handleLogIn = (event: FormEvent) => {
+    event.preventDefault();
+    const { email = '', password = '' } = formData;
+    signIn(email, password)
+      .then((message) => {
+        console.log(message);
+      })
+      .catch(({ message }) => setError(message));
   };
 
   const handleSignOut = () => {
     signOut();
+    // router.push('/');
   };
+
+  let errorDisplay = '' as ReactNode;
+  if (error === 'Firebase: Error (auth/invalid-email).')
+    errorDisplay = 'Invalid email';
+  else if (error === 'Firebase: Error (auth/wrong-password).')
+    errorDisplay = 'Invalid password';
+  else if (error === 'Firebase: Error (auth/user-not-found).')
+    errorDisplay = (
+      <>
+        Email not found. Did you mean to <Link href='/sign-up'>sign up</Link>?
+      </>
+    );
+  else errorDisplay = 'Please try again.';
 
   return (
     <div css={styles.container}>
@@ -91,6 +120,7 @@ const LogIn = () => {
               required
             />
           </label>
+          {error ? <span css={styles.error}>Error: {errorDisplay}</span> : null}
           <Button onClick={handleLogIn}>Log In</Button>
         </form>
       )}

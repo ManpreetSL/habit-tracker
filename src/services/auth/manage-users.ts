@@ -24,10 +24,7 @@ const signIn = (email: string, password: string) =>
       const { user } = userCredential;
       return user;
     })
-    .catch((error) => {
-      console.error('Sign in error:', error);
-      return null;
-    });
+    .catch((error) => Promise.reject(error));
 
 const signOut = () =>
   signOutFirebase(auth).catch((error) => console.error(error));

@@ -38,8 +38,8 @@ const styles = {
 };
 
 type FormType = {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
 };
 
 const LogIn = () => {
@@ -62,7 +62,7 @@ const LogIn = () => {
 
   const handleLogIn = (event: FormEvent) => {
     event.preventDefault();
-    const { email = '', password = '' } = formData;
+    const { email, password } = formData;
     signIn(email, password)
       .then((message) => {
         console.log(message);

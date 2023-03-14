@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { FormEvent, ReactNode, useState } from 'react';
 import Button from '../components/Button';
+import Link from '../src/components/Link';
 import useAuth from '../src/services/auth/useAuth';
 import useUser from '../src/services/auth/useUser';
 
@@ -22,17 +23,22 @@ const styles = {
       width: '100%',
     }),
 
-    label: css({}),
-
     button: css({
       margin: '0.7em 0',
     }),
   }),
+
+  error: css({
+    backgroundColor: '#CF6679',
+    padding: '0.7em',
+    margin: '0.4em 0',
+    color: '#000',
+  }),
 };
 
 type FormType = {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
 };
 
 const SignUp = () => {
@@ -40,6 +46,7 @@ const SignUp = () => {
     email: '',
     password: '',
   });
+  const [error, setError] = useState('');
 
   const { signUp } = useAuth();
   const { user } = useUser();
@@ -52,7 +59,26 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSignUp = () => signUp('Laxus@fairytail.guild', 'FairyHeart1313');
+  const handleSignUp = (event: FormEvent) => {
+    event.preventDefault();
+    const { email, password } = formData;
+    signUp(email, password).catch(({ message }) => setError(message));
+  };
+
+  let errorDisplay = '' as ReactNode;
+  if (
+    error ===
+    'Firebase: Password should be at least 6 characters (auth/weak-password).'
+  )
+    errorDisplay = 'Password should be at least 6 characters';
+  else if (error === 'Firebase: Error (auth/email-already-in-use).')
+    errorDisplay = (
+      <>
+        Email already in use. Did you want to{' '}
+        <Link href='/log-in'>sign in</Link> instead?
+      </>
+    );
+  else errorDisplay = 'Error. Please try again.';
 
   return (
     <div css={styles.container}>
@@ -83,6 +109,7 @@ const SignUp = () => {
               required
             />
           </label>
+          {error ? <span css={styles.error}>Error: {errorDisplay}</span> : null}
           <Button type='submit'>Sign Up</Button>
         </form>
       )}

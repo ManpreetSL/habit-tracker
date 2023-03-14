@@ -9,7 +9,7 @@ type User = {
 
 type UserContextParams = {
   user: User | null;
-} | null;
+};
 
 const UserContext = createContext<UserContextParams>({
   user: null,

@@ -36,7 +36,10 @@ type FormType = {
 };
 
 const SignUp = () => {
-  const [formData, setFormData] = useState<FormType>({});
+  const [formData, setFormData] = useState<FormType>({
+    email: '',
+    password: '',
+  });
 
   const { signUp } = useAuth();
   const { user } = useUser();

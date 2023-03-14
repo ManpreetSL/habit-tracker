@@ -39,7 +39,7 @@ const UserProvider = ({ children, ...props }: UserProviderProps) => {
   // Extract what we want from the authUser and return it as a user here
   setUser(formatUser(authUser));
 
-  const userContextValue = useMemo(() => ({ user }), []);
+  const userContextValue = useMemo(() => ({ user }), [user]);
 
   return (
     <UserContext.Provider value={userContextValue} {...props}>

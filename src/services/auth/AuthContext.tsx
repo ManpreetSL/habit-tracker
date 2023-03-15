@@ -17,20 +17,20 @@ const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleAuthStateChanged = async (authState: User | null) => {
-    if (!authState) {
-      setUser(null);
-      setLoading(false);
-    } else {
-      setLoading(true);
-      setUser(authState);
-
-      // Emulate a delay to show the loading screen whilst we work on customising it
-      setTimeout(() => setLoading(false), 3000);
-    }
-  };
-
   useEffect(() => {
+    const handleAuthStateChanged = async (authState: User | null) => {
+      if (!authState) {
+        setUser(null);
+        setLoading(false);
+      } else {
+        setLoading(true);
+        setUser(authState);
+
+        // Emulate a delay to show the loading screen whilst we work on customising it
+        setTimeout(() => setLoading(false), 3000);
+      }
+    };
+
     const unsubscribe = auth.onAuthStateChanged(handleAuthStateChanged);
 
     return () => {

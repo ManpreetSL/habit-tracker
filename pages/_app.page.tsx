@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import { Global, css } from '@emotion/react';
 import { appWithTranslation } from 'next-i18next';
 import { AuthProvider } from '../src/services/auth/AuthContext';
+import { UserProvider } from '../src/services/auth/UserContext';
 
 const globalStyles = css({
   '*': {
@@ -32,8 +33,10 @@ const globalStyles = css({
 
 const App = ({ Component, pageProps }: AppProps) => (
   <AuthProvider>
-    <Global styles={globalStyles} />
-    <Component {...pageProps} />
+    <UserProvider>
+      <Global styles={globalStyles} />
+      <Component {...pageProps} />
+    </UserProvider>
   </AuthProvider>
 );
 

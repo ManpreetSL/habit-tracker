@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useMemo, useState } from 'react';
+import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import useAuth from './useAuth';
 
 type User = {
@@ -37,7 +37,9 @@ const UserProvider = ({ children, ...props }: UserProviderProps) => {
   const { user: authUser } = useAuth();
 
   // Extract what we want from the authUser and return it as a user here
-  setUser(formatUser(authUser));
+  useEffect(() => {
+    setUser(formatUser(authUser));
+  }, [authUser]);
 
   const userContextValue = useMemo(() => ({ user }), [user]);
 

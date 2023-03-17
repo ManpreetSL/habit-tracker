@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 import { FormEvent, ReactNode, useState } from 'react';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
@@ -51,6 +52,9 @@ const LogIn = () => {
 
   const { signIn, signOut } = useAuth();
   const { user } = useUser();
+  const router = useRouter();
+
+  if (user) router.push('/');
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -91,10 +95,7 @@ const LogIn = () => {
   return (
     <div css={styles.container}>
       {user ? (
-        <>
-          <p>{user.email} is already logged in</p>
-          <Button onClick={handleSignOut}>Sign out</Button>
-        </>
+        <p>{user.email} is already logged in</p>
       ) : (
         <form onSubmit={handleLogIn} css={styles.form}>
           <label htmlFor='email'>

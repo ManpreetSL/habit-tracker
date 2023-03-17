@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 import { FormEvent, ReactNode, useState } from 'react';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
@@ -50,6 +51,9 @@ const SignUp = () => {
 
   const { signUp } = useAuth();
   const { user } = useUser();
+  const router = useRouter();
+
+  if (user) router.push('/');
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

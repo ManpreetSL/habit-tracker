@@ -50,7 +50,7 @@ const LogIn = () => {
   });
   const [error, setError] = useState('');
 
-  const { signIn, signOut } = useAuth();
+  const { signIn } = useAuth();
   const { user } = useUser();
   const router = useRouter();
 
@@ -67,16 +67,7 @@ const LogIn = () => {
   const handleLogIn = (event: FormEvent) => {
     event.preventDefault();
     const { email, password } = formData;
-    signIn(email, password)
-      .then((message) => {
-        console.log(message);
-      })
-      .catch(({ message }) => setError(message));
-  };
-
-  const handleSignOut = () => {
-    signOut();
-    // router.push('/');
+    signIn(email, password).catch(({ message }) => setError(message));
   };
 
   let errorDisplay = '' as ReactNode;

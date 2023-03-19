@@ -7,7 +7,6 @@ import Link from '../src/components/Link';
 import ViewHabits from '../components/ViewHabits';
 import habitsApi from '../src/api/habits';
 import Button from '../components/Button';
-import useUser from '../src/services/auth/useUser';
 import AccountMenu from '../components/AccountMenu';
 
 export async function getStaticProps({ locale = 'en' }) {

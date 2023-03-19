@@ -1,10 +1,20 @@
 import { css } from '@emotion/react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { FormEvent, ReactNode, useState } from 'react';
+import { useTranslation } from 'next-i18next';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import useAuth from '../src/services/auth/useAuth';
 import useUser from '../src/services/auth/useUser';
+
+export async function getStaticProps({ locale = 'en' }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['auth'])),
+    },
+  };
+}
 
 const styles = {
   container: css({
@@ -49,6 +59,7 @@ const SignUp = () => {
   });
   const [error, setError] = useState('');
 
+  const { t } = useTranslation();
   const { signUp } = useAuth();
   const { user } = useUser();
   const router = useRouter();
@@ -86,6 +97,7 @@ const SignUp = () => {
 
   return (
     <div css={styles.container}>
+      <h1>{t('auth:signUp')}</h1>
       {user ? (
         `${user.email} is already logged in`
       ) : (

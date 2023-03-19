@@ -2,6 +2,18 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from './index.page';
 
+jest.mock('firebase/auth', () => ({
+  getAuth: jest.fn(),
+}));
+
+jest.mock('firebase/analytics', () => ({
+  getAnalytics: jest.fn(),
+}));
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn().mockReturnValue({}),
+}));
+
 describe('<Home />', () => {
   it('should render without crashing', async () => {
     // Arrange

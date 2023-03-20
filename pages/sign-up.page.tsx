@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { FormEvent, ReactNode, useState } from 'react';
-import { useTranslation } from 'next-i18next';
+import { Trans, useTranslation } from 'next-i18next';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import useAuth from '../src/services/auth/useAuth';
@@ -11,7 +11,7 @@ import useUser from '../src/services/auth/useUser';
 export async function getStaticProps({ locale = 'en' }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['auth'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth'])),
     },
   };
 }
@@ -85,13 +85,18 @@ const SignUp = () => {
     error ===
     'Firebase: Password should be at least 6 characters (auth/weak-password).'
   )
-    errorDisplay = 'Password should be at least 6 characters';
+    errorDisplay = t('auth:errors.passwordLength');
   else if (error === 'Firebase: Error (auth/email-already-in-use).')
     errorDisplay = (
-      <>
-        Email already in use. Did you want to{' '}
-        <Link href='/log-in'>sign in</Link> instead?
-      </>
+      <Trans
+        t={t}
+        i18nKey='auth:errors.emailInUse'
+        components={[
+          <Link key={0} href='/log-in'>
+            sign in
+          </Link>,
+        ]}
+      />
     );
   else errorDisplay = 'Error. Please try again.';
 
@@ -103,19 +108,19 @@ const SignUp = () => {
       ) : (
         <form onSubmit={handleSignUp} css={styles.form}>
           <label htmlFor='email'>
-            Email:
+            {t('auth:email')}:
             <input
               type='email'
               name='email'
               id='email'
               value={formData.email}
               onChange={handleInputChange}
-              placeholder='me@example.com'
+              placeholder={t('auth:placeholders.email') || ''}
               required
             />
           </label>
           <label htmlFor='password'>
-            Password:
+            {t('auth:password')}:
             <input
               type='password'
               name='password'
@@ -125,8 +130,12 @@ const SignUp = () => {
               required
             />
           </label>
-          {error ? <span css={styles.error}>Error: {errorDisplay}</span> : null}
-          <Button type='submit'>Sign Up</Button>
+          {error ? (
+            <span css={styles.error}>
+              {t('common:errorPrefix')} {errorDisplay}
+            </span>
+          ) : null}
+          <Button type='submit'>{t('auth:signUp')}</Button>
         </form>
       )}
     </div>

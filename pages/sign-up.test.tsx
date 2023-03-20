@@ -34,10 +34,10 @@ describe('SignUp()', () => {
     const user = userEvent.setup();
     render(<SignUp />);
 
-    const usernameInput = screen.getByLabelText('Email:', {
+    const usernameInput = screen.getByLabelText('auth:email:', {
       selector: 'input',
     });
-    const passwordInput = screen.getByLabelText('Password:', {
+    const passwordInput = screen.getByLabelText('auth:password:', {
       selector: 'input',
     });
 

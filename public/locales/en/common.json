@@ -7,5 +7,7 @@
     "logo": ".SHIFT logo"
   },
   "dayLeft": "1 day left",
-  "daysLeft": "{{ quantity }} days left"
+  "daysLeft": "{{ quantity }} days left",
+  "errorPrefix": "Error:",
+  "email": "Email"
 }

@@ -6,17 +6,15 @@ import {
 import { auth } from './firebase';
 
 const signUp = (email: string, password: string) =>
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => userCredential.user)
-    .catch((error) => Promise.reject(error));
+  createUserWithEmailAndPassword(auth, email, password).then(
+    (userCredential) => userCredential.user
+  );
 
 const signIn = (email: string, password: string) =>
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const { user } = userCredential;
-      return user;
-    })
-    .catch((error) => Promise.reject(error));
+  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    const { user } = userCredential;
+    return user;
+  });
 
 const signOut = () =>
   signOutFirebase(auth).catch((error) => console.error(error));

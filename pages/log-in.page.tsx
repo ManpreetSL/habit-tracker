@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { FormEvent, ReactNode, useState } from 'react';
-import { useTranslation } from 'next-i18next';
+import { Trans, useTranslation } from 'next-i18next';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import useAuth from '../src/services/auth/useAuth';
@@ -60,7 +60,7 @@ const LogIn = () => {
   });
   const [error, setError] = useState('');
 
-  const { t } = useTranslation(['auth']);
+  const { t } = useTranslation(['common', 'auth']);
   const { signIn } = useAuth();
   const { user } = useUser();
   const router = useRouter();
@@ -83,16 +83,22 @@ const LogIn = () => {
 
   let errorDisplay = '' as ReactNode;
   if (error === 'Firebase: Error (auth/invalid-email).')
-    errorDisplay = 'Invalid email';
+    errorDisplay = t('auth:invalidEmail');
   else if (error === 'Firebase: Error (auth/wrong-password).')
-    errorDisplay = 'Invalid password';
+    errorDisplay = t('auth:invalidPassword');
   else if (error === 'Firebase: Error (auth/user-not-found).')
     errorDisplay = (
-      <>
-        Email not found. Did you mean to <Link href='/sign-up'>sign up</Link>?
-      </>
+      <Trans
+        t={t}
+        i18nKey='auth:errors.userNotFound'
+        components={[
+          <Link key={0} href='/sign-up'>
+            sign up
+          </Link>,
+        ]}
+      />
     );
-  else errorDisplay = 'Please try again.';
+  else errorDisplay = t('auth:tryAgain');
 
   return (
     <div css={styles.container}>
@@ -102,19 +108,19 @@ const LogIn = () => {
       ) : (
         <form onSubmit={handleLogIn} css={styles.form}>
           <label htmlFor='email'>
-            Email:
+            {t('auth:email')}:
             <input
               type='email'
               name='email'
               id='email'
               value={formData.email}
               onChange={handleInputChange}
-              placeholder='me@example.com'
+              placeholder={t('auth:placeholders.email') || ''}
               required
             />
           </label>
           <label htmlFor='password'>
-            Password:
+            {t('auth:password')}:
             <input
               type='password'
               name='password'
@@ -124,8 +130,12 @@ const LogIn = () => {
               required
             />
           </label>
-          {error ? <span css={styles.error}>Error: {errorDisplay}</span> : null}
-          <Button onClick={handleLogIn}>Log In</Button>
+          {error ? (
+            <span css={styles.error}>
+              {t('common:errorPrefix')} {errorDisplay}
+            </span>
+          ) : null}
+          <Button onClick={handleLogIn}>{t('auth:signIn')}</Button>
         </form>
       )}
     </div>

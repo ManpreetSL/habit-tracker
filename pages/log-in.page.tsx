@@ -11,7 +11,7 @@ import useUser from '../src/services/auth/useUser';
 export async function getStaticProps({ locale = 'en' }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['auth'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth'])),
     },
   };
 }

@@ -134,6 +134,7 @@ const SignUp = () => {
         ) : null}
         <Button type='submit'>{t('auth:signUp')}</Button>
       </form>
+      <Button onClick={() => router.back()}>{t('common:back')}</Button>
     </div>
   );
 };

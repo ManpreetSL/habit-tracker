@@ -98,4 +98,14 @@ describe('<LogIn />', () => {
     expect(useUser).toHaveBeenCalled();
     expect(useRouter().push).toHaveBeenCalledWith('/');
   });
+
+  it('should go back to the previous page when a user presses the back button', async () => {
+    const user = userEvent.setup();
+    render(<LogIn />);
+    const backButton = screen.getByRole('button', { name: 'common:back' });
+
+    await user.click(backButton);
+
+    expect(useRouter().back).toHaveBeenCalled();
+  });
 });

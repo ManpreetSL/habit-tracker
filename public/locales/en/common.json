@@ -9,5 +9,6 @@
   "dayLeft": "1 day left",
   "daysLeft": "{{ quantity }} days left",
   "errorPrefix": "Error:",
-  "email": "Email"
+  "email": "Email",
+  "back": "Back"
 }

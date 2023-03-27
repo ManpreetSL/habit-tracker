@@ -134,6 +134,8 @@ const LogIn = () => {
         ) : null}
         <Button onClick={handleLogIn}>{t('auth:signIn')}</Button>
       </form>
+
+      <Button onClick={() => router.back()}>{t('common:back')}</Button>
     </div>
   );
 };

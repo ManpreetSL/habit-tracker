@@ -33,7 +33,9 @@ describe('<LogIn />', () => {
     await user.click(submitButton);
 
     expect(signIn).toHaveBeenCalled();
-    expect(await screen.findByText(/auth:invalidEmail/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/auth:errors.invalidEmail/)
+    ).toBeInTheDocument();
   });
 
   it('should show an error message if an invalid password is entered', async () => {
@@ -57,7 +59,9 @@ describe('<LogIn />', () => {
     await user.click(submitButton);
 
     expect(signIn).toHaveBeenCalled();
-    expect(await screen.findByText(/auth:invalidPassword/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/auth:errors.invalidPassword/)
+    ).toBeInTheDocument();
   });
 
   it('should show an error message if the email is not associated to an account', async () => {

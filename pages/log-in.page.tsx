@@ -83,9 +83,9 @@ const LogIn = () => {
 
   let errorDisplay = '' as ReactNode;
   if (error === 'Firebase: Error (auth/invalid-email).')
-    errorDisplay = t('auth:invalidEmail');
+    errorDisplay = t('auth:errors.invalidEmail');
   else if (error === 'Firebase: Error (auth/wrong-password).')
-    errorDisplay = t('auth:invalidPassword');
+    errorDisplay = t('auth:errors.invalidPassword');
   else if (error === 'Firebase: Error (auth/user-not-found).')
     errorDisplay = (
       <Trans
@@ -98,7 +98,7 @@ const LogIn = () => {
         ]}
       />
     );
-  else errorDisplay = t('auth:tryAgain');
+  else errorDisplay = t('auth:errors.tryAgain');
 
   return (
     <div css={styles.container}>

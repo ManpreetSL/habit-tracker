@@ -16,29 +16,6 @@ jest.mock('firebase/auth', () => ({
   createUserWithEmailAndPassword: jest.fn().mockResolvedValue({}),
 }));
 
-jest.mock('firebase/analytics', () => ({
-  getAnalytics: jest.fn(),
-}));
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    pathname: '/',
-    query: '',
-    asPath: '',
-    push: jest.fn(),
-    events: {
-      on: jest.fn(),
-      off: jest.fn(),
-    },
-    beforePopState: jest.fn(() => null),
-    prefetch: jest.fn(() => null),
-  }),
-}));
-
-jest.mock('../src/services/auth/useUser', () =>
-  jest.fn().mockReturnValue({ user: null })
-);
-
 const performSignUp = async () => {
   const user = userEvent.setup();
   render(<SignUp />);

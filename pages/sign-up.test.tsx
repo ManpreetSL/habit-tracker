@@ -1,10 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useRouter } from 'next/router';
 import { signUp } from '../src/services/auth/manage-users';
+import useUser from '../src/services/auth/useUser';
 import SignUp from './sign-up.page';
 
 jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(),
+  getAuth: jest.fn().mockReturnValue({
+    onAuthStateChanged: jest.fn().mockImplementation((callback) => {
+      callback({ uid: 'asdfaxz', email: 'asdf@gmail.com' });
+      return jest.fn();
+    }),
+  }),
+
   createUserWithEmailAndPassword: jest.fn().mockResolvedValue({}),
 }));
 
@@ -13,14 +21,41 @@ jest.mock('firebase/analytics', () => ({
 }));
 
 jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({}),
+  useRouter: jest.fn().mockReturnValue({
+    pathname: '/',
+    query: '',
+    asPath: '',
+    push: jest.fn(),
+    events: {
+      on: jest.fn(),
+      off: jest.fn(),
+    },
+    beforePopState: jest.fn(() => null),
+    prefetch: jest.fn(() => null),
+  }),
 }));
 
-jest.mock('../src/services/auth/manage-users', () => ({
-  signUp: jest
-    .fn()
-    .mockRejectedValue('Firebase: Error (auth/email-already-in-use).'),
-}));
+jest.mock('../src/services/auth/useUser', () =>
+  jest.fn().mockReturnValue({ user: null })
+);
+
+const performSignUp = async () => {
+  const user = userEvent.setup();
+  render(<SignUp />);
+
+  const usernameInput = screen.getByLabelText('auth:email:', {
+    selector: 'input',
+  });
+  const passwordInput = screen.getByLabelText('auth:password:', {
+    selector: 'input',
+  });
+
+  const submitButton = screen.getByRole('button', { name: 'auth:signUp' });
+
+  await user.type(usernameInput, 'Laxus@FairyTail.guild');
+  await user.type(passwordInput, 'Jellaaaal1212');
+  await user.click(submitButton);
+};
 
 describe('SignUp()', () => {
   it('should render without crashing', () => {
@@ -30,38 +65,34 @@ describe('SignUp()', () => {
   });
 
   it('should show an error message if the email address already has an existing account associated with it', async () => {
-    const user = userEvent.setup();
-    render(<SignUp />);
+    (signUp as jest.Mock).mockRejectedValue(
+      new Error('Firebase: Error (auth/email-already-in-use).')
+    );
 
-    const usernameInput = screen.getByLabelText('auth:email:', {
-      selector: 'input',
-    });
-    const passwordInput = screen.getByLabelText('auth:password:', {
-      selector: 'input',
-    });
-
-    const submitButton = screen.getByRole('button', { name: 'auth:signUp' });
-
-    await user.type(usernameInput, 'Laxus@FairyTail.guild');
-    await user.type(passwordInput, 'Jellaaaal1212');
-    await user.click(submitButton);
+    await performSignUp();
 
     expect(signUp).toHaveBeenCalled();
-    expect(signUp).rejects.toEqual(
-      'Firebase: Error (auth/email-already-in-use).'
-    );
-    setTimeout(() => {
-      expect(screen.queryByText(/auth:errors.emailInUse/i)).not.toBeNull();
-    }, 1000);
+    expect(
+      await screen.findByText(/auth:errors.emailInUse/i)
+    ).toBeInTheDocument();
   });
 
-  it.todo(
-    'should show an error message if an password with <6 characters is entered'
-  );
+  it('should show an error message if an password with <6 characters is entered', async () => {
+    (signUp as jest.Mock).mockRejectedValue(
+      new Error(
+        'Firebase: Password should be at least 6 characters (auth/weak-password).'
+      )
+    );
+    await performSignUp();
+    expect(signUp).toHaveBeenCalled();
 
-  it.todo('should successfully log in an existing user');
+    const errorMessage = await screen.findByText(/auth:errors.passwordLength/i);
 
-  it('should redirect to the homepage after successfully signing in', async () => {
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should sign up a user when submitting the form', async () => {
+    (signUp as jest.Mock).mockResolvedValue('');
     const user = userEvent.setup();
     render(<SignUp />);
 
@@ -78,6 +109,15 @@ describe('SignUp()', () => {
     await user.type(passwordInput, 'Jellaaaal1212');
     await user.click(submitButton);
 
-    expect(window.location.pathname).toBe('/');
+    expect(signUp).toHaveBeenCalled();
+  });
+
+  it('should redirect to the homepage if a user is signed in', async () => {
+    (useUser as jest.Mock).mockReturnValue({ user: 'asd' });
+
+    render(<SignUp />);
+
+    expect(useUser).toHaveBeenCalled();
+    expect(useRouter().push).toHaveBeenCalledWith('/');
   });
 });

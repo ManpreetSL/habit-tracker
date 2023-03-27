@@ -103,41 +103,37 @@ const SignUp = () => {
   return (
     <div css={styles.container}>
       <h1>{t('auth:signUp')}</h1>
-      {user ? (
-        `${user.email} is already logged in`
-      ) : (
-        <form onSubmit={handleSignUp} css={styles.form}>
-          <label htmlFor='email'>
-            {t('auth:email')}:
-            <input
-              type='email'
-              name='email'
-              id='email'
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder={t('auth:placeholders.email') || ''}
-              required
-            />
-          </label>
-          <label htmlFor='password'>
-            {t('auth:password')}:
-            <input
-              type='password'
-              name='password'
-              id='password'
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          {error ? (
-            <span css={styles.error}>
-              {t('common:errorPrefix')} {errorDisplay}
-            </span>
-          ) : null}
-          <Button type='submit'>{t('auth:signUp')}</Button>
-        </form>
-      )}
+      <form onSubmit={handleSignUp} css={styles.form}>
+        <label htmlFor='email'>
+          {t('auth:email')}:
+          <input
+            type='email'
+            name='email'
+            id='email'
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder={t('auth:placeholders.email') || ''}
+            required
+          />
+        </label>
+        <label htmlFor='password'>
+          {t('auth:password')}:
+          <input
+            type='password'
+            name='password'
+            id='password'
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        {error ? (
+          <span css={styles.error}>
+            {t('common:errorPrefix')} {errorDisplay}
+          </span>
+        ) : null}
+        <Button type='submit'>{t('auth:signUp')}</Button>
+      </form>
     </div>
   );
 };

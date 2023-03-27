@@ -103,41 +103,37 @@ const LogIn = () => {
   return (
     <div css={styles.container}>
       <h1>{t('auth:signIn')}</h1>
-      {user ? (
-        <p>{user.email} is already logged in</p>
-      ) : (
-        <form onSubmit={handleLogIn} css={styles.form}>
-          <label htmlFor='email'>
-            {t('auth:email')}:
-            <input
-              type='email'
-              name='email'
-              id='email'
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder={t('auth:placeholders.email') || ''}
-              required
-            />
-          </label>
-          <label htmlFor='password'>
-            {t('auth:password')}:
-            <input
-              type='password'
-              name='password'
-              id='password'
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          {error ? (
-            <span css={styles.error}>
-              {t('common:errorPrefix')} {errorDisplay}
-            </span>
-          ) : null}
-          <Button onClick={handleLogIn}>{t('auth:signIn')}</Button>
-        </form>
-      )}
+      <form onSubmit={handleLogIn} css={styles.form}>
+        <label htmlFor='email'>
+          {t('auth:email')}:
+          <input
+            type='email'
+            name='email'
+            id='email'
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder={t('auth:placeholders.email') || ''}
+            required
+          />
+        </label>
+        <label htmlFor='password'>
+          {t('auth:password')}:
+          <input
+            type='password'
+            name='password'
+            id='password'
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        {error ? (
+          <span css={styles.error}>
+            {t('common:errorPrefix')} {errorDisplay}
+          </span>
+        ) : null}
+        <Button onClick={handleLogIn}>{t('auth:signIn')}</Button>
+      </form>
     </div>
   );
 };

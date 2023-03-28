@@ -62,7 +62,7 @@ const ViewHabits = () => {
       .then(() => habitsApi.getHabits())
       .then(setHabitsData)
       .catch((error) =>
-        console.error('addHabitEntry encountered an issue', error)
+        logger.error('addHabitEntry encountered an issue', error)
       );
   };
 
@@ -72,7 +72,7 @@ const ViewHabits = () => {
       .then(() => habitsApi.getHabits())
       .then(setHabitsData)
       .catch((error) =>
-        console.error('removeHabitEntry encountered an issue', error)
+        logger.error('removeHabitEntry encountered an issue', error)
       );
   };
 

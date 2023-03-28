@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { v4 as uuidv4 } from 'uuid';
-import { AddEntryParams, HabitService } from '../types';
+import { AddEntryParams, HabitService, RemoveEntryParams } from '../types';
 import habitsData from '../../../../public/data/habits.json';
 import {
   Frequency,
@@ -101,7 +101,38 @@ const jsonHabitServiceFactory = (): HabitService => {
       .catch((error) => Promise.reject(error));
   };
 
-  return { addHabit, getHabits, addEntry, saveHabits, saveDefaultData };
+  const removeEntry = ({ entryId, habitId }: RemoveEntryParams) =>
+    getHabits()
+      .then((goals) =>
+        Promise.resolve(
+          goals.map((goal) => ({
+            ...goal,
+            habits: goal.habits.map((habit) => {
+              if (habit.id === habitId) {
+                return {
+                  ...habit,
+                  entries: habit.entries.filter(
+                    (entry) => entry.id !== entryId
+                  ),
+                };
+              }
+
+              return habit;
+            }, [] as HabitWithHistory[]),
+          }))
+        )
+      )
+      .then(saveHabits)
+      .catch((error) => Promise.reject(error));
+
+  return {
+    addHabit,
+    getHabits,
+    addEntry,
+    removeEntry,
+    saveHabits,
+    saveDefaultData,
+  };
 };
 
 export default jsonHabitServiceFactory;

@@ -68,7 +68,7 @@ const ViewHabits = () => {
 
   const removeHabitEntry = (entryId: string, habitId: string) => {
     habitsApi
-      .removeEntry(entryId, habitId)
+      .removeEntry({ entryId, habitId })
       .then(() => habitsApi.getHabits())
       .then(setHabitsData)
       .catch((error) =>

@@ -161,7 +161,7 @@ describe('JSON habit adapter', () => {
 
       // Act
       const entryId = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
-      await removeEntry(entryId, '1');
+      await removeEntry({ entryId, habitId: '1' });
 
       // Assert
       const [

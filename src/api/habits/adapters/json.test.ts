@@ -69,7 +69,7 @@ const habitsMockData = [
 
 describe('JSON habit adapter', () => {
   describe('getHabits()', () => {
-    it('should return null when local storage has no goals stored', async () => {
+    it('should return an empty array when local storage has no goals stored', async () => {
       const { getHabits } = jsonHabitFactory();
       localStorage.clear();
 
@@ -97,14 +97,14 @@ describe('JSON habit adapter', () => {
   });
 
   describe('addEntry()', () => {
-    it('should return a blank array when there are no goals', async () => {
+    it('should reject the Promise when there are no goals', async () => {
       const { getHabits, saveHabits, addEntry } = jsonHabitFactory();
       await saveHabits([]);
 
-      await addEntry({ habitId: '1234asdf' });
-      const results = await getHabits();
-
-      expect(results).toEqual([]);
+      expect(addEntry({ habitId: '1234asdf' })).rejects.toEqual(
+        new Error('Unable to find habit to add an entry to')
+      );
+      expect(await getHabits()).toEqual([]);
     });
 
     it('should add an entry when there is 1 goal with 1 habit and 0 entries', async () => {

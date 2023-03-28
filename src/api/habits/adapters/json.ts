@@ -82,8 +82,10 @@ const jsonHabitServiceFactory = (): HabitService => {
           }
         }
 
-        // if !habit
-        throw new Error('Unable to find habit to add an entry to');
+        // !habit
+        return Promise.reject(
+          new Error('Unable to find habit to add an entry to')
+        );
       })
 
       .then((goals) => saveHabits(goals))

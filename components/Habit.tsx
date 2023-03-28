@@ -83,7 +83,7 @@ const Habit = ({
   const { t } = useTranslation(['common', 'habit']);
 
   const todayEntries = getEntriesForToday(entries);
-  const isComplete = () => todayEntries.length >= 1;
+  const isComplete = todayEntries.length >= 1;
 
   const completionPercentage = getCompletionPercentage(
     checkCompletionQuantity(todayEntries),
@@ -91,7 +91,7 @@ const Habit = ({
   );
 
   const toggleComplete = () => {
-    if (todayEntries.length >= 1) onRemoveHabitEntry(todayEntries[0].id);
+    if (isComplete) onRemoveHabitEntry(todayEntries[0].id);
     else onAddHabitEntry();
   };
 

@@ -119,11 +119,11 @@ const Habit = ({
         <Button stylesProp={styles.completeButton} onClick={toggleComplete}>
           <Image
             src={
-              isComplete()
+              isComplete
                 ? '/images/habit-complete.svg'
                 : '/images/habit-incomplete.svg'
             }
-            alt={isComplete() ? t('habit:complete') : t('habit:incomplete')}
+            alt={isComplete ? t('habit:complete') : t('habit:incomplete')}
             width='32'
             height='32'
           />

@@ -98,7 +98,7 @@ const SignUp = () => {
         ]}
       />
     );
-  else errorDisplay = 'Error. Please try again.';
+  else errorDisplay = t('auth:errors.tryAgain');
 
   return (
     <div css={styles.container}>

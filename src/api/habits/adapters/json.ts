@@ -7,12 +7,11 @@ import {
   GoalWithHabitHistory,
   HabitWithHistory,
 } from '../../../types/habits';
-import logger from '../../../services/logger';
 
 type Response = typeof habitsData;
 
 const jsonHabitServiceFactory = (): HabitService => {
-  const addHabit = (): Promise<void> => Promise.resolve();
+  const addHabit = () => Promise.resolve('new id');
 
   const parseJsonHabits = (json: string) => {
     const jsonHabits = JSON.parse(json) as unknown as Response;
@@ -34,34 +33,25 @@ const jsonHabitServiceFactory = (): HabitService => {
     const localHabits = localStorage.getItem('habits');
     if (!localHabits) return Promise.resolve([]);
 
-    try {
-      return Promise.resolve(parseJsonHabits(localHabits));
-    } catch (error) {
-      logger.error('Error fetching habits');
-      return Promise.reject(new Error('Failed to fetch habits'));
-    }
+    return Promise.resolve(parseJsonHabits(localHabits)).catch((error) =>
+      Promise.reject(new Error('Failed to fetch habits', error))
+    );
   };
 
-  const saveHabits = (habits: GoalWithHabitHistory[]) => {
-    try {
-      localStorage.setItem('habits', JSON.stringify(habits));
-    } catch (error) {
-      return Promise.reject(
-        new Error('Failed to save habits to local storage.')
-      );
-    }
-
-    return Promise.resolve();
-  };
+  const saveHabits = (habits: GoalWithHabitHistory[]) =>
+    Promise.resolve(
+      localStorage.setItem('habits', JSON.stringify(habits))
+    ).catch((error) =>
+      Promise.reject(
+        new Error('Failed to save habits to local storage.', error)
+      )
+    );
 
   // Save a default set of habits to local storage
   const saveDefaultData = () =>
     fetch('../data/habits.json')
       .then((res) => res.json())
-      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
-      .then(() => Promise.resolve());
-      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))))
-      .then(() => Promise.resolve());
+      .then((json) => saveHabits(parseJsonHabits(JSON.stringify(json))));
 
   const addEntry = ({
     habitId,

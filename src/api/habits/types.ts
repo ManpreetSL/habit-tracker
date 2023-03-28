@@ -6,6 +6,11 @@ export type AddEntryParams = {
   quantity?: number;
 };
 
+export type RemoveEntryParams = {
+  entryId: string;
+  habitId: string;
+};
+
 export type HabitService = {
   save?: () => {};
   retrieve?: () => {};
@@ -16,5 +21,5 @@ export type HabitService = {
   saveHabits: (habits: GoalWithHabitHistory[]) => Promise<void>;
   saveDefaultData: () => Promise<void>;
   addEntry: ({ habitId, date, quantity }: AddEntryParams) => Promise<string>;
-  removeEntry: (entryId: string, habitId: string) => Promise<void>;
+  removeEntry: ({ entryId, habitId }: RemoveEntryParams) => Promise<void>;
 };

@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
+import { FaTrash } from 'react-icons/fa';
 import { HabitWithHistory } from '../../src/types/habits';
+import ButtonWithIcon from '../ButtonWithIcon';
 import CompleteButton from '../entries/CompleteButton';
 import {
   calculateCompletionPercentages,
@@ -54,6 +56,7 @@ type HabitDailyViewProps = {
   date: string;
   onAddHabitEntry: () => void;
   onRemoveHabitEntry: (entryId: string) => void;
+  onDeleteHabit: (habitId: string) => void;
 };
 
 const HabitDailyView = ({
@@ -62,6 +65,7 @@ const HabitDailyView = ({
   date,
   onAddHabitEntry,
   onRemoveHabitEntry,
+  onDeleteHabit,
 }: HabitDailyViewProps) => {
   const { t } = useTranslation(['common', 'habit']);
   const completionPercentagesByDay = calculateCompletionPercentages({
@@ -84,6 +88,12 @@ const HabitDailyView = ({
   return (
     <div css={styles.content}>
       <div css={styles.streakContainer}>
+        <ButtonWithIcon
+          altText='Delete'
+          onClick={() => onDeleteHabit(habitWithHistory.id)}
+        >
+          <FaTrash size={24} />
+        </ButtonWithIcon>
         <Image
           src='/images/fire.svg'
           alt={t('habit:alt.fire')}

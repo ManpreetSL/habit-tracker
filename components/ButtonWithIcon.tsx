@@ -1,23 +1,29 @@
 import { css } from '@emotion/react';
-import Image from 'next/image';
+import { ReactNode } from 'react';
 import Button from './Button';
 
 const styles = {
   iconStyle: css({
-    padding: '0.5em 0.7em',
+    padding: '0.5em 0.5em',
     background: 'none',
     border: 'none',
+    color: '#fff',
+    minHeight: '32px',
+    minWidth: '32px',
   }),
 };
 
 type IconProps = {
-  source: string;
+  source?: string;
   altText: string;
+  children: ReactNode;
+  dark?: boolean;
+  onClick?: () => void;
 };
 
-const ButtonWithIcon = ({ source, altText, ...props }: IconProps) => (
+const ButtonWithIcon = ({ source, altText, children, ...props }: IconProps) => (
   <Button stylesProp={styles.iconStyle} {...props}>
-    <Image src={source} alt={altText} width='32' height='32' />
+    {children}
   </Button>
 );
 

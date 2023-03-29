@@ -125,6 +125,15 @@ const ViewHabits = () => {
       );
   };
 
+  const deleteHabit = (habitId: string) =>
+    habitsApi
+      .deleteHabit(habitId)
+      .then(() => habitsApi.getHabits())
+      .then(setHabitsData)
+      .catch((error) =>
+        logger.error('deleteHabit encountered an issue', error)
+      );
+
   return (
     <div css={styles.container}>
       <Button stylesProp={styles.toggleTimeViewButton} onClick={toggleTimeView}>
@@ -180,6 +189,7 @@ const ViewHabits = () => {
                 onRemoveHabitEntry={(entryId) =>
                   removeHabitEntry(habitWithHistory.id, entryId)
                 }
+                onDeleteHabit={deleteHabit}
               />
             ))
           )}

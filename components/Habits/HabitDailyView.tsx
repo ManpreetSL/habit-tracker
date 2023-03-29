@@ -22,6 +22,14 @@ const styles = {
     gap: '8px',
   }),
 
+  deleteButton: css({
+    marginRight: '12px',
+    padding: '7px',
+    background: 'none',
+    border: 'none',
+    color: '#fff',
+  }),
+
   middleContainer: css({
     display: 'flex',
     flexDirection: 'column',
@@ -91,6 +99,7 @@ const HabitDailyView = ({
         <ButtonWithIcon
           altText='Delete'
           onClick={() => onDeleteHabit(habitWithHistory.id)}
+          stylesProp={styles.deleteButton}
         >
           <FaTrash size={24} />
         </ButtonWithIcon>

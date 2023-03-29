@@ -134,14 +134,28 @@ const jsonHabitServiceFactory = (): HabitService => {
       )
       .catch((error) => Promise.reject(error));
 
+  const deleteHabit = (habitId: string) =>
+    getHabits()
+      .then((goals) =>
+        Promise.resolve(
+          goals.map((goal) => ({
+            ...goal,
+            habits: goal.habits.filter((habit) => habit.id !== habitId),
+          }))
+        )
+      )
+      .then(saveHabits)
+      .catch((error) => Promise.reject(error));
+
   return {
     addHabit,
+    deleteHabit,
     getHabits,
     addEntry,
     removeEntry,
     saveHabits,
     saveDefaultData,
-    getHabitsFromDate
+    getHabitsFromDate,
   };
 };
 

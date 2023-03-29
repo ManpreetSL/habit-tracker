@@ -17,6 +17,7 @@ export type HabitService = {
   get?: () => {};
   set?: () => {};
   addHabit: () => Promise<string>;
+  deleteHabit: (habitId: string) => Promise<void>;
   getHabits: () => Promise<GoalWithHabitHistory[]>;
   getHabitsFromDate: (date: Date) => Promise<GoalWithHabitHistory[]>;
   saveHabits: (habits: GoalWithHabitHistory[]) => Promise<void>;

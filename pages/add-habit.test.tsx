@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import AddHabit from './add-habit';
+import AddHabit from './add-habit.page';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({}),

@@ -1,6 +1,6 @@
 import { SerializedStyles } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
-import ButtonWithIcon from '../ButtonWithIcon';
+import ButtonWithImage from '../ButtonWithImage';
 
 type CompleteButtonProps = {
   complete: boolean;
@@ -15,13 +15,13 @@ const CompleteButton = ({
   const { t } = useTranslation(['common', 'habit']);
 
   return complete ? (
-    <ButtonWithIcon
+    <ButtonWithImage
       source='/images/habit-complete.svg'
       altText={t('habit:complete')}
       {...props}
     />
   ) : (
-    <ButtonWithIcon
+    <ButtonWithImage
       source='/images/habit-incomplete.svg'
       altText={t('habit:incomplete')}
       {...props}

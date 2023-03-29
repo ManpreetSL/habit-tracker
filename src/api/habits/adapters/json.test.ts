@@ -174,4 +174,20 @@ describe('JSON habit adapter', () => {
       expect(entries.length).toBe(originalEntries.length - 1);
     });
   });
+
+  describe('deleteHabit()', () => {
+    it('should delete a habit, given a valid habit ID', async () => {
+      const { getHabits, saveHabits, deleteHabit } = jsonHabitFactory();
+      saveHabits(habitsMockData);
+      const originalHabits = habitsMockData[0].habits;
+
+      const habitIdToDelete = originalHabits[0].id;
+      await deleteHabit(habitIdToDelete);
+
+      const [{ habits }] = await getHabits();
+      const habit = habits.find(({ id }) => id === habitIdToDelete);
+      expect(habit).not.toBeDefined();
+      expect(habits.length).toBe(originalHabits.length - 1);
+    });
+  });
 });

@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { ReactNode } from 'react';
 import Button from './Button';
 
@@ -17,12 +17,19 @@ type IconProps = {
   source?: string;
   altText: string;
   children: ReactNode;
+  stylesProp?: SerializedStyles;
   dark?: boolean;
   onClick?: () => void;
 };
 
-const ButtonWithIcon = ({ source, altText, children, ...props }: IconProps) => (
-  <Button stylesProp={styles.iconStyle} {...props}>
+const ButtonWithIcon = ({
+  source,
+  altText,
+  children,
+  stylesProp,
+  ...props
+}: IconProps) => (
+  <Button stylesProp={{ ...styles.iconStyle, ...stylesProp }} {...props}>
     {children}
   </Button>
 );

@@ -105,9 +105,9 @@ const ViewHabits = () => {
     else setTimeView('daily');
   };
 
-  const addHabitEntry = (habitId: string) => {
+  const addHabitEntry = (habitId: string, date: Date) => {
     habitsApi
-      .addEntry({ habitId })
+      .addEntry({ habitId, date })
       .then(() => habitsApi.getHabits())
       .then(setHabitsData)
       .catch((error) =>
@@ -115,7 +115,7 @@ const ViewHabits = () => {
       );
   };
 
-  const removeHabitEntry = (entryId: string, habitId: string) => {
+  const removeHabitEntry = (habitId: string, entryId: string) => {
     habitsApi
       .removeEntry({ entryId, habitId })
       .then(() => habitsApi.getHabits())
@@ -157,7 +157,14 @@ const ViewHabits = () => {
 
       <div css={styles.habitsContainer}>
         {timeView === 'weekly' && (
-          <HabitWeeklyView goals={habitsData} dates={dates} />
+          <HabitWeeklyView
+            goals={habitsData}
+            dates={dates}
+            onAddHabitEntry={(habitId, date) => addHabitEntry(habitId, date)}
+            onRemoveHabitEntry={(habitId, entryId) =>
+              removeHabitEntry(habitId, entryId)
+            }
+          />
         )}
         {timeView === 'daily' &&
           habitsData.map(({ habits }) =>
@@ -167,9 +174,11 @@ const ViewHabits = () => {
                 habitWithHistory={habitWithHistory}
                 streak={habitWithHistory.streak}
                 date={dates[0].toDateString()}
-                onAddHabitEntry={() => addHabitEntry(habitWithHistory.id)}
+                onAddHabitEntry={() =>
+                  addHabitEntry(habitWithHistory.id, dates[0])
+                }
                 onRemoveHabitEntry={(entryId) =>
-                  removeHabitEntry(entryId, habitWithHistory.id)
+                  removeHabitEntry(habitWithHistory.id, entryId)
                 }
               />
             ))

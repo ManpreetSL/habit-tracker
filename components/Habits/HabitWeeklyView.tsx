@@ -1,8 +1,12 @@
 import { css } from '@emotion/react';
-import { GoalWithHabitHistory } from '../../src/types/habits';
+import { Entry, GoalWithHabitHistory } from '../../src/types/habits';
 
 import CompleteButton from '../entries/CompleteButton';
-import { calculateCompletionPercentages } from './utils';
+import {
+  calculateCompletionPercentages,
+  getEntriesForDay,
+  isBinaryHabit,
+} from './utils';
 
 const styles = {
   container: css({
@@ -54,10 +58,29 @@ const styles = {
 type HabitWeeklyViewProps = {
   goals: GoalWithHabitHistory[];
   dates: Date[];
+  onAddHabitEntry: (habitId: string, date: Date) => void;
+  onRemoveHabitEntry: (habitId: string, entryId: string) => void;
 };
 
-const HabitWeeklyView = ({ goals, dates }: HabitWeeklyViewProps) => {
+const HabitWeeklyView = ({
+  goals,
+  dates,
+  onAddHabitEntry,
+  onRemoveHabitEntry,
+}: HabitWeeklyViewProps) => {
   const dateStrings = dates.map((date) => date.toDateString());
+
+  const toggleComplete = (
+    isComplete: boolean,
+    date: Date,
+    habitId: string,
+    entries: Entry[]
+  ) => {
+    if (isComplete) {
+      const entriesToday = getEntriesForDay(entries, date.toDateString());
+      onRemoveHabitEntry(habitId, entriesToday[0].id);
+    } else onAddHabitEntry(habitId, date);
+  };
 
   return (
     <table css={styles.container}>
@@ -92,8 +115,18 @@ const HabitWeeklyView = ({ goals, dates }: HabitWeeklyViewProps) => {
 
                   return (
                     <td key={date.getDate()}>
-                      {isComplete ? (
-                        <CompleteButton complete />
+                      {isBinaryHabit(habitWithHistory) ? (
+                        <CompleteButton
+                          complete={isComplete}
+                          onClick={() =>
+                            toggleComplete(
+                              isComplete,
+                              date,
+                              habitWithHistory.id,
+                              habitWithHistory.entries
+                            )
+                          }
+                        />
                       ) : (
                         completionPercentage
                       )}

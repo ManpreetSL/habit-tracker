@@ -5,6 +5,11 @@ const styles = {
     padding: '0.5em 2em',
     color: '#000',
     backgroundColor: '#91E220',
+
+    ':hover': {
+      cursor: 'pointer',
+      filter: 'brightness(85%)',
+    },
   }),
 };
 

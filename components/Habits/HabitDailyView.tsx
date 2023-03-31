@@ -2,14 +2,17 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
+import { useState } from 'react';
 import { HabitWithHistory } from '../../src/types/habits';
 import ButtonWithIcon from '../ButtonWithIcon';
 import CompleteButton from '../entries/CompleteButton';
+import Modal from '../Modal';
 import {
   calculateCompletionPercentages,
   getEntriesForDay,
   isBinaryHabit,
 } from './utils';
+import Button from '../Button';
 
 const styles = {
   content: css({
@@ -28,6 +31,9 @@ const styles = {
     background: 'none',
     border: 'none',
     color: '#fff',
+  }),
+  modalActions: css({
+    marginTop: '1em',
   }),
 
   middleContainer: css({
@@ -81,6 +87,8 @@ const HabitDailyView = ({
     dates: [date],
   });
 
+  const [showModal, setShowModal] = useState(false);
+
   const entriesToday = getEntriesForDay(
     habitWithHistory.entries,
     new Date().toDateString()
@@ -93,12 +101,27 @@ const HabitDailyView = ({
     else onAddHabitEntry();
   };
 
+  const confirmDelete = () => setShowModal(true);
+
   return (
     <div css={styles.content}>
+      <Modal
+        show={showModal}
+        title='Confirm deletion'
+        onClose={() => setShowModal(false)}
+      >
+        Are you sure you want to delete habit: {habitWithHistory.name}?
+        <div css={styles.modalActions}>
+          <Button onClick={() => setShowModal(false)}>Cancel</Button>
+          <Button onClick={() => onDeleteHabit(habitWithHistory.id)}>
+            Delete
+          </Button>
+        </div>
+      </Modal>
       <div css={styles.streakContainer}>
         <ButtonWithIcon
           altText='Delete'
-          onClick={() => onDeleteHabit(habitWithHistory.id)}
+          onClick={confirmDelete}
           stylesProp={styles.deleteButton}
         >
           <FaTrash size={24} />

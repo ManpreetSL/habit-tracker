@@ -23,7 +23,7 @@ const styles = {
     textAlign: 'center',
     minHeight: '100vh',
     maxWidth: '100%',
-    padding: '4rem 0',
+    padding: '0',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -36,26 +36,15 @@ const styles = {
     maxWidth: '100%',
   }),
 
-  title: css({
-    margin: '24px 0px',
-    lineHeight: '1.15',
-    fontSize: '3rem',
-  }),
-
   links: css({
     display: 'flex',
     flexDirection: 'column',
   }),
 
-  logo: css({
-    height: '1em',
-    marginLeft: '0.5rem',
-  }),
-
   footer: css({
     display: 'flex',
     flex: 1,
-    maxHeight: 70,
+    maxHeight: '70px',
     padding: '2rem 0',
     borderTop: '1px solid #eaeaea',
     justifyContent: 'center',
@@ -75,7 +64,6 @@ const Home = () => {
       </Head>
 
       <main css={styles.main}>
-        <h1 css={styles.title}>{t('app:welcome')}</h1>
         <Habits />
 
         <p>

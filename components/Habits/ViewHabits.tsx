@@ -9,6 +9,7 @@ import Button from '../Button';
 import HabitDailyView from './HabitDailyView';
 import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
+import Header from '../Header';
 
 const styles = {
   container: css({
@@ -29,30 +30,13 @@ const styles = {
     position: 'relative',
   }),
 
-  toggleTimeViewButton: css({
-    position: 'absolute',
-    left: '8px',
-  }),
+  toggleTimeViewButton: css({}),
 
   addHabitButton: css({
     borderRadius: '7px',
-    position: 'absolute',
     padding: '0',
     height: '48px',
     width: '48px',
-    top: '65px',
-    right: '8px',
-    transform: 'translateY(-50%)',
-  }),
-
-  logoContainer: css({
-    height: '200px',
-    width: '100vw',
-    position: 'relative',
-  }),
-  logo: css({
-    maxHeight: '16vh',
-    maxWidth: '100vw',
   }),
 
   habitsContainer: css({
@@ -140,24 +124,13 @@ const ViewHabits = () => {
 
   return (
     <div css={styles.container}>
-      <Button stylesProp={styles.toggleTimeViewButton} onClick={toggleTimeView}>
-        {timeView}
-        <Image
-          src='/icons/add.svg'
-          alt={t('add-habit:title')}
-          width='32'
-          height='32'
-        />
-      </Button>
-      <header css={styles.header}>
-        <Image
-          css={styles.logo}
-          src='/logo.svg'
-          alt={t('common:alt.logo')}
-          fill
-        />
-        <Link href='/add-habit'>
-          <Button stylesProp={styles.addHabitButton}>
+      <Header
+        left={
+          <Button
+            stylesProp={styles.toggleTimeViewButton}
+            onClick={toggleTimeView}
+          >
+            {timeView}
             <Image
               src='/icons/add.svg'
               alt={t('add-habit:title')}
@@ -165,8 +138,30 @@ const ViewHabits = () => {
               height='32'
             />
           </Button>
-        </Link>
-      </header>
+        }
+        centre={
+          <Image
+            src='/logo.svg'
+            alt={t('common:alt.logo')}
+            width={250}
+            height={120}
+          />
+        }
+        right={
+          <Link href='/add-habit'>
+            <Button stylesProp={styles.addHabitButton}>
+              <Image
+                src='/icons/add.svg'
+                alt={t('add-habit:title')}
+                width='32'
+                height='32'
+              />
+            </Button>
+          </Link>
+        }
+      />
+
+      <header css={styles.header} />
 
       <div css={styles.habitsContainer}>
         {timeView === 'weekly' && (

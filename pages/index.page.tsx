@@ -5,8 +5,6 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Habits from '../components/Habits';
 import Link from '../src/components/Link';
-import habitsApi from '../src/api/habits';
-import Button from '../components/Button';
 
 export async function getStaticProps({ locale = 'en' }) {
   return {

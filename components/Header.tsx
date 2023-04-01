@@ -16,6 +16,7 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '12px 24px',
+    marginBottom: '48px',
 
     'div:nth-child(1), div:nth-child(3)': {
       display: 'flex',

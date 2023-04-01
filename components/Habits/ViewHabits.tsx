@@ -17,7 +17,6 @@ const styles = {
     maxWidth: '100%',
     height: '100vh',
     maxHeight: '100vh',
-    backgroundColor: '#111',
     margin: '0',
   }),
 

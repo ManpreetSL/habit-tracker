@@ -16,14 +16,9 @@ describe('<Home />', () => {
       status: 200,
     } as any);
 
-    const { unmount } = render(<Home />);
-
-    // Act
-    await screen.findByRole('heading');
+    render(<Home />);
 
     // Assert
-    expect(screen.getByRole('heading')).toHaveTextContent('app:welcome');
-
-    unmount();
+    expect(await screen.findByText('app:links.about')).toBeInTheDocument();
   });
 });

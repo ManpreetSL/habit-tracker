@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { ReactNode, MouseEvent } from 'react';
-import { ReactNode } from 'react';
+import useKey from '../src/hooks/useKey';
 import Button from './Button';
 
 const styles = {
@@ -49,7 +49,9 @@ const Modal = ({ children, show, onClose, title }: ModalProps) => {
       onClose();
     }
   };
-  
+
+  useKey('Escape', () => onClose());
+
   return show ? (
     <div css={styles.container} onClick={handleOnClick} role='presentation'>
       <div

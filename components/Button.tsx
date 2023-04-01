@@ -2,6 +2,9 @@ import { css, SerializedStyles } from '@emotion/react';
 
 const styles = {
   button: css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: '0.5em 2em',
     color: '#000',
     backgroundColor: '#91E220',

@@ -8,6 +8,7 @@ const styles = {
     alignItems: 'center',
     padding: '12px 24px',
     backgroundColor: '#444',
+    marginBottom: '48px',
 
     'div:nth-child(1), div:nth-child(3)': {
       flexGrow: 1,

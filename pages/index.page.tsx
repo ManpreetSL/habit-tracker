@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -18,7 +17,7 @@ export async function getStaticProps({ locale = 'en' }) {
 const styles = {
   container: css({
     boxSizing: 'border-box',
-    backgroundColor: '#0066ff',
+    backgroundColor: '#111',
     color: '#fff',
     textAlign: 'center',
     minHeight: '100vh',
@@ -34,11 +33,6 @@ const styles = {
   main: css({
     width: '100vw',
     maxWidth: '100%',
-  }),
-
-  links: css({
-    display: 'flex',
-    flexDirection: 'column',
   }),
 
   footer: css({
@@ -65,36 +59,12 @@ const Home = () => {
 
       <main css={styles.main}>
         <Habits />
-
-        <p>
-          <Link href='/about'>{t('app:links.about')}</Link>
-        </p>
-
-        <p css={styles.links}>
-          <Link href='/profile/Manpreet'>Manpreet Singh</Link>
-          <Link href='profile/Harjot'>Harjot Singh</Link>
-          <Link href='profile/Gurpreet'>Gurpreet Kaur</Link>
-          <Link href='/profile/Hardeep'>Hardeep Kaur</Link>
-          <br />
-        </p>
       </main>
 
       <footer css={styles.footer}>
-        <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {t('app:vercelPowered')}{' '}
-          <span css={styles.logo}>
-            <Image
-              src='/vercel.svg'
-              alt={t('app:images.vercel')}
-              width={72}
-              height={16}
-            />
-          </span>
-        </a>
+        <p>
+          <Link href='/about'>{t('app:links.about')}</Link>
+        </p>
       </footer>
     </div>
   );

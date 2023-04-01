@@ -30,7 +30,9 @@ const styles = {
     position: 'relative',
   }),
 
-  toggleTimeViewButton: css({}),
+  toggleTimeViewButton: css({
+    borderRadius: '12px',
+  }),
 
   addHabitButton: css({
     borderRadius: '7px',

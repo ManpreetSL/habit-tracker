@@ -194,10 +194,14 @@ const ViewHabits = () => {
             ))
           )}
 
-        <p>{t('habit:noHabits')}</p>
-        <Button onClick={habitsApi.saveDefaultData}>
-          {t('habit:saveSampleHabits')}
-        </Button>
+        {habitsData.length === 0 ? (
+          <div>
+            <p>{t('habit:noHabits')}</p>
+            <Button onClick={habitsApi.saveDefaultData}>
+              {t('habit:saveSampleHabits')}
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

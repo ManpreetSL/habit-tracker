@@ -133,6 +133,10 @@ const ViewHabits = () => {
       .catch((error) =>
         logger.error('deleteHabit encountered an issue', error)
       );
+      
+  const saveExampleData = () => {
+    habitsApi.saveDefaultData().then(habitsApi.getHabits).then(setHabitsData);
+  };
 
   return (
     <div css={styles.container}>
@@ -197,7 +201,7 @@ const ViewHabits = () => {
         {habitsData.length === 0 ? (
           <div>
             <p>{t('habit:noHabits')}</p>
-            <Button onClick={habitsApi.saveDefaultData}>
+            <Button onClick={saveExampleData}>
               {t('habit:saveSampleHabits')}
             </Button>
           </div>

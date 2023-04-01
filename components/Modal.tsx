@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { ReactNode, MouseEvent } from 'react';
 import { ReactNode } from 'react';
 import Button from './Button';
 
@@ -42,9 +43,15 @@ type ModalProps = {
   title: string;
 };
 
-const Modal = ({ children, show, onClose, title }: ModalProps) =>
-  show ? (
-    <div css={styles.container}>
+const Modal = ({ children, show, onClose, title }: ModalProps) => {
+  const handleOnClick = (event: MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+  
+  return show ? (
+    <div css={styles.container} onClick={handleOnClick} role='presentation'>
       <div
         css={styles.content}
         role='dialog'
@@ -59,5 +66,6 @@ const Modal = ({ children, show, onClose, title }: ModalProps) =>
       </div>
     </div>
   ) : null;
+};
 
 export default Modal;

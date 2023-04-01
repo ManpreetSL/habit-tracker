@@ -81,7 +81,7 @@ type TimeView = 'daily' | 'weekly';
 const DAYS_TO_SHOW = 7;
 
 const ViewHabits = () => {
-  const { t } = useTranslation(['common', 'add-habit']);
+  const { t } = useTranslation(['common', 'add-habit', 'habit']);
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
@@ -193,6 +193,11 @@ const ViewHabits = () => {
               />
             ))
           )}
+
+        <p>{t('habit:noHabits')}</p>
+        <Button onClick={habitsApi.saveDefaultData}>
+          {t('habit:saveSampleHabits')}
+        </Button>
       </div>
     </div>
   );

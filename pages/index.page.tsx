@@ -80,8 +80,6 @@ const Home = () => {
         <h1 css={styles.title}>{t('app:welcome')}</h1>
         <Habits />
 
-        <Button onClick={habitsApi.saveDefaultData}>save default habits</Button>
-
         <p>
           <Link href='/about'>{t('app:links.about')}</Link>
         </p>

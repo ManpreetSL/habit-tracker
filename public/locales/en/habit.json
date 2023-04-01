@@ -4,5 +4,7 @@
   "dayLeft": "{{ quantity }} day left",
   "alt": {
     "fire": "Streak fire"
-  }
+  },
+  "noHabits": "You have no habits",
+  "saveSampleHabits": "Save sample habits"
 }

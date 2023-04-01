@@ -20,15 +20,6 @@ const styles = {
     backgroundColor: '#111',
     margin: '0',
   }),
-  header: css({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '0 auto',
-    height: '130px',
-    maxWidth: '500px',
-    position: 'relative',
-  }),
 
   toggleTimeViewButton: css({
     textTransform: 'capitalize',
@@ -163,8 +154,6 @@ const ViewHabits = () => {
           </Link>
         }
       />
-
-      <header css={styles.header} />
 
       <div css={styles.habitsContainer}>
         {timeView === 'weekly' && (

@@ -31,6 +31,7 @@ const styles = {
   }),
 
   toggleTimeViewButton: css({
+    textTransform: 'capitalize',
     borderRadius: '12px',
   }),
 

@@ -23,7 +23,6 @@ const styles = {
     minHeight: '100vh',
     maxWidth: '100%',
     padding: '0',
-    padding: '0',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -39,7 +38,6 @@ const styles = {
   footer: css({
     display: 'flex',
     flex: 1,
-    maxHeight: '70px',
     maxHeight: '70px',
     padding: '2rem 0',
     borderTop: '1px solid #eaeaea',

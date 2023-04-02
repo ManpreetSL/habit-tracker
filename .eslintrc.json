@@ -26,6 +26,15 @@
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
       }],
-      "react/require-default-props": "off"
+      "react/require-default-props": "off",
+      "no-restricted-imports": ["error", {
+          "paths": [
+            {
+              "name": "react-i18next",
+              "message": "Please use next-i18next import instead to avoid hydration errors"
+            }
+          ]
+        }
+      ]
     }
 }

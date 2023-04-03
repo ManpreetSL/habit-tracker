@@ -110,7 +110,7 @@ const ViewHabits = () => {
       .catch((error) =>
         logger.error('deleteHabit encountered an issue', error)
       );
-      
+
   const saveExampleData = () => {
     habitsApi.saveDefaultData().then(habitsApi.getHabits).then(setHabitsData);
   };

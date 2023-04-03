@@ -6,5 +6,6 @@
     "fire": "Streak fire"
   },
   "noHabits": "You have no habits",
-  "saveSampleHabits": "Save sample habits"
+  "saveSampleHabits": "Save sample habits",
+  "toggleTimeView": "Toggle time view"
 }

@@ -8,8 +8,7 @@ import Link from '../src/components/Link';
 export async function getStaticProps({ locale = 'en' }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'app'])),
-      // Will be passed to the page component as props
+      ...(await serverSideTranslations(locale, ['common', 'app', 'habit'])),
     },
   };
 }

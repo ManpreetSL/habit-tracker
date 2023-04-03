@@ -126,7 +126,7 @@ const ViewHabits = () => {
             {timeView}
             <Image
               src='/icons/add.svg'
-              alt={t('add-habit:title')}
+              alt={t('habit:toggleTimeView')}
               width='32'
               height='32'
             />

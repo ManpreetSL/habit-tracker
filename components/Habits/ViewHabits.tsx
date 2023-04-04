@@ -18,6 +18,9 @@ const styles = {
     height: '100vh',
     maxHeight: '100vh',
     margin: '0',
+    backgroundColor: '#0000ff',
+    display: 'flex',
+    flexDirection: 'column',
   }),
 
   toggleTimeViewButton: css({
@@ -33,8 +36,15 @@ const styles = {
   }),
 
   habitsContainer: css({
-    maxWidth: '700px',
+    minWidth: '450px',
+    width: '40%',
+    maxWidth: '1000px',
     margin: '0 auto',
+  }),
+
+  noHabitsContainer: css({
+    display: 'flex',
+    flexDirection: 'column',
   }),
 };
 
@@ -185,7 +195,7 @@ const ViewHabits = () => {
           )}
 
         {habitsData.length === 0 ? (
-          <div>
+          <div css={styles.noHabitsContainer}>
             <p>{t('habit:noHabits')}</p>
             <Button onClick={saveExampleData}>
               {t('habit:saveSampleHabits')}

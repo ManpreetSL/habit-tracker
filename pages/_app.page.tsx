@@ -9,7 +9,7 @@ const globalStyles = css({
   '@media (prefers-color-scheme: dark)': {
     body: {
       color: '#fff',
-      backgroundColor: '#292735'
+      backgroundColor: '#292735',
     },
     html: {
       colorScheme: 'dark',
@@ -28,10 +28,10 @@ const globalStyles = css({
 });
 
 const App = ({ Component, pageProps }: AppProps) => (
-    <>
-      <Global styles={globalStyles} />
-      <Component {...pageProps} />
-    </>
-  );
+  <>
+    <Global styles={globalStyles} />
+    <Component {...pageProps} />
+  </>
+);
 
 export default appWithTranslation(App);

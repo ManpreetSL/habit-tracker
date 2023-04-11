@@ -2,7 +2,6 @@ import Head from 'next/head';
 import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Habits from '../components/Habits';
 import Link from '../src/components/Link';
 import ViewHabits from '../components/Habits/ViewHabits';
 import AccountMenu from '../components/AccountMenu';

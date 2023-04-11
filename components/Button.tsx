@@ -8,6 +8,7 @@ const styles = {
     padding: '0.5em 2em',
     color: '#000',
     backgroundColor: '#91E220',
+    border: 'none',
 
     ':hover': {
       cursor: 'pointer',

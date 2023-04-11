@@ -2,8 +2,9 @@ import Head from 'next/head';
 import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Habits from '../components/Habits';
 import Link from '../src/components/Link';
+import Habits from '../components/Habits';
+import AccountMenu from '../components/AccountMenu';
 
 export async function getStaticProps({ locale = 'en' }) {
   return {
@@ -34,6 +35,22 @@ const styles = {
     maxWidth: '100%',
   }),
 
+  header: css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }),
+
+  links: css({
+    display: 'flex',
+    flexDirection: 'column',
+  }),
+
+  logo: css({
+    height: '1em',
+    marginLeft: '0.5rem',
+  }),
+
   footer: css({
     display: 'flex',
     flex: 1,
@@ -57,14 +74,17 @@ const Home = () => {
       </Head>
 
       <main css={styles.main}>
+        <header css={styles.header}>
+          <AccountMenu />
+        </header>
         <Habits />
-      </main>
 
-      <footer css={styles.footer}>
-        <p>
-          <Link href='/about'>{t('app:links.about')}</Link>
-        </p>
-      </footer>
+        <footer css={styles.footer}>
+          <p>
+            <Link href='/about'>{t('app:links.about')}</Link>
+          </p>
+        </footer>
+      </main>
     </div>
   );
 };

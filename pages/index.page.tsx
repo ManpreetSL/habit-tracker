@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from '../src/components/Link';
-import ViewHabits from '../components/Habits/ViewHabits';
+import Habits from '../components/Habits';
 import AccountMenu from '../components/AccountMenu';
 
 export async function getStaticProps({ locale = 'en' }) {
@@ -77,7 +77,7 @@ const Home = () => {
         <header css={styles.header}>
           <AccountMenu />
         </header>
-        <ViewHabits />
+        <Habits />
 
         <footer css={styles.footer}>
           <p>

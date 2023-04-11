@@ -4,9 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Habits from '../components/Habits';
 import Link from '../src/components/Link';
-import ViewHabits from '../components/ViewHabits';
-import habitsApi from '../src/api/habits';
-import Button from '../components/Button';
+import ViewHabits from '../components/Habits/ViewHabits';
 import AccountMenu from '../components/AccountMenu';
 
 export async function getStaticProps({ locale = 'en' }) {
@@ -44,12 +42,6 @@ const styles = {
     justifyContent: 'center',
   }),
 
-  title: css({
-    margin: '24px 0px',
-    lineHeight: '1.15',
-    fontSize: '3rem',
-  }),
-
   links: css({
     display: 'flex',
     flexDirection: 'column',
@@ -74,7 +66,6 @@ const styles = {
 const Home = () => {
   const { t } = useTranslation();
 
-
   return (
     <div css={styles.container}>
       <Head>
@@ -85,17 +76,16 @@ const Home = () => {
 
       <main css={styles.main}>
         <header css={styles.header}>
-          <h1 css={styles.title}>{t('app:welcome')}</h1>
-
           <AccountMenu />
         </header>
         <ViewHabits />
 
-      <footer css={styles.footer}>
-        <p>
-          <Link href='/about'>{t('app:links.about')}</Link>
-        </p>
-      </footer>
+        <footer css={styles.footer}>
+          <p>
+            <Link href='/about'>{t('app:links.about')}</Link>
+          </p>
+        </footer>
+      </main>
     </div>
   );
 };

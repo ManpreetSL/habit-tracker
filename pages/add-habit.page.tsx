@@ -6,7 +6,6 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
-import habitsApi from '../src/api/habits';
 import logger from '../src/services/logger';
 
 export async function getStaticProps({ locale = 'en' }) {
@@ -107,13 +106,15 @@ const AddHabit = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    habitsApi
-      .addHabit()
-      .then((message) => {
-        logger.debug(message);
-        router.push('/');
-      })
-      .catch((error) => logger.error(error));
+    fetch('/api/habits', { method: 'POST' }).then((res) =>
+      res
+        .json()
+        .then((message) => {
+          logger.debug(message);
+          router.push('/');
+        })
+        .catch((error) => logger.error(error))
+    );
   };
 
   return (

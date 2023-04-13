@@ -3,13 +3,13 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { GoalWithHabitHistory } from '../../src/types/habits';
-import habitsApi from '../../src/api/habits';
 import Link from '../../src/components/Link';
 import Button from '../Button';
 import HabitDailyView from './HabitDailyView';
 import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
 import Header from '../Header';
+import useGoalFactory from '../../src/hooks/useGoalFactory';
 
 const styles = {
   container: css({
@@ -74,6 +74,15 @@ const ViewHabits = () => {
 
   const dates = calculateDates(DAYS_TO_SHOW);
 
+  const {
+    deleteHabit: ApiDeleteHabit,
+    getHabits,
+    getHabitsFromDate,
+    addEntry,
+    removeEntry,
+    saveDefaultData,
+  } = useGoalFactory();
+
   // Now fetch the data based on the number of days to show
   // We don't want to fetch all habits data, as it would be inefficient to pull in potentially years' worth of data
   // But this also means when saving data, these 7 days and any changes will have to be merged into the full set of entries
@@ -81,8 +90,7 @@ const ViewHabits = () => {
     const date = new Date();
     date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
 
-    habitsApi
-      .getHabitsFromDate(date)
+    getHabitsFromDate(date)
       .then(setHabitsData)
       .catch((error) => logger.error(error));
   }, []);
@@ -93,9 +101,8 @@ const ViewHabits = () => {
   };
 
   const addHabitEntry = (habitId: string, date: Date) => {
-    habitsApi
-      .addEntry({ habitId, date })
-      .then(() => habitsApi.getHabits())
+    addEntry({ habitId, date })
+      .then(() => getHabits())
       .then(setHabitsData)
       .catch((error) =>
         logger.error('addHabitEntry encountered an issue', error)
@@ -103,9 +110,8 @@ const ViewHabits = () => {
   };
 
   const removeHabitEntry = (habitId: string, entryId: string) => {
-    habitsApi
-      .removeEntry({ entryId, habitId })
-      .then(() => habitsApi.getHabits())
+    removeEntry({ entryId, habitId })
+      .then(() => getHabits())
       .then(setHabitsData)
       .catch((error) =>
         logger.error('removeHabitEntry encountered an issue', error)
@@ -113,16 +119,15 @@ const ViewHabits = () => {
   };
 
   const deleteHabit = (habitId: string) =>
-    habitsApi
-      .deleteHabit(habitId)
-      .then(() => habitsApi.getHabits())
+    ApiDeleteHabit(habitId)
+      .then(() => getHabits())
       .then(setHabitsData)
       .catch((error) =>
         logger.error('deleteHabit encountered an issue', error)
       );
 
   const saveExampleData = () => {
-    habitsApi.saveDefaultData().then(habitsApi.getHabits).then(setHabitsData);
+    saveDefaultData().then(getHabits).then(setHabitsData);
   };
 
   return (

@@ -27,7 +27,7 @@ const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
         setUser(authState);
 
         // Emulate a delay to show the loading screen whilst we work on customising it
-        setTimeout(() => setLoading(false), 3000);
+        setTimeout(() => setLoading(false), 300);
       }
     };
 

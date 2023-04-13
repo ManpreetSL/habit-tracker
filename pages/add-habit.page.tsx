@@ -7,6 +7,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import logger from '../src/services/logger';
+import useGoalFactory from '../src/hooks/useGoalFactory';
 
 export async function getStaticProps({ locale = 'en' }) {
   return {
@@ -90,6 +91,7 @@ const styles = {
 
 const AddHabit = () => {
   const router = useRouter();
+  const { addHabit } = useGoalFactory();
 
   const { t } = useTranslation();
 
@@ -106,15 +108,12 @@ const AddHabit = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    fetch('/api/habits', { method: 'POST' }).then((res) =>
-      res
-        .json()
-        .then((message) => {
-          logger.debug(message);
-          router.push('/');
-        })
-        .catch((error) => logger.error(error))
-    );
+    addHabit()
+      .then((message) => {
+        logger.debug(message);
+        router.push('/');
+      })
+      .catch((error) => logger.error(error));
   };
 
   return (

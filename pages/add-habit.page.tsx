@@ -20,16 +20,17 @@ export async function getStaticProps({ locale = 'en' }) {
 type FormType = {
   name?: string;
   description?: string;
-  target?: number;
-  unit?: string;
-  frequency: number;
+  targetQuantity?: number;
+  targetUnit?: string;
+  frequencyCount: number;
   frequencyUnit: string;
 };
 
 const defaultFormValues = {
   name: 'Drink water',
-  target: 1,
-  frequency: 1,
+  targetQuantity: 1,
+  targetUnit: 'glass',
+  frequencyCount: 1,
   frequencyUnit: 'daily',
 };
 
@@ -103,14 +104,31 @@ const AddHabit = () => {
     const { name, value } = event.target;
 
     setFormData({ ...formData, [name]: value });
-    logger.debug(`${name} changed to ${value}`);
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    addHabit()
+
+    const { name, frequencyCount, frequencyUnit, targetQuantity, targetUnit } =
+      formData;
+
+    if (
+      !name ||
+      !frequencyCount ||
+      !frequencyUnit ||
+      !targetQuantity ||
+      !targetUnit
+    )
+      return;
+
+    addHabit({
+      name,
+      frequencyCount,
+      frequencyUnit,
+      targetQuantity,
+      targetUnit,
+    })
       .then((message) => {
-        logger.debug(message);
         router.push('/');
       })
       .catch((error) => logger.error(error));
@@ -152,8 +170,8 @@ const AddHabit = () => {
               css={styles.inputField}
               type='text'
               id='target'
-              name='target'
-              value={formData.target}
+              name='targetQuantity'
+              value={formData.targetQuantity}
               onChange={handleInputChange}
             />
           </label>
@@ -164,8 +182,8 @@ const AddHabit = () => {
               css={styles.inputField}
               type='text'
               id='unit'
-              name='unit'
-              value={formData.unit}
+              name='targetUnit'
+              value={formData.targetUnit}
               onChange={handleInputChange}
             />
           </label>
@@ -178,8 +196,8 @@ const AddHabit = () => {
                   css={styles.inputField}
                   type='text'
                   id='frequency'
-                  name='frequency'
-                  value={formData.frequency}
+                  name='frequencyCount'
+                  value={formData.frequencyCount}
                   onChange={handleInputChange}
                 />
               </label>

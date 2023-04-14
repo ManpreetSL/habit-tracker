@@ -1,4 +1,6 @@
-import { GoalWithHabitHistory } from '../../types/habits';
+import { GoalWithHabitHistory, HabitFlat } from '../../types/habits';
+
+export type AddHabitParams = Omit<HabitFlat, 'id'>;
 
 export type AddEntryParams = {
   habitId: string;
@@ -16,7 +18,13 @@ export type HabitService = {
   retrieve?: () => {};
   get?: () => {};
   set?: () => {};
-  addHabit: () => Promise<string>;
+  addHabit: ({
+    name,
+    description,
+    frequencyUnit,
+    frequencyCount,
+    targetUnit,
+  }: AddHabitParams) => Promise<string>;
   deleteHabit: (habitId: string) => Promise<void>;
   getHabits: () => Promise<GoalWithHabitHistory[]>;
   getHabitsFromDate: (date: Date) => Promise<GoalWithHabitHistory[]>;

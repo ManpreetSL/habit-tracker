@@ -35,6 +35,18 @@ export type Habit = {
   };
 };
 
+export type HabitFlat = {
+  id: string;
+  name: string;
+  description?: string;
+  frequencyUnit: string;
+  frequencyCount: number;
+  targetUnit: string;
+  targetQuantity: number;
+  intensity?: number;
+  impact?: number; // Life-wise and feelings-wise
+};
+
 export type History = {
   streak: number;
   entries: Entry[];

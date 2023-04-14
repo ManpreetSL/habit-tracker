@@ -2,6 +2,7 @@ import useUser from '../services/auth/useUser';
 import localStorageApi from '../api/habits';
 import {
   AddEntryParams,
+  AddHabitParams,
   HabitService,
   RemoveEntryParams,
 } from '../api/habits/types';
@@ -36,10 +37,11 @@ const useGoalFactory = (): HabitService => {
   }
 
   // Return server-side storage methods
-  const addHabit = () =>
-    fetch('/api/habits', { method: 'POST' })
-      .then((res) => res.json())
-      .then(({ id }: { id: string }) => id);
+  const addHabit = (data: AddHabitParams) =>
+    fetch('/api/habits', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then((res) => res.json());
 
   const deleteHabit = async (habitId: string) => {
     await fetch(`/api/habits/${habitId}`, { method: 'DELETE' });

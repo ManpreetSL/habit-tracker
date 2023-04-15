@@ -10,6 +10,7 @@ import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
 import Header from '../Header';
 import useGoalFactory from '../../src/hooks/useGoalFactory';
+import useUser from '../../src/services/auth/useUser';
 
 const styles = {
   container: css({
@@ -69,6 +70,8 @@ const DAYS_TO_SHOW = 7;
 
 const ViewHabits = () => {
   const { t } = useTranslation(['common', 'add-habit', 'habit']);
+  const { user } = useUser();
+
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
@@ -94,6 +97,7 @@ const ViewHabits = () => {
       .then(setHabitsData)
       .catch((error) => logger.error(error));
   }, []);
+  }, [user, getHabitsFromDate]);
 
   const toggleTimeView = () => {
     if (timeView === 'daily') setTimeView('weekly');

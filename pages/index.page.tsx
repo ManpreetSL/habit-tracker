@@ -2,15 +2,33 @@ import Head from 'next/head';
 import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSidePropsContext } from 'next';
+import nookies from 'nookies';
+import { useEffect } from 'react';
 import Link from '../src/components/Link';
 import Habits from '../components/Habits';
 import AccountMenu from '../components/AccountMenu';
+import { auth } from '../src/services/auth/firebase-admin';
 
-export async function getStaticProps({ locale = 'en' }) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { locale = 'en' } = ctx;
+
+  try {
+    const cookies = nookies.get(ctx);
+
+    const token = await auth.verifyIdToken(cookies.token);
+    const { uid, email } = token;
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common', 'app', 'habit'])),
+        uid,
+        email,
+      },
+    };
+  } catch (error) {}
   return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common', 'app', 'habit'])),
-    },
+    props: {} as never,
   };
 }
 
@@ -62,8 +80,12 @@ const styles = {
   }),
 };
 
-const Home = () => {
+const Home = ({ uid, email }) => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log('useEffect: ', { uid, email });
+  }, []);
 
   return (
     <div css={styles.container}>

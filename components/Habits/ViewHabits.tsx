@@ -96,7 +96,7 @@ const ViewHabits = () => {
     getHabitsFromDate(date)
       .then(setHabitsData)
       .catch((error) => logger.error(error));
-  }, []);
+    // }, []);
   }, [user, getHabitsFromDate]);
 
   const toggleTimeView = () => {
@@ -185,7 +185,7 @@ const ViewHabits = () => {
           />
         )}
         {timeView === 'daily' &&
-          habitsData.map(({ habits }) =>
+          habitsData?.map(({ habits }) =>
             habits.map((habitWithHistory) => (
               <HabitDailyView
                 key={habitWithHistory.id}
@@ -203,7 +203,7 @@ const ViewHabits = () => {
             ))
           )}
 
-        {habitsData.length === 0 ? (
+        {!habitsData || habitsData.length === 0 ? (
           <div css={styles.noHabitsContainer}>
             <p>{t('habit:noHabits')}</p>
             <Button onClick={saveExampleData}>

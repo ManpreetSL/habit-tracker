@@ -40,7 +40,7 @@ export type HabitFlat = {
   name: string;
   description?: string;
   frequencyUnit: string;
-  frequencyCount: number;
+  frequencyQuantity: number;
   targetUnit: string;
   targetQuantity: number;
   intensity?: number;

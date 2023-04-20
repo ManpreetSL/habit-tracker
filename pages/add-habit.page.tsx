@@ -22,7 +22,7 @@ type FormType = {
   description?: string;
   targetQuantity?: number;
   targetUnit?: string;
-  frequencyCount: number;
+  frequencyQuantity: number;
   frequencyUnit: string;
 };
 
@@ -30,7 +30,7 @@ const defaultFormValues = {
   name: 'Drink water',
   targetQuantity: 1,
   targetUnit: 'glass',
-  frequencyCount: 1,
+  frequencyQuantity: 1,
   frequencyUnit: 'daily',
 };
 
@@ -109,12 +109,17 @@ const AddHabit = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const { name, frequencyCount, frequencyUnit, targetQuantity, targetUnit } =
-      formData;
+    const {
+      name,
+      frequencyQuantity,
+      frequencyUnit,
+      targetQuantity,
+      targetUnit,
+    } = formData;
 
     if (
       !name ||
-      !frequencyCount ||
+      !frequencyQuantity ||
       !frequencyUnit ||
       !targetQuantity ||
       !targetUnit
@@ -124,7 +129,7 @@ const AddHabit = () => {
     goalsAdapter
       .addHabit({
         name,
-        frequencyCount,
+        frequencyQuantity,
         frequencyUnit,
         targetQuantity,
         targetUnit,
@@ -198,8 +203,8 @@ const AddHabit = () => {
                   css={styles.inputField}
                   type='text'
                   id='frequency'
-                  name='frequencyCount'
-                  value={formData.frequencyCount}
+                  name='frequencyQuantity'
+                  value={formData.frequencyQuantity}
                   onChange={handleInputChange}
                 />
               </label>

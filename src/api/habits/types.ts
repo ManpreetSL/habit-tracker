@@ -29,7 +29,7 @@ export type HabitService = {
     name,
     description,
     frequencyUnit,
-    frequencyCount,
+    frequencyQuantity,
     targetUnit,
   }: AddHabitParams) => Promise<string>;
   deleteHabit: (habitId: string) => Promise<void>;

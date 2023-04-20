@@ -17,6 +17,15 @@ model Goal {
 }
 
 model Habit {
+  id                String  @id @default(cuid())
+  name              String
+  description       String?
+  frequencyUnit     String
+  frequencyQuantity Int
+  targetUnit        String
+  targetQuantity    Decimal @db.Decimal(10, 2)
+  streak            Int
+  entries           Entry[]
   id             String  @id @default(cuid())
   name           String
   description    String?

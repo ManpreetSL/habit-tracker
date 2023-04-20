@@ -1,41 +1,14 @@
-import useUser from '../services/auth/useUser';
-import localStorageApi from '../api/habits';
 import {
   AddEntryParams,
-  AddHabitParams,
   HabitService,
   RemoveEntryParams,
-} from '../api/habits/types';
-import { GoalWithHabitHistory } from '../types/habits';
+  GetGoalsForDatesParams,
+  AddHabitParams,
+} from '../types';
+import { GoalWithHabitHistory } from '../../../types/habits';
+import logger from '../../../services/logger';
 
-const useGoalFactory = (): HabitService => {
-  const { user } = useUser();
-
-  // Return JSON local storage methods
-  if (!user) {
-    const {
-      addHabit,
-      deleteHabit,
-      getHabits,
-      getHabitsFromDate,
-      addEntry,
-      removeEntry,
-      saveHabits,
-      saveDefaultData,
-    } = localStorageApi;
-
-    return {
-      addHabit,
-      deleteHabit,
-      getHabits,
-      getHabitsFromDate,
-      addEntry,
-      removeEntry,
-      saveHabits,
-      saveDefaultData,
-    };
-  }
-
+const restHabitServiceFactory = (): HabitService => {
   // Return server-side storage methods
   const addHabit = (data: AddHabitParams) =>
     fetch('/api/habits', {
@@ -47,6 +20,11 @@ const useGoalFactory = (): HabitService => {
     await fetch(`/api/habits/${habitId}`, { method: 'DELETE' });
   };
 
+  const getGoalsForDates = ({ fromDate, toDate }: GetGoalsForDatesParams) =>
+    fetch('/api/goals', { method: 'GET' })
+      .then((res) => res.json())
+      .then(({ goals }: { goals: GoalWithHabitHistory[] }) => goals);
+
   const getHabits = () =>
     fetch('/api/habits', { method: 'GET' })
       .then((res) => res.json())
@@ -57,6 +35,7 @@ const useGoalFactory = (): HabitService => {
       method: 'GET',
     })
       .then((res) => res.json())
+      .then((res) => res)
       .then(({ habits }: { habits: GoalWithHabitHistory[] }) => habits);
 
   const saveHabits = async (habits: GoalWithHabitHistory[]) => {
@@ -91,16 +70,20 @@ const useGoalFactory = (): HabitService => {
     });
   };
 
+  const adapterType = 'rest';
+
   return {
     addHabit,
     deleteHabit,
     getHabits,
-    getHabitsFromDate,
     addEntry,
     removeEntry,
     saveHabits,
     saveDefaultData,
+    getHabitsFromDate,
+    getGoalsForDates,
+    adapterType,
   };
 };
 
-export default useGoalFactory;
+export default restHabitServiceFactory;

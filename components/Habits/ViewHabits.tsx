@@ -9,8 +9,7 @@ import HabitDailyView from './HabitDailyView';
 import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
 import Header from '../Header';
-import useGoalFactory from '../../src/hooks/useGoalFactory';
-import useUser from '../../src/services/auth/useUser';
+import useGoalsAdapter from '../../src/hooks/useGoalsAdapter';
 
 const styles = {
   container: css({
@@ -70,21 +69,13 @@ const DAYS_TO_SHOW = 7;
 
 const ViewHabits = () => {
   const { t } = useTranslation(['common', 'add-habit', 'habit']);
-  const { user } = useUser();
 
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
   const dates = calculateDates(DAYS_TO_SHOW);
 
-  const {
-    deleteHabit: ApiDeleteHabit,
-    getHabits,
-    getHabitsFromDate,
-    addEntry,
-    removeEntry,
-    saveDefaultData,
-  } = useGoalFactory();
+  const goalsAdapter = useGoalsAdapter();
 
   // Now fetch the data based on the number of days to show
   // We don't want to fetch all habits data, as it would be inefficient to pull in potentially years' worth of data
@@ -93,11 +84,15 @@ const ViewHabits = () => {
     const date = new Date();
     date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
 
-    getHabitsFromDate(date)
+    goalsAdapter
+      .getGoalsForDates({ fromDate: date, toDate: new Date() })
+      .then((data) => {
+        logger.debug({ data });
+        return data;
+      })
       .then(setHabitsData)
       .catch((error) => logger.error(error));
-    // }, []);
-  }, [user, getHabitsFromDate]);
+  }, [goalsAdapter]);
 
   const toggleTimeView = () => {
     if (timeView === 'daily') setTimeView('weekly');
@@ -105,8 +100,9 @@ const ViewHabits = () => {
   };
 
   const addHabitEntry = (habitId: string, date: Date) => {
-    addEntry({ habitId, date })
-      .then(() => getHabits())
+    goalsAdapter
+      .addEntry({ habitId, date })
+      .then(() => goalsAdapter.getHabits())
       .then(setHabitsData)
       .catch((error) =>
         logger.error('addHabitEntry encountered an issue', error)
@@ -114,8 +110,9 @@ const ViewHabits = () => {
   };
 
   const removeHabitEntry = (habitId: string, entryId: string) => {
-    removeEntry({ entryId, habitId })
-      .then(() => getHabits())
+    goalsAdapter
+      .removeEntry({ entryId, habitId })
+      .then(() => goalsAdapter.getHabits())
       .then(setHabitsData)
       .catch((error) =>
         logger.error('removeHabitEntry encountered an issue', error)
@@ -123,19 +120,24 @@ const ViewHabits = () => {
   };
 
   const deleteHabit = (habitId: string) =>
-    ApiDeleteHabit(habitId)
-      .then(() => getHabits())
+    goalsAdapter
+      .deleteHabit(habitId)
+      .then(() => goalsAdapter.getHabits())
       .then(setHabitsData)
       .catch((error) =>
         logger.error('deleteHabit encountered an issue', error)
       );
 
   const saveExampleData = () => {
-    saveDefaultData().then(getHabits).then(setHabitsData);
+    goalsAdapter
+      .saveDefaultData()
+      .then(goalsAdapter.getHabits)
+      .then(setHabitsData);
   };
 
   return (
     <div css={styles.container}>
+      {goalsAdapter.adapterType}
       <Header
         left={
           <Button

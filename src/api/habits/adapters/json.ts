@@ -1,6 +1,11 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { v4 as uuidv4 } from 'uuid';
-import { AddEntryParams, HabitService, RemoveEntryParams } from '../types';
+import {
+  AddEntryParams,
+  HabitService,
+  RemoveEntryParams,
+  GetGoalsForDatesParams,
+} from '../types';
 import habitsData from '../../../../public/data/habits.json';
 import {
   Frequency,
@@ -134,6 +139,9 @@ const jsonHabitServiceFactory = (): HabitService => {
       )
       .catch((error) => Promise.reject(error));
 
+  const getGoalsForDates = ({ fromDate }: GetGoalsForDatesParams) =>
+    getHabitsFromDate(fromDate);
+
   const deleteHabit = (habitId: string) =>
     getHabits()
       .then((goals) =>
@@ -147,6 +155,8 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then(saveHabits)
       .catch((error) => Promise.reject(error));
 
+  const adapterType = 'json';
+
   return {
     addHabit,
     deleteHabit,
@@ -156,6 +166,8 @@ const jsonHabitServiceFactory = (): HabitService => {
     saveHabits,
     saveDefaultData,
     getHabitsFromDate,
+    getGoalsForDates,
+    adapterType,
   };
 };
 

@@ -1,5 +1,7 @@
 import { GoalWithHabitHistory, HabitFlat } from '../../types/habits';
 
+export type GetGoalsForDatesParams = { fromDate: Date; toDate: Date };
+
 export type AddHabitParams = Omit<HabitFlat, 'id'>;
 
 export type AddEntryParams = {
@@ -14,6 +16,11 @@ export type RemoveEntryParams = {
 };
 
 export type HabitService = {
+  adapterType: string;
+  getGoalsForDates: ({
+    fromDate,
+    toDate,
+  }: GetGoalsForDatesParams) => Promise<GoalWithHabitHistory[]>;
   save?: () => {};
   retrieve?: () => {};
   get?: () => {};

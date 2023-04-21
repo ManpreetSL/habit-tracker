@@ -14,6 +14,7 @@ model Goal {
   id          String  @id @default(cuid())
   name        String
   description String?
+  habits      Habit[]
 }
 
 model Habit {
@@ -26,19 +27,14 @@ model Habit {
   targetQuantity    Decimal @db.Decimal(10, 2)
   streak            Int
   entries           Entry[]
-  id             String  @id @default(cuid())
-  name           String
-  description    String?
-  frequencyUnit  String
-  frequencyCount Int
-  targetUnit     String
-  targetQuantity Decimal @db.Decimal(10, 2)
-  streak         Int
-  entries        Entry[]
+  Goal              Goal    @relation(fields: [goalId], references: [id])
+  goalId            String
 }
 
 model Entry {
-  id      String @id @default(cuid())
-  Habit   Habit  @relation(fields: [habitId], references: [id])
-  habitId String
+  id             String   @id @default(cuid())
+  completionDate DateTime
+  quantity       Int
+  Habit          Habit    @relation(fields: [habitId], references: [id])
+  habitId        String
 }

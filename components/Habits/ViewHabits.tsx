@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { GoalWithHabitHistory } from '../../src/types/habits';
 import Link from '../../src/components/Link';
 import Button from '../Button';
 import HabitDailyView from './HabitDailyView';
@@ -10,6 +9,7 @@ import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
 import Header from '../Header';
 import useGoalsAdapter from '../../src/hooks/useGoalsAdapter';
+import { GoalWithHabitsAndEntries } from '../../prisma/types';
 
 const styles = {
   container: css({
@@ -67,10 +67,16 @@ type TimeView = 'daily' | 'weekly';
 
 const DAYS_TO_SHOW = 7;
 
-const ViewHabits = () => {
+type ViewHabitsProps = {
+  goals: GoalWithHabitsAndEntries[] | null;
+};
+
+const ViewHabits = ({ goals }: ViewHabitsProps) => {
   const { t } = useTranslation(['common', 'add-habit', 'habit']);
 
-  const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
+  const [habitsData, setHabitsData] = useState<GoalWithHabitsAndEntries[]>(
+    goals ?? []
+  );
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
   const dates = calculateDates(DAYS_TO_SHOW);

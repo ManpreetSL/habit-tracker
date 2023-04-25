@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
-import { Entry, GoalWithHabitHistory } from '../../src/types/habits';
-
+import { Entry } from '@prisma/client';
 import CompleteButton from '../entries/CompleteButton';
 import {
   calculateCompletionPercentages,
   getEntriesForDay,
   isBinaryHabit,
 } from './utils';
+import { GoalWithHabitsAndEntries } from '../../prisma/types';
 
 const styles = {
   container: css({
@@ -56,7 +56,7 @@ const styles = {
 };
 
 type HabitWeeklyViewProps = {
-  goals: GoalWithHabitHistory[];
+  goals: GoalWithHabitsAndEntries[];
   dates: Date[];
   onAddHabitEntry: (habitId: string, date: Date) => void;
   onRemoveHabitEntry: (habitId: string, entryId: string) => void;

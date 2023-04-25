@@ -5,8 +5,8 @@ import {
   GetGoalsForDatesParams,
   AddHabitParams,
 } from '../types';
-import { GoalWithHabitHistory } from '../../../types/habits';
 import logger from '../../../services/logger';
+import { GoalWithHabitsAndEntries } from '../../../../prisma/types';
 
 const restHabitServiceFactory = (): HabitService => {
   // Return server-side storage methods
@@ -22,13 +22,17 @@ const restHabitServiceFactory = (): HabitService => {
 
   const getGoalsForDates = ({ fromDate, toDate }: GetGoalsForDatesParams) =>
     fetch('/api/goals', { method: 'GET' })
+      .then((res) => {
+        logger.debug({ fromDate, toDate });
+        return res;
+      })
       .then((res) => res.json())
-      .then(({ goals }: { goals: GoalWithHabitHistory[] }) => goals);
+      .then(({ goals }: { goals: GoalWithHabitsAndEntries[] }) => goals);
 
   const getHabits = () =>
     fetch('/api/habits', { method: 'GET' })
       .then((res) => res.json())
-      .then(({ habits }: { habits: GoalWithHabitHistory[] }) => habits);
+      .then(({ habits }: { habits: GoalWithHabitsAndEntries[] }) => habits);
 
   const getHabitsFromDate = (date: Date) =>
     fetch(`/api/habits?${new URLSearchParams({ date: date.toDateString() })}`, {
@@ -36,9 +40,9 @@ const restHabitServiceFactory = (): HabitService => {
     })
       .then((res) => res.json())
       .then((res) => res)
-      .then(({ habits }: { habits: GoalWithHabitHistory[] }) => habits);
+      .then(({ habits }: { habits: GoalWithHabitsAndEntries[] }) => habits);
 
-  const saveHabits = async (habits: GoalWithHabitHistory[]) => {
+  const saveHabits = async (habits: GoalWithHabitsAndEntries[]) => {
     await fetch('/api/habits', {
       method: 'POST',
       body: JSON.stringify(habits),

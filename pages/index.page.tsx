@@ -4,29 +4,43 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
-import { useEffect } from 'react';
 import Link from '../src/components/Link';
 import Habits from '../components/Habits';
 import AccountMenu from '../components/AccountMenu';
 import { auth } from '../src/services/auth/firebase-admin';
+import logger from '../src/services/logger';
+import prisma from '../prisma/prisma-db';
+import { GoalWithHabitsAndEntries } from '../prisma/types';
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { locale = 'en' } = ctx;
 
   try {
     const cookies = nookies.get(ctx);
-
     const token = await auth.verifyIdToken(cookies.token);
-    const { uid, email } = token;
+
+    let goals: GoalWithHabitsAndEntries[] = [];
+    if (token) {
+      goals = await prisma.goal.findMany({
+        include: {
+          habits: {
+            include: {
+              entries: true,
+            },
+          },
+        },
+      });
+    }
 
     return {
       props: {
         ...(await serverSideTranslations(locale, ['common', 'app', 'habit'])),
-        uid,
-        email,
+        goals,
       },
     };
-  } catch (error) {}
+  } catch (error) {
+    logger.error(error);
+  }
   return {
     props: {} as never,
   };
@@ -80,12 +94,12 @@ const styles = {
   }),
 };
 
-const Home = ({ uid, email }) => {
-  const { t } = useTranslation();
+type HomeProps = {
+  goals: GoalWithHabitsAndEntries[];
+};
 
-  useEffect(() => {
-    console.log('useEffect: ', { uid, email });
-  }, []);
+const Home = ({ goals }: HomeProps) => {
+  const { t } = useTranslation();
 
   return (
     <div css={styles.container}>
@@ -99,7 +113,8 @@ const Home = ({ uid, email }) => {
         <header css={styles.header}>
           <AccountMenu />
         </header>
-        <Habits />
+
+        <Habits goals={goals} />
 
         <footer css={styles.footer}>
           <p>

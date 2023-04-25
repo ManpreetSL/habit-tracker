@@ -1,8 +1,12 @@
-import { GoalWithHabitHistory, HabitFlat } from '../../types/habits';
+import { Habit } from '@prisma/client';
+import { GoalWithHabitsAndEntries } from '../../../prisma/types';
 
-export type GetGoalsForDatesParams = { fromDate: Date; toDate: Date };
+export type GetGoalsForDatesParams = {
+  fromDate: Date;
+  toDate: Date;
+};
 
-export type AddHabitParams = Omit<HabitFlat, 'id'>;
+export type AddHabitParams = Habit;
 
 export type AddEntryParams = {
   habitId: string;
@@ -20,7 +24,7 @@ export type HabitService = {
   getGoalsForDates: ({
     fromDate,
     toDate,
-  }: GetGoalsForDatesParams) => Promise<GoalWithHabitHistory[]>;
+  }: GetGoalsForDatesParams) => Promise<GoalWithHabitsAndEntries[]>;
   save?: () => {};
   retrieve?: () => {};
   get?: () => {};
@@ -33,9 +37,9 @@ export type HabitService = {
     targetUnit,
   }: AddHabitParams) => Promise<string>;
   deleteHabit: (habitId: string) => Promise<void>;
-  getHabits: () => Promise<GoalWithHabitHistory[]>;
-  getHabitsFromDate: (date: Date) => Promise<GoalWithHabitHistory[]>;
-  saveHabits: (habits: GoalWithHabitHistory[]) => Promise<void>;
+  getHabits: () => Promise<GoalWithHabitsAndEntries[]>;
+  getHabitsFromDate: (date: Date) => Promise<GoalWithHabitsAndEntries[]>;
+  saveHabits: (habits: GoalWithHabitsAndEntries[]) => Promise<void>;
   saveDefaultData: () => Promise<void>;
   addEntry: ({ habitId, date, quantity }: AddEntryParams) => Promise<string>;
   removeEntry: ({ entryId, habitId }: RemoveEntryParams) => Promise<void>;

@@ -51,7 +51,8 @@ const restHabitServiceFactory = (): HabitService => {
 
   // Save a default set of habits to local storage
   const saveDefaultData = async () => {
-    await fetch('/api/habits/save-examples', {
+    logger.debug('saveDefaultData');
+    await fetch('/api/goals/save-examples', {
       method: 'POST',
     });
   };

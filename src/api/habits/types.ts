@@ -2,8 +2,8 @@ import { Habit } from '@prisma/client';
 import { GoalWithHabitsAndEntries } from '../../../prisma/types';
 
 export type GetGoalsForDatesParams = {
-  fromDate: Date;
-  toDate: Date;
+  fromDate?: Date;
+  toDate?: Date;
 };
 
 export type AddHabitParams = Habit;

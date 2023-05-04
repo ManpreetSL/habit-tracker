@@ -194,7 +194,7 @@ const ViewHabits = ({ goals }: ViewHabitsProps) => {
         )}
         {timeView === 'daily' &&
           habitsData?.map(({ habits }) =>
-            habits.map((habitWithHistory) => (
+            habits?.map((habitWithHistory) => (
               <HabitDailyView
                 key={habitWithHistory.id}
                 habitWithHistory={habitWithHistory}

@@ -20,14 +20,18 @@ const restHabitServiceFactory = (): HabitService => {
     await fetch(`/api/habits/${habitId}`, { method: 'DELETE' });
   };
 
-  const getGoalsForDates = ({ fromDate, toDate }: GetGoalsForDatesParams) =>
-    fetch('/api/goals', { method: 'GET' })
-      .then((res) => {
-        logger.debug({ fromDate, toDate });
-        return res;
-      })
+  const getGoalsForDates = ({ fromDate, toDate }: GetGoalsForDatesParams) => {
+    const url = new URL('/api/goals', process.env.NEXT_PUBLIC_BASE_URL);
+    const params = new URLSearchParams(url.search);
+
+    if (fromDate) params.append('fromDate', fromDate.toDateString());
+
+    if (toDate) params.append('toDate', toDate.toDateString());
+
+    return fetch(url, { method: 'GET' })
       .then((res) => res.json())
       .then(({ goals }: { goals: GoalWithHabitsAndEntries[] }) => goals);
+  };
 
   const getHabits = () =>
     fetch('/api/habits', { method: 'GET' })

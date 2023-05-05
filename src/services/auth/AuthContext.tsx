@@ -21,6 +21,7 @@ const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   useEffect(() => {
     const handleIdTokenChanged = async (authState: User | null) => {
       if (!authState) {
+        setLoading(true);
         setUser(null);
         nookies.set(undefined, 'token', '', { path: '/' });
         setLoading(false);
@@ -29,9 +30,10 @@ const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
         const token = await authState.getIdToken();
         nookies.set(undefined, 'token', token, { path: '/' });
         setUser(authState);
+        setLoading(false);
 
         // Emulate a delay to show the loading screen whilst we work on customising it
-        setTimeout(() => setLoading(false), 300);
+        // setTimeout(() => setLoading(false), 300);
       }
     };
 

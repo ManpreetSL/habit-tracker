@@ -99,7 +99,7 @@ const HabitWeeklyView = ({
       </thead>
       <tbody>
         {goals.map(({ habits }) =>
-          habits.map((habitWithHistory) => {
+          habits?.map((habitWithHistory) => {
             const completionPercentagesByDay = calculateCompletionPercentages({
               habitWithHistory,
               dates: dateStrings,

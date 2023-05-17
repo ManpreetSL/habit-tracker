@@ -20,21 +20,21 @@ const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
 
   useEffect(() => {
     const handleIdTokenChanged = async (authState: User | null) => {
+      setLoading(true);
+
       if (!authState) {
-        setLoading(true);
         setUser(null);
         nookies.set(undefined, 'token', '', { path: '/' });
-        setLoading(false);
       } else {
-        setLoading(true);
         const token = await authState.getIdToken();
         nookies.set(undefined, 'token', token, { path: '/' });
         setUser(authState);
-        setLoading(false);
 
         // Emulate a delay to show the loading screen whilst we work on customising it
         // setTimeout(() => setLoading(false), 300);
       }
+
+      setLoading(false);
     };
 
     // onIdTokenChanged is identical to onAuthStateChanged but it also fires when the user's ID token is refreshed.

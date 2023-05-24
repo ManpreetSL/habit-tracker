@@ -3,47 +3,49 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSidePropsContext } from 'next';
-import nookies from 'nookies';
 import Link from '../src/components/Link';
 import Habits from '../components/Habits';
 import AccountMenu from '../components/AccountMenu';
-import { auth } from '../src/services/auth/firebase-admin';
 import logger from '../src/services/logger';
-import prisma from '../prisma/prisma-db';
 import { GoalWithHabitsAndEntries } from '../prisma/types';
+import { getGoals } from './api/goals/controller';
+import { verifyCookies } from './api/utils';
+import { transformGoals } from './api/goal-utils';
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { locale = 'en' } = ctx;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { locale = 'en' } = context;
+  const defaultProps = {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'app', 'habit'])),
+      goalsProp: JSON.stringify([]),
+      uid: '',
+    },
+  };
 
   try {
-    const cookies = nookies.get(ctx);
-    const token = await auth.verifyIdToken(cookies.token);
+    const token = await verifyCookies(context);
 
-    let goals: GoalWithHabitsAndEntries[] = [];
-    if (token) {
-      goals = await prisma.goal.findMany({
-        include: {
-          habits: {
-            include: {
-              entries: true,
-            },
-          },
-        },
-      });
+    if (!token) {
+      logger.debug('null token');
+
+      return defaultProps;
     }
+
+    const goals = await getGoals(token.user_id);
 
     return {
       props: {
         ...(await serverSideTranslations(locale, ['common', 'app', 'habit'])),
-        goals,
+        goalsProp: JSON.stringify(goals),
+        uid: token.uid,
       },
     };
   } catch (error) {
+    // Basically, how do I find out if the token has expired?
     logger.error(error);
   }
-  return {
-    props: {} as never,
-  };
+
+  return defaultProps;
 }
 
 const styles = {
@@ -95,11 +97,16 @@ const styles = {
 };
 
 type HomeProps = {
-  goals: GoalWithHabitsAndEntries[];
+  goalsProp: string;
+  userId: string;
 };
 
-const Home = ({ goals }: HomeProps) => {
+const Home = ({ goalsProp, userId }: HomeProps) => {
   const { t } = useTranslation();
+
+  const rawGoals: GoalWithHabitsAndEntries[] = JSON.parse(goalsProp);
+  const goals = transformGoals(rawGoals);
+  logger.debug({ goals });
 
   return (
     <div css={styles.container}>
@@ -114,7 +121,7 @@ const Home = ({ goals }: HomeProps) => {
           <AccountMenu />
         </header>
 
-        <Habits goals={goals} />
+        <Habits goals={goals} cookieUserId={userId} />
 
         <footer css={styles.footer}>
           <p>

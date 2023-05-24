@@ -10,6 +10,7 @@ import logger from '../../src/services/logger';
 import Header from '../Header';
 import useGoalsAdapter from '../../src/hooks/useGoalsAdapter';
 import { GoalWithHabitsAndEntries } from '../../prisma/types';
+import useUser from '../../src/services/auth/useUser';
 
 const styles = {
   container: css({
@@ -69,9 +70,10 @@ const DAYS_TO_SHOW = 7;
 
 type ViewHabitsProps = {
   goals: GoalWithHabitsAndEntries[] | null;
+  cookieUserId: string;
 };
 
-const ViewHabits = ({ goals }: ViewHabitsProps) => {
+const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const { t } = useTranslation(['common', 'add-habit', 'habit']);
 
   const [habitsData, setHabitsData] = useState<GoalWithHabitsAndEntries[]>(
@@ -82,11 +84,18 @@ const ViewHabits = ({ goals }: ViewHabitsProps) => {
   const dates = calculateDates(DAYS_TO_SHOW);
 
   const goalsAdapter = useGoalsAdapter();
+  const { user } = useUser();
 
   // Now fetch the data based on the number of days to show
   // We don't want to fetch all habits data, as it would be inefficient to pull in potentially years' worth of data
   // But this also means when saving data, these 7 days and any changes will have to be merged into the full set of entries
   useEffect(() => {
+    // If user is null, useUser() isn't ready yet, so return
+    if (!user?.uid) return;
+
+    // If user ID is same as the ID from getServerSideProps, return
+    // Check what happens if we log out and log back in as the same user?
+    if (cookieUserId === user?.uid) return;
     const date = new Date();
     date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
 
@@ -98,7 +107,7 @@ const ViewHabits = ({ goals }: ViewHabitsProps) => {
       })
       .then(setHabitsData)
       .catch((error) => logger.error(error));
-  }, [goalsAdapter]);
+  }, [cookieUserId, user?.uid, goalsAdapter]);
 
   const toggleTimeView = () => {
     if (timeView === 'daily') setTimeView('weekly');
@@ -180,7 +189,6 @@ const ViewHabits = ({ goals }: ViewHabitsProps) => {
           </Link>
         }
       />
-
       <div css={styles.habitsContainer}>
         {timeView === 'weekly' && (
           <HabitWeeklyView

@@ -5,6 +5,7 @@ type User = {
   name?: string;
   uid: string;
   email: string | null;
+  isAnonymous: boolean;
 };
 
 type UserContextParams = {
@@ -18,14 +19,15 @@ const UserContext = createContext<UserContextParams>({
 type FormatUserParams = {
   uid: string;
   email: string | null;
+  isAnonymous: boolean;
 } | null;
 
 const formatUser = (params: FormatUserParams) => {
   if (!params) return null;
 
-  const { uid, email } = params;
+  const { uid, email, isAnonymous } = params;
 
-  return { uid, email };
+  return { uid, email, isAnonymous };
 };
 
 type UserProviderProps = {

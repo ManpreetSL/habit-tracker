@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut as signOutFirebase,
+  signInAnonymously as signInAnonymouslyFirebase,
 } from 'firebase/auth';
 import { auth } from './firebase';
 
@@ -18,7 +19,13 @@ const signIn = (email: string, password: string) =>
     return user;
   });
 
+const signInAnonymously = () =>
+  signInAnonymouslyFirebase(auth).then((userCredential) => {
+    const { user } = userCredential;
+    return user;
+  });
+
 const signOut = () =>
   signOutFirebase(auth).catch((error) => logger.error(error));
 
-export { signUp, signIn, signOut };
+export { signUp, signIn, signOut, signInAnonymously };

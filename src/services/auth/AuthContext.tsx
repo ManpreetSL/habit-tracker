@@ -2,7 +2,8 @@ import { User } from 'firebase/auth';
 import { createContext, ReactNode, useState, useEffect, useMemo } from 'react';
 import nookies from 'nookies';
 import { auth } from './firebase';
-import { signUp, signIn, signOut } from './manage-users';
+import { signUp, signIn, signOut, signInAnonymously } from './manage-users';
+import logger from '../logger';
 
 const AuthContext = createContext({
   user: null as User | null,
@@ -17,6 +18,17 @@ type AuthProviderProps = { children: ReactNode };
 const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Log in anonymously on context creation or on sign out
+  useEffect(() => {
+    // Check if a current user and they're valid
+    if (user) {
+      logger.debug('user changed to ', user);
+    } else {
+      logger.debug('signing in as anonymous user');
+      signInAnonymously();
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleIdTokenChanged = async (authState: User | null) => {

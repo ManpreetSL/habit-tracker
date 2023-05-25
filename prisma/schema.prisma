@@ -15,6 +15,7 @@ model Goal {
   name        String
   description String?
   habits      Habit[]
+  userId      String
 }
 
 model Habit {

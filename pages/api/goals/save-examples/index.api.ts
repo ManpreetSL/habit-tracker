@@ -1,11 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../prisma/prisma-db';
+import logger from '../../../../src/services/logger';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { userId } = req.body;
+  logger.debug('saving default goals for', userId);
+
   if (req.method === 'POST') {
     // Set up default habits
     const goal = await prisma.goal.create({
       data: {
+        userId,
         name: 'Improve health',
         description:
           'Improve physical and mental health so I can feel better about living life',
@@ -86,10 +91,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(201).json(goals);
+    return res.status(201).json(goals);
   }
 
-  res.status(500).json([]);
+  return res.status(500).json([]);
 };
 
 export default handler;

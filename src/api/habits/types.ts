@@ -40,7 +40,7 @@ export type HabitService = {
   getHabits: () => Promise<GoalWithHabitsAndEntries[]>;
   getHabitsFromDate: (date: Date) => Promise<GoalWithHabitsAndEntries[]>;
   saveHabits: (habits: GoalWithHabitsAndEntries[]) => Promise<void>;
-  saveDefaultData: () => Promise<void>;
+  saveDefaultData: (userId: string) => Promise<void>;
   addEntry: ({ habitId, date, quantity }: AddEntryParams) => Promise<string>;
   removeEntry: ({ entryId, habitId }: RemoveEntryParams) => Promise<void>;
 };

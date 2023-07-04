@@ -34,6 +34,8 @@ const styles = {
   }),
   modalActions: css({
     marginTop: '1em',
+    display: 'flex',
+    justifyContent: 'center',
   }),
 
   middleContainer: css({

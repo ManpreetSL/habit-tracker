@@ -82,6 +82,8 @@ const HabitWeeklyView = ({
     } else onAddHabitEntry(habitId, date);
   };
 
+  if (goals.length === 0) return null;
+
   return (
     <table css={styles.container}>
       <thead>

@@ -11,6 +11,7 @@ import Button from '../Button';
 import HabitDailyView from './HabitDailyView';
 import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
+import Header from '../Header';
 
 const styles = {
   container: css({
@@ -18,48 +19,34 @@ const styles = {
     maxWidth: '100%',
     height: '100vh',
     maxHeight: '100vh',
-    backgroundColor: '#111',
     margin: '0',
-  }),
-  header: css({
+    backgroundColor: '#0000ff',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '0 auto',
-    height: '130px',
-    maxWidth: '500px',
-    position: 'relative',
+    flexDirection: 'column',
   }),
 
   toggleTimeViewButton: css({
-    position: 'absolute',
-    left: '8px',
+    textTransform: 'capitalize',
+    borderRadius: '12px',
   }),
 
   addHabitButton: css({
     borderRadius: '7px',
-    position: 'absolute',
     padding: '0',
     height: '48px',
     width: '48px',
-    top: '65px',
-    right: '8px',
-    transform: 'translateY(-50%)',
-  }),
-
-  logoContainer: css({
-    height: '200px',
-    width: '100vw',
-    position: 'relative',
-  }),
-  logo: css({
-    maxHeight: '16vh',
-    maxWidth: '100vw',
   }),
 
   habitsContainer: css({
-    maxWidth: '700px',
+    minWidth: '450px',
+    width: '40%',
+    maxWidth: '1000px',
     margin: '0 auto',
+  }),
+
+  noHabitsContainer: css({
+    display: 'flex',
+    flexDirection: 'column',
   }),
 };
 
@@ -85,7 +72,7 @@ type TimeView = 'daily' | 'weekly';
 const DAYS_TO_SHOW = 7;
 
 const ViewHabits = () => {
-  const { t } = useTranslation(['common', 'add-habit']);
+  const { t } = useTranslation(['common', 'add-habit', 'habit']);
   const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
@@ -146,35 +133,48 @@ const ViewHabits = () => {
         logger.error('deleteHabit encountered an issue', error)
       );
 
+  const saveExampleData = () => {
+    habitsApi.saveDefaultData().then(habitsApi.getHabits).then(setHabitsData);
+  };
+
   return (
     <div css={styles.container}>
-      <Button stylesProp={styles.toggleTimeViewButton} onClick={toggleTimeView}>
-        {timeView}
-        <Image
-          src='/icons/add.svg'
-          alt={t('add-habit:title')}
-          width='32'
-          height='32'
-        />
-      </Button>
-      <header css={styles.header}>
-        <Image
-          css={styles.logo}
-          src='/logo.svg'
-          alt={t('common:alt.logo')}
-          fill
-        />
-        <Link href='/add-habit'>
-          <Button stylesProp={styles.addHabitButton}>
+      <Header
+        left={
+          <Button
+            stylesProp={styles.toggleTimeViewButton}
+            onClick={toggleTimeView}
+          >
+            {timeView}
             <Image
               src='/icons/add.svg'
-              alt={t('add-habit:title')}
+              alt={t('habit:toggleTimeView')}
               width='32'
               height='32'
             />
           </Button>
-        </Link>
-      </header>
+        }
+        centre={
+          <Image
+            src='/logo.svg'
+            alt={t('common:alt.logo')}
+            width={250}
+            height={120}
+          />
+        }
+        right={
+          <Link href='/add-habit'>
+            <Button stylesProp={styles.addHabitButton}>
+              <Image
+                src='/icons/add.svg'
+                alt={t('add-habit:title')}
+                width='32'
+                height='32'
+              />
+            </Button>
+          </Link>
+        }
+      />
 
       <div css={styles.habitsContainer}>
         {habitsData.length === 0 && (
@@ -208,6 +208,15 @@ const ViewHabits = () => {
               />
             ))
           )}
+
+        {habitsData.length === 0 ? (
+          <div css={styles.noHabitsContainer}>
+            <p>{t('habit:noHabits')}</p>
+            <Button onClick={saveExampleData}>
+              {t('habit:saveSampleHabits')}
+            </Button>
+          </div>
+        ) : null}
       </div>
 
       <ToastContainer

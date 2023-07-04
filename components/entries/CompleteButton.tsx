@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import ButtonWithImage from '../ButtonWithImage';
 
 type CompleteButtonProps = {

@@ -60,17 +60,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           createMany: {
             data: [
               {
-                id: '9b1deb4d',
                 completionDate: '2022-12-21T20:05:07.193Z',
                 quantity: 1,
               },
               {
-                id: '3b7d',
                 completionDate: '2022-12-20T20:05:07.193Z',
                 quantity: 1,
               },
               {
-                id: '4bad',
                 completionDate: '2023-01-05T20:05:07.193Z',
                 quantity: 1,
               },

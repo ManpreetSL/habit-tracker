@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { sub } from 'date-fns';
 import logger from '../../../src/services/logger';
 import { getGoals } from './controller';
 import { auth } from '../../../src/services/auth/firebase-admin';
+
+const DEFAULT_DAYS = 7;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -24,12 +27,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const { uid, email = '' } = verifiedToken;
-    const { fromDate, toDate } = req.query;
+    let { fromDate, toDate } = req.query;
 
     logger.debug({ uid, email });
     logger.debug({ fromDate, toDate });
 
-    // If no dates, then calculate the last 7 days
+    // If no dates, then calculate the last default days period
+    // TODO: Do we need toDate? Can Prisma just check for anything later than the fromDate?
+    if (!fromDate && !toDate) {
+      const today = new Date();
+      toDate = today.toUTCString();
+      fromDate = sub(today, { days: DEFAULT_DAYS }).toUTCString();
+    }
+
+    logger.debug({ fromDate, toDate });
+
     // TODO: Add dates into the Prisma query
     // entry.completionDate >= date
     const goals = await getGoals(uid);

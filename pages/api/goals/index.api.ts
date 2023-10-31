@@ -54,7 +54,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // TODO: Add dates into the Prisma query
     // entry.completionDate >= date
-    const goals = await getGoals(uid);
+    const goals = await getGoals({ userId: uid, fromDate, toDate });
     // const goalsString = JSON.stringify(goals);
     logger.debug({ goals });
     // logger.debug({ goalsString });

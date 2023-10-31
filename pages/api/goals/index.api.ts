@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { sub } from 'date-fns';
+import { startOfDay, sub } from 'date-fns';
 import logger from '../../../src/services/logger';
 import { getGoals } from './controller';
 import { auth } from '../../../src/services/auth/firebase-admin';
@@ -29,15 +29,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { uid, email = '' } = verifiedToken;
     let { fromDate, toDate } = req.query;
 
+    if (typeof fromDate !== 'string') {
+      fromDate = '';
+    }
     logger.debug({ uid, email });
     logger.debug({ fromDate, toDate });
 
-    // If no dates, then calculate the last default days period
-    // TODO: Do we need toDate? Can Prisma just check for anything later than the fromDate?
+    // Go to the start of the given date
+    if (fromDate) {
+      // TODO: What happens if it's not a valid date value that's passed?
+      fromDate = startOfDay(new Date(fromDate)).toUTCString();
+    }
+
+    // If no dates given, then calculate the last default days period
     if (!fromDate && !toDate) {
       const today = new Date();
       toDate = today.toUTCString();
-      fromDate = sub(today, { days: DEFAULT_DAYS }).toUTCString();
+      const fromDateWithTime = sub(today, { days: DEFAULT_DAYS });
+      // Now get midnight
+      fromDate = startOfDay(new Date(fromDateWithTime)).toUTCString();
     }
 
     logger.debug({ fromDate, toDate });
@@ -45,9 +55,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // TODO: Add dates into the Prisma query
     // entry.completionDate >= date
     const goals = await getGoals(uid);
-    const goalsString = JSON.stringify(goals);
+    // const goalsString = JSON.stringify(goals);
     logger.debug({ goals });
-    logger.debug({ goalsString });
+    // logger.debug({ goalsString });
 
     // return res.status(200).json({ goals: goalsString });
     return res.status(200).json({ goals });

@@ -29,7 +29,15 @@ export const getGoals = async ({
     include: {
       habits: {
         include: {
-          entries: true,
+          entries: {
+            where: {
+              // TODO: Will this mean a goal won't be shown if there are no entries in the given time range?
+              completionDate: {
+                gte: new Date(fromDate),
+                lte: new Date(toDate),
+              },
+            },
+          },
         },
       },
     },

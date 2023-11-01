@@ -5,8 +5,8 @@ import logger from '../../../src/services/logger';
 
 type GetGoalsParams = {
   userId: string;
-  fromDate: Date;
-  toDate: Date;
+  fromDate: string;
+  toDate: string;
 };
 
 export const getGoals = async ({

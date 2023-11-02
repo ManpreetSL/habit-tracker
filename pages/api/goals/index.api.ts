@@ -32,6 +32,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (typeof fromDate !== 'string') {
       fromDate = '';
     }
+
+    if (typeof toDate !== 'string') {
+      toDate = '';
+    }
+
+    // How do I confirm what types the query args are?
+    // can use typeof to make sure it's a string
+    // But then also cast them to dates and check if they're valid dates - if not, return an error?
     logger.debug({ uid, email });
     logger.debug({ fromDate, toDate });
 

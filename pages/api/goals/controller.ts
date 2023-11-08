@@ -8,8 +8,8 @@ const DEFAULT_DAYS = 7;
 
 type GetGoalsParams = {
   userId: string;
-  fromDate: string;
-  toDate: string;
+  fromDate?: string;
+  toDate?: string;
 };
 
 export const getGoals = async ({ userId, ...params }: GetGoalsParams) => {

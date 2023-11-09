@@ -4,17 +4,55 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSidePropsContext } from 'next';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
 import logger from '../src/services/logger';
 import useGoalsAdapter from '../src/hooks/useGoalsAdapter';
+import { verifyCookies } from './api/utils';
+import { getGoals } from './api/goals/controller';
 
-export async function getStaticProps({ locale = 'en' }) {
-  return {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { locale = 'en' } = context;
+  const defaultProps = {
     props: {
       ...(await serverSideTranslations(locale, ['add-habit'])),
+      goalsProp: [],
+      uid: '',
     },
   };
+
+  try {
+    const token = await verifyCookies(context);
+
+    if (!token) {
+      logger.debug('null token');
+
+      return defaultProps;
+    }
+
+    logger.debug(token.user_id);
+
+    const goals = await getGoals({ userId: token.user_id });
+    logger.debug(goals);
+    const transformedGoals = goals.map(({ id, name, description }) => ({
+      id,
+      name,
+      description,
+    }));
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['add-habit'])),
+        goalsProp: transformedGoals,
+        uid: token.uid,
+      },
+    };
+  } catch (error) {
+    logger.error(error);
+  }
+
+  return defaultProps;
 }
 
 type FormType = {
@@ -90,9 +128,20 @@ const styles = {
   }),
 };
 
-const AddHabit = () => {
+type AddHabitProps = {
+  goalsProp: { id: string; name: string; description: string }[];
+};
+
+const AddHabit = ({ goalsProp }: AddHabitProps) => {
   const router = useRouter();
   const goalsAdapter = useGoalsAdapter();
+
+  if (!goalsProp) logger.warn('No goals available to add a habit to');
+  // TODO: Use the first goal ID as the one to add the habit to
+
+  const goalToAttachTo = goalsProp[0];
+
+  logger.debug({ goalToAttachTo, goalsProp });
 
   const { t } = useTranslation();
 

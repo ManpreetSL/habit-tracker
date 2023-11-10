@@ -6,14 +6,12 @@ export type GetGoalsForDatesParams = {
 };
 
 export type AddHabitParams = {
-  id: string;
   name: string;
   description: string | null;
   frequencyUnit: string;
   frequencyQuantity: number;
   targetUnit: string;
   targetQuantity: number;
-  streak: number;
   goalId: string;
 };
 

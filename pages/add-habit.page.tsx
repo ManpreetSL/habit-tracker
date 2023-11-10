@@ -160,6 +160,7 @@ const AddHabit = ({ goalsProp }: AddHabitProps) => {
 
     const {
       name,
+      description,
       frequencyQuantity,
       frequencyUnit,
       targetQuantity,
@@ -168,6 +169,7 @@ const AddHabit = ({ goalsProp }: AddHabitProps) => {
 
     if (
       !name ||
+      !description ||
       !frequencyQuantity ||
       !frequencyUnit ||
       !targetQuantity ||
@@ -178,10 +180,12 @@ const AddHabit = ({ goalsProp }: AddHabitProps) => {
     goalsAdapter
       .addHabit({
         name,
+        description,
         frequencyQuantity,
         frequencyUnit,
         targetQuantity,
         targetUnit,
+        goalId: goalToAttachTo.id,
       })
       .then((message) => {
         logger.debug('addHabit', { message });

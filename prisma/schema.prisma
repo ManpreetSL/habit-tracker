@@ -23,7 +23,7 @@ model Habit {
   name              String
   description       String?
   frequencyUnit     String
-  frequencyQuantity Int
+  frequencyQuantity Decimal @db.Decimal(10, 2)
   targetUnit        String
   targetQuantity    Decimal @db.Decimal(10, 2)
   streak            Int

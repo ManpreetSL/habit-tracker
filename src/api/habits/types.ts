@@ -1,4 +1,3 @@
-import { Habit } from '@prisma/client';
 import { GoalWithHabitsAndEntries } from '../../../prisma/types';
 
 export type GetGoalsForDatesParams = {
@@ -6,7 +5,17 @@ export type GetGoalsForDatesParams = {
   toDate?: Date;
 };
 
-export type AddHabitParams = Habit;
+export type AddHabitParams = {
+  id: string;
+  name: string;
+  description: string | null;
+  frequencyUnit: string;
+  frequencyQuantity: number;
+  targetUnit: string;
+  targetQuantity: number;
+  streak: number;
+  goalId: string;
+};
 
 export type AddEntryParams = {
   habitId: string;
@@ -35,6 +44,7 @@ export type HabitService = {
     frequencyUnit,
     frequencyQuantity,
     targetUnit,
+    targetQuantity,
   }: AddHabitParams) => Promise<string>;
   deleteHabit: (habitId: string) => Promise<void>;
   getHabits: () => Promise<GoalWithHabitsAndEntries[]>;

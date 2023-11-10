@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import {
   AddEntryParams,
   HabitService,
@@ -10,11 +11,15 @@ import { GoalWithHabitsAndEntries } from '../../../../prisma/types';
 
 const restHabitServiceFactory = (): HabitService => {
   // Return server-side storage methods
-  const addHabit = (data: AddHabitParams) =>
-    fetch('/api/habits', {
+  const addHabit = (data: AddHabitParams) => {
+    const targetQuantity = new Prisma.Decimal(data.targetQuantity);
+    const frequencyQuantity = new Prisma.Decimal(data.frequencyQuantity);
+
+    return fetch('/api/habits', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, targetQuantity, frequencyQuantity }),
     }).then((res) => res.json());
+  };
 
   const deleteHabit = async (habitId: string) => {
     await fetch(`/api/habits/${habitId}`, { method: 'DELETE' });

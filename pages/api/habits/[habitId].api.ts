@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import logger from '../../../src/services/logger';
 
 export default async function handler(
   req: NextApiRequest,
@@ -6,7 +7,7 @@ export default async function handler(
 ) {
   const { habitId } = req.query;
 
-  console.log('received req at /api/habits/ with id', habitId);
+  logger.debug('received req at /api/habits/ with id', habitId);
 
   if (!habitId) return res.status(405);
 
@@ -27,7 +28,7 @@ export default async function handler(
 
   // const goalsData = JSON.parse(req.body);
 
-  console.log('received post at /api/habits/');
+  logger.debug('received post at /api/habits/');
 
   return res
     .status(200)

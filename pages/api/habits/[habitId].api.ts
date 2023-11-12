@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import habitsApi from '../../../src/api/habits';
 
 export default async function handler(
   req: NextApiRequest,

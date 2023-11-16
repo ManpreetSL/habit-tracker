@@ -45,8 +45,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'GET') {
+    const { date } = req.query;
+
+    logger.debug('query:', date);
+    // entry.completionDate >= date
+    const habits = await prisma.habit.findMany();
+    logger.debug({ habits });
     // TODO: Check query params for a given date
-    res.status(200).json([{ id: 'this will be an array of habits' }]);
+    res.status(200).json(habits);
   }
 
   return res.status(500);

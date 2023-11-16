@@ -1,11 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { HabitFlat } from '../../../src/types/habits';
 import prisma from '../../../prisma/prisma-db';
+import logger from '../../../src/services/logger';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const body = JSON.parse(req.body);
-    // TODO: Check if the req body is an array or a single one
+    logger.debug({ body });
+
     const {
       name,
       description,
@@ -14,6 +16,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       targetUnit,
       targetQuantity,
     }: HabitFlat = body;
+    const { goalId } = body;
+
+    logger.debug({
+      name,
+      description,
+      frequencyUnit,
+      frequencyQuantity,
+      targetUnit,
+      targetQuantity,
+      goalId,
+    });
 
     const createdHabit = await prisma.habit.create({
       data: {
@@ -24,6 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         targetUnit,
         targetQuantity,
         streak: 4,
+        goalId,
       },
     });
 

@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       name,
       description,
       frequencyUnit,
-      frequencyCount,
+      frequencyQuantity,
       targetUnit,
       targetQuantity,
     }: HabitFlat = body;
@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         name,
         description,
         frequencyUnit,
-        frequencyCount,
+        frequencyQuantity,
         targetUnit,
         targetQuantity,
         streak: 4,

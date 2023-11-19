@@ -5,11 +5,25 @@ import {
   RemoveEntryParams,
   GetGoalsForDatesParams,
   AddHabitParams,
+  GoalWithHabitsAndEntriesRaw,
 } from '../types';
 import logger from '../../../services/logger';
 import { GoalWithHabitsAndEntries } from '../../../../prisma/types';
 
 const restHabitServiceFactory = (): HabitService => {
+  const transformGoals = (goals: GoalWithHabitsAndEntriesRaw[]) =>
+    goals.map((goal) => ({
+      ...goal,
+      habits: goal.habits.map((habit) => ({
+        ...habit,
+        frequencyQuantity: parseFloat(habit.frequencyQuantity),
+        entries: habit.entries.map((entry) => ({
+          ...entry,
+          completionDate: new Date(entry.completionDate),
+        })),
+      })),
+    }));
+
   // Return server-side storage methods
   const addHabit = (data: AddHabitParams) => {
     const targetQuantity = new Prisma.Decimal(data.targetQuantity);
@@ -30,12 +44,13 @@ const restHabitServiceFactory = (): HabitService => {
     const params = new URLSearchParams(url.search);
 
     if (fromDate) params.append('fromDate', fromDate.toDateString());
-
     if (toDate) params.append('toDate', toDate.toDateString());
 
     return fetch(url, { method: 'GET' })
       .then((res) => res.json())
-      .then(({ goals }: { goals: GoalWithHabitsAndEntries[] }) => goals);
+      .then(({ goals }: { goals: GoalWithHabitsAndEntriesRaw[] }) =>
+        transformGoals(goals)
+      );
   };
 
   const getHabits = () =>

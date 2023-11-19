@@ -1,3 +1,4 @@
+import { Entry, Goal } from '@prisma/client';
 import { GoalWithHabitsAndEntries } from '../../../prisma/types';
 
 export type GetGoalsForDatesParams = {
@@ -24,6 +25,27 @@ export type AddEntryParams = {
 export type RemoveEntryParams = {
   entryId: string;
   habitId: string;
+};
+
+// Raw JSON data type from backend
+type HabitRaw = {
+  id: string;
+  name: string;
+  description: string | null;
+  frequencyUnit: string;
+  frequencyQuantity: string;
+  targetUnit: string;
+  targetQuantity: string;
+  streak: number;
+  goalId: string;
+};
+
+export type GoalWithHabitsAndEntriesRaw = Goal & {
+  habits: HabitWithHistoryRaw[];
+};
+
+type HabitWithHistoryRaw = HabitRaw & {
+  entries: Entry[];
 };
 
 export type HabitService = {

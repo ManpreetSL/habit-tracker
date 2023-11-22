@@ -17,6 +17,7 @@ const restHabitServiceFactory = (): HabitService => {
       habits: goal.habits.map((habit) => ({
         ...habit,
         frequencyQuantity: parseFloat(habit.frequencyQuantity),
+        targetQuantity: parseFloat(habit.targetQuantity),
         entries: habit.entries.map((entry) => ({
           ...entry,
           completionDate: new Date(entry.completionDate),

@@ -1,5 +1,4 @@
 import { Entry, Goal } from '@prisma/client';
-import { GoalWithHabitsAndEntries } from '../../../prisma/types';
 
 export type GetGoalsForDatesParams = {
   fromDate?: Date;
@@ -45,6 +44,26 @@ export type GoalWithHabitsAndEntriesRaw = Goal & {
 };
 
 type HabitWithHistoryRaw = HabitRaw & {
+  entries: Entry[]; // TODO: What does completionDate come as? A string, presumably?
+};
+
+export type GoalWithHabitsAndEntries = Goal & {
+  habits: HabitWithHistory[];
+};
+
+export type Habit = {
+  id: string;
+  name: string;
+  description: string | null;
+  frequencyUnit: string;
+  frequencyQuantity: number;
+  targetUnit: string;
+  targetQuantity: number;
+  streak: number;
+  goalId: string;
+};
+
+type HabitWithHistory = Habit & {
   entries: Entry[];
 };
 

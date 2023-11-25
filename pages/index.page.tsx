@@ -31,7 +31,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       return defaultProps;
     }
 
-    const goals = await getGoals(token.user_id);
+    const goals = await getGoals({ userId: token.user_id });
 
     return {
       props: {

@@ -86,6 +86,8 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const goalsAdapter = useGoalsAdapter();
   const { user } = useUser();
 
+  const userId = user?.uid ?? cookieUserId;
+
   // Now fetch the data based on the number of days to show
   // We don't want to fetch all habits data, as it would be inefficient to pull in potentially years' worth of data
   // But this also means when saving data, these 7 days and any changes will have to be merged into the full set of entries
@@ -100,7 +102,7 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
     date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
 
     goalsAdapter
-      .getGoalsForDates({ fromDate: date, toDate: new Date() })
+      .getGoals({ fromDate: date, toDate: new Date() })
       .then((data) => {
         logger.debug({ data });
         return data;

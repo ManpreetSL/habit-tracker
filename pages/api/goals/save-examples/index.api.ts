@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { sub } from 'date-fns';
 import prisma from '../../../../prisma/prisma-db';
 import logger from '../../../../src/services/logger';
 
@@ -19,6 +20,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const goalId = goal.id;
 
+    const today = new Date();
+
+    const yesterday = sub(today, { days: 1 });
+    const twoDaysAgo = sub(today, {
+      days: 2,
+      hours: 3,
+      minutes: 57,
+      seconds: 48,
+    });
+    const sevenDaysAgo = sub(today, {
+      days: 7,
+      hours: 3,
+      minutes: 57,
+      seconds: 48,
+    });
+
     await prisma.habit.create({
       data: {
         name: 'Do 10 mins of Simran',
@@ -32,11 +49,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           createMany: {
             data: [
               {
-                completionDate: new Date('2022-12-19T15:09:20.037Z'),
+                completionDate: yesterday,
                 quantity: 5,
               },
               {
-                completionDate: new Date('2022-12-18T15:16:49.193Z'),
+                completionDate: twoDaysAgo,
                 quantity: 3,
               },
             ],
@@ -60,15 +77,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           createMany: {
             data: [
               {
-                completionDate: '2022-12-21T20:05:07.193Z',
+                completionDate: yesterday,
                 quantity: 1,
               },
               {
-                completionDate: '2022-12-20T20:05:07.193Z',
+                completionDate: twoDaysAgo,
                 quantity: 1,
               },
               {
-                completionDate: '2023-01-05T20:05:07.193Z',
+                completionDate: sevenDaysAgo,
                 quantity: 1,
               },
             ],

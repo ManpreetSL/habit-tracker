@@ -191,7 +191,7 @@ const AddHabit = ({ goalsProp }: AddHabitProps) => {
         logger.debug('addHabit', { message });
         router.push('/');
       })
-      .catch((error) => logger.error(error));
+      .catch((error) => logger.error('Error adding a habit', error));
   };
 
   return (

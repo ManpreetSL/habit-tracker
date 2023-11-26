@@ -1,8 +1,8 @@
 import { Entry, Goal } from '@prisma/client';
 
-export type GetGoalsForDatesParams = {
-  fromDate?: Date;
-  toDate?: Date;
+export type GetGoalsParams = {
+  fromDate: Date;
+  toDate: Date;
 };
 
 export type AddHabitParams = {
@@ -69,10 +69,10 @@ type HabitWithHistory = Habit & {
 
 export type HabitService = {
   adapterType: string;
-  getGoalsForDates: ({
+  getGoals: ({
     fromDate,
     toDate,
-  }: GetGoalsForDatesParams) => Promise<GoalWithHabitsAndEntries[]>;
+  }: Partial<GetGoalsParams>) => Promise<GoalWithHabitsAndEntries[]>;
   save?: () => {};
   retrieve?: () => {};
   get?: () => {};

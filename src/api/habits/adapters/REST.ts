@@ -3,7 +3,7 @@ import {
   AddEntryParams,
   HabitService,
   RemoveEntryParams,
-  GetGoalsForDatesParams,
+  GetGoalsParams,
   AddHabitParams,
   GoalWithHabitsAndEntriesRaw,
 } from '../types';
@@ -40,7 +40,7 @@ const restHabitServiceFactory = (): HabitService => {
     await fetch(`/api/habits/${habitId}`, { method: 'DELETE' });
   };
 
-  const getGoalsForDates = ({ fromDate, toDate }: GetGoalsForDatesParams) => {
+  const getGoals = ({ fromDate, toDate }: Partial<GetGoalsParams>) => {
     const url = new URL('/api/goals', process.env.NEXT_PUBLIC_BASE_URL);
     const params = new URLSearchParams(url.search);
 
@@ -113,7 +113,7 @@ const restHabitServiceFactory = (): HabitService => {
     saveHabits,
     saveDefaultData,
     getHabitsFromDate,
-    getGoalsForDates,
+    getGoals,
     adapterType,
   };
 };

@@ -147,7 +147,7 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
 
   const saveExampleData = () => {
     goalsAdapter
-      .saveDefaultData()
+      .saveDefaultData(userId)
       .then(goalsAdapter.getHabits)
       .then(setHabitsData);
   };

@@ -9,7 +9,7 @@ import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
 import Header from '../Header';
 import useGoalsAdapter from '../../src/hooks/useGoalsAdapter';
-import { GoalWithHabitsAndEntries } from '../../prisma/types';
+import { GoalWithHabitsAndEntries } from '../../src/api/habits/types';
 import useUser from '../../src/services/auth/useUser';
 
 const styles = {

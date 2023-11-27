@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
 import { useState } from 'react';
-import { HabitWithHistory } from '../../prisma/types';
+import { HabitWithHistory } from '../../src/api/habits/types';
 import ButtonWithIcon from '../ButtonWithIcon';
 import CompleteButton from '../entries/CompleteButton';
 import Modal from '../Modal';

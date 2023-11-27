@@ -6,7 +6,7 @@ import {
   getEntriesForDay,
   isBinaryHabit,
 } from './utils';
-import { GoalWithHabitsAndEntries } from '../../prisma/types';
+import { GoalWithHabitsAndEntries } from '../../src/api/habits/types';
 
 const styles = {
   container: css({

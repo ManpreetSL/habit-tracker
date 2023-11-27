@@ -63,7 +63,7 @@ export type Habit = {
   goalId: string;
 };
 
-type HabitWithHistory = Habit & {
+export type HabitWithHistory = Habit & {
   entries: Entry[];
 };
 

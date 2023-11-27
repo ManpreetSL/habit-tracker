@@ -40,7 +40,7 @@ const restHabitServiceFactory = (): HabitService => {
     await fetch(`/api/habits/${habitId}`, { method: 'DELETE' });
   };
 
-  const getGoals = ({ fromDate, toDate }: Partial<GetGoalsParams>) => {
+  const getGoals = ({ fromDate, toDate }: GetGoalsParams = {}) => {
     const url = new URL('/api/goals', process.env.NEXT_PUBLIC_BASE_URL);
     const params = new URLSearchParams(url.search);
 

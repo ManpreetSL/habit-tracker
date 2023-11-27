@@ -8,7 +8,6 @@ import {
   GoalWithHabitsAndEntriesRaw,
 } from '../types';
 import logger from '../../../services/logger';
-import { GoalWithHabitsAndEntries } from '../../../../prisma/types';
 
 const restHabitServiceFactory = (): HabitService => {
   const transformGoals = (goals: GoalWithHabitsAndEntriesRaw[]) =>
@@ -54,26 +53,6 @@ const restHabitServiceFactory = (): HabitService => {
       );
   };
 
-  const getHabits = () =>
-    fetch('/api/habits', { method: 'GET' })
-      .then((res) => res.json())
-      .then(({ habits }: { habits: GoalWithHabitsAndEntries[] }) => habits);
-
-  const getHabitsFromDate = (date: Date) =>
-    fetch(`/api/habits?${new URLSearchParams({ date: date.toDateString() })}`, {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((res) => res)
-      .then(({ habits }: { habits: GoalWithHabitsAndEntries[] }) => habits);
-
-  const saveHabits = async (habits: GoalWithHabitsAndEntries[]) => {
-    await fetch('/api/habits', {
-      method: 'POST',
-      body: JSON.stringify(habits),
-    });
-  };
-
   // Save a default set of habits to local storage
   const saveDefaultData = async (userId: string) => {
     logger.debug('saveDefaultData', userId);
@@ -107,12 +86,9 @@ const restHabitServiceFactory = (): HabitService => {
   return {
     addHabit,
     deleteHabit,
-    getHabits,
     addEntry,
     removeEntry,
-    saveHabits,
     saveDefaultData,
-    getHabitsFromDate,
     getGoals,
     adapterType,
   };

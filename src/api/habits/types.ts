@@ -73,10 +73,6 @@ export type HabitService = {
     fromDate,
     toDate,
   }: GetGoalsParams) => Promise<GoalWithHabitsAndEntries[]>;
-  save?: () => {};
-  retrieve?: () => {};
-  get?: () => {};
-  set?: () => {};
   addHabit: ({
     name,
     description,
@@ -86,9 +82,6 @@ export type HabitService = {
     targetQuantity,
   }: AddHabitParams) => Promise<string>;
   deleteHabit: (habitId: string) => Promise<void>;
-  getHabits: () => Promise<GoalWithHabitsAndEntries[]>;
-  getHabitsFromDate: (date: Date) => Promise<GoalWithHabitsAndEntries[]>;
-  saveHabits: (habits: GoalWithHabitsAndEntries[]) => Promise<void>;
   saveDefaultData: (userId: string) => Promise<void>;
   addEntry: ({ habitId, date, quantity }: AddEntryParams) => Promise<string>;
   removeEntry: ({ entryId, habitId }: RemoveEntryParams) => Promise<void>;

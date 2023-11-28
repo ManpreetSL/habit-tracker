@@ -1,6 +1,6 @@
 import { Entry } from '@prisma/client';
 import { CompletionPercentages } from './types';
-import { HabitWithHistory } from '../../prisma/types';
+import { HabitWithHistory } from '../../src/api/habits/types';
 
 type EntriesByDay = {
   [date: string]: Entry[];

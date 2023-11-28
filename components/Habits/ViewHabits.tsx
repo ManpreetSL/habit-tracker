@@ -68,6 +68,12 @@ type TimeView = 'daily' | 'weekly';
 
 const DAYS_TO_SHOW = 7;
 
+const calculateFromDate = () => {
+  const date = new Date();
+  date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
+  return date;
+};
+
 type ViewHabitsProps = {
   goals: GoalWithHabitsAndEntries[] | null;
   cookieUserId: string;
@@ -98,8 +104,11 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
     // If user ID is same as the ID from getServerSideProps, return
     // Check what happens if we log out and log back in as the same user?
     if (cookieUserId === user?.uid) return;
-    const date = new Date();
-    date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
+
+    // But user.id from useUser() will still be initialised as null... that's annoying
+    // Use empty string from server side, and null from user hook to differentiate
+
+    const date = calculateFromDate();
 
     goalsAdapter
       .getGoals({ fromDate: date, toDate: new Date() })
@@ -119,7 +128,12 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const addHabitEntry = (habitId: string, date: Date) => {
     goalsAdapter
       .addEntry({ habitId, date })
-      .then(() => goalsAdapter.getHabits())
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData)
       .catch((error) =>
         logger.error('addHabitEntry encountered an issue', error)
@@ -129,7 +143,12 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const removeHabitEntry = (habitId: string, entryId: string) => {
     goalsAdapter
       .removeEntry({ entryId, habitId })
-      .then(() => goalsAdapter.getHabits())
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData)
       .catch((error) =>
         logger.error('removeHabitEntry encountered an issue', error)
@@ -139,7 +158,12 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const deleteHabit = (habitId: string) =>
     goalsAdapter
       .deleteHabit(habitId)
-      .then(() => goalsAdapter.getHabits())
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData)
       .catch((error) =>
         logger.error('deleteHabit encountered an issue', error)
@@ -148,13 +172,20 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const saveExampleData = () => {
     goalsAdapter
       .saveDefaultData(userId)
-      .then(goalsAdapter.getGoals)
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData);
   };
 
   return (
     <div css={styles.container}>
-      {goalsAdapter.adapterType}
+      type: {goalsAdapter.adapterType} | anon: {String(user?.isAnonymous)} |
+      email:
+      {user?.email} | uid: {user?.uid}
       <Header
         left={
           <Button

@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import logger from '../../../src/services/logger';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { entryId } = req.query;
-
-  if (!entryId) return res.status(405);
-  if (typeof entryId !== 'string') return res.status(405);
-
+  logger.debug(req.method, '@/api/entries');
   if (req.method === 'DELETE') {
+    const { entryId } = req.query;
+
+    if (!entryId) return res.status(405);
+    if (typeof entryId !== 'string') return res.status(405);
+
     // Delete entry <id>
     return res.status(200);
   }

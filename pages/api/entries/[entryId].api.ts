@@ -9,8 +9,8 @@ export default async function handler(
   if (req.method === 'DELETE') {
     const { entryId } = req.query;
 
-    if (!entryId) return res.status(405);
-    if (typeof entryId !== 'string') return res.status(405);
+    if (!entryId) return res.status(405).end();
+    if (typeof entryId !== 'string') return res.status(405).end();
 
     // Delete entry <id>
     return res.status(200);

@@ -140,9 +140,9 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
       );
   };
 
-  const removeHabitEntry = (habitId: string, entryId: string) => {
+  const removeHabitEntry = (entryId: string) => {
     goalsAdapter
-      .removeEntry({ entryId, habitId })
+      .removeEntry({ entryId })
       .then(() =>
         goalsAdapter.getGoals({
           fromDate: calculateFromDate(),
@@ -244,9 +244,7 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
                 onAddHabitEntry={() =>
                   addHabitEntry(habitWithHistory.id, dates[0])
                 }
-                onRemoveHabitEntry={(entryId) =>
-                  removeHabitEntry(habitWithHistory.id, entryId)
-                }
+                onRemoveHabitEntry={(entryId) => removeHabitEntry(entryId)}
                 onDeleteHabit={deleteHabit}
               />
             ))

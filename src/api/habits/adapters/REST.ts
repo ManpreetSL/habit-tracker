@@ -78,8 +78,8 @@ const restHabitServiceFactory = (): HabitService => {
       .then((res) => res.json())
       .then(({ id }) => id);
 
-  const removeEntry = async ({ entryId, habitId }: RemoveEntryParams) => {
-    await fetch(`/api/entries/${entryId}${new URLSearchParams({ habitId })}`, {
+  const removeEntry = async ({ entryId }: RemoveEntryParams) => {
+    await fetch(`/api/entries/${entryId})}`, {
       method: 'DELETE',
     });
   };

@@ -23,7 +23,6 @@ export type AddEntryParams = {
 
 export type RemoveEntryParams = {
   entryId: string;
-  habitId: string;
 };
 
 // Raw JSON data type from backend
@@ -84,5 +83,5 @@ export type HabitService = {
   deleteHabit: (habitId: string) => Promise<void>;
   saveDefaultData: (userId: string) => Promise<void>;
   addEntry: ({ habitId, date, quantity }: AddEntryParams) => Promise<string>;
-  removeEntry: ({ entryId, habitId }: RemoveEntryParams) => Promise<void>;
+  removeEntry: ({ entryId }: RemoveEntryParams) => Promise<void>;
 };

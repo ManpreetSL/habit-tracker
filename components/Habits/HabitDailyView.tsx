@@ -13,6 +13,7 @@ import {
   isBinaryHabit,
 } from './utils';
 import Button from '../Button';
+import { OnRemoveHabitEntry } from './types';
 
 const styles = {
   content: css({
@@ -71,7 +72,7 @@ type HabitDailyViewProps = {
   streak: number;
   date: string;
   onAddHabitEntry: () => void;
-  onRemoveHabitEntry: (entryId: string) => void;
+  onRemoveHabitEntry: OnRemoveHabitEntry;
   onDeleteHabit: (habitId: string) => void;
 };
 

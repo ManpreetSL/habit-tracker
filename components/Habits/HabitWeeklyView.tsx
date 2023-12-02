@@ -7,6 +7,7 @@ import {
   isBinaryHabit,
 } from './utils';
 import { GoalWithHabitsAndEntries } from '../../src/api/habits/types';
+import { OnRemoveHabitEntry } from './types';
 
 const styles = {
   container: css({
@@ -59,7 +60,7 @@ type HabitWeeklyViewProps = {
   goals: GoalWithHabitsAndEntries[];
   dates: Date[];
   onAddHabitEntry: (habitId: string, date: Date) => void;
-  onRemoveHabitEntry: (habitId: string, entryId: string) => void;
+  onRemoveHabitEntry: OnRemoveHabitEntry;
 };
 
 const HabitWeeklyView = ({
@@ -78,7 +79,7 @@ const HabitWeeklyView = ({
   ) => {
     if (isComplete) {
       const entriesToday = getEntriesForDay(entries, date.toDateString());
-      onRemoveHabitEntry(habitId, entriesToday[0].id);
+      onRemoveHabitEntry(entriesToday[0].id);
     } else onAddHabitEntry(habitId, date);
   };
 

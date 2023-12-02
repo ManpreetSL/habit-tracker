@@ -228,9 +228,7 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
             goals={habitsData}
             dates={dates}
             onAddHabitEntry={(habitId, date) => addHabitEntry(habitId, date)}
-            onRemoveHabitEntry={(habitId, entryId) =>
-              removeHabitEntry(habitId, entryId)
-            }
+            onRemoveHabitEntry={removeHabitEntry}
           />
         )}
         {timeView === 'daily' &&
@@ -244,7 +242,7 @@ const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
                 onAddHabitEntry={() =>
                   addHabitEntry(habitWithHistory.id, dates[0])
                 }
-                onRemoveHabitEntry={(entryId) => removeHabitEntry(entryId)}
+                onRemoveHabitEntry={removeHabitEntry}
                 onDeleteHabit={deleteHabit}
               />
             ))

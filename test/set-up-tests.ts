@@ -26,5 +26,5 @@ jest.mock('firebase/analytics', () => ({
 }));
 
 jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(),
+  getAuth: jest.fn().mockReturnValue({ setPersistence: jest.fn() }),
 }));

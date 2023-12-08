@@ -11,6 +11,7 @@ jest.mock('firebase/auth', () => ({
       callback({ uid: 'asdfaxz', email: 'asdf@gmail.com' });
       return jest.fn();
     }),
+    setPersistence: jest.fn(),
   }),
 
   createUserWithEmailAndPassword: jest.fn().mockResolvedValue({}),

@@ -19,13 +19,9 @@ export const getGoals = async ({ userId, ...params }: GetGoalsParams) => {
   if (!userId) {
     throw new Error(`Invalid user ID ${userId}`);
   }
-
-  logger.debug(`getGoals for user ${userId} between ${fromDate} and ${toDate}`);
-
   // How do I confirm what types the query args are?
   // can use typeof to make sure it's a string
   // But then also cast them to dates and check if they're valid dates - if not, return an error?
-  logger.debug({ fromDate, toDate });
 
   if (typeof fromDate !== 'string') {
     fromDate = '';
@@ -73,19 +69,7 @@ export const getGoals = async ({ userId, ...params }: GetGoalsParams) => {
     },
   });
 
-  logger.debug('getGoals goals', goals);
-
   const transformedGoals = transformGoals(goals);
-
-  // logger.info(
-  //   'controller habit quantity',
-  //   transformedGoals[0]?.habits[0].targetQuantity
-  // );
-
-  // logger.info(
-  //   'controller type',
-  //   transformedGoals[0]?.habits[0]?.entries[0]?.completionDate instanceof Date
-  // );
 
   return transformedGoals;
 };

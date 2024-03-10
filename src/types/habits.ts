@@ -15,8 +15,16 @@ export type Entry = {
 // Q3 10 hours of badminton per week
 // A3 target: 2, unit: weekly, count: 5
 export type Frequency = {
-  unit: 'daily' | 'weekly' | 'monthly';
-  count: number;
+  frequencyUnit: 'daily' | 'weekly' | 'monthly';
+  frequencyQuantity: number;
+};
+
+type Target = {
+  // How many times do we want to do this habit in the day?
+  targetUnit: string;
+
+  // Pages, km, miles, etc.
+  targetQuantity: number;
 };
 
 // Action that leads to fulfilment in your life
@@ -24,28 +32,34 @@ export type Habit = {
   id: string;
   name: string;
   description?: string;
-  frequency: Frequency; // How often? Daily/Weekly/Twice weekly habit?
   intensity?: number;
   impact?: number; // Life-wise and feelings-wise
-  target: {
-    // How many times do we want to do this habit in the day?
-    unit: string;
-    // Pages, km, miles, etc.
-    quantity: number;
-  };
 };
+
+export type HabitFlat = {
+  id: string;
+  name: string;
+  description: string | null;
+  frequencyUnit: string;
+  frequencyQuantity: number;
+  targetUnit: string;
+  targetQuantity: number;
+  intensity: number | null;
+  impact: number | null; // Life-wise and feelings-wise
+} & Frequency &
+  Target; // How often? Daily/Weekly/Twice weekly habit?;
 
 export type History = {
   streak: number;
   entries: Entry[];
 };
 
-export type HabitWithHistory = Habit & History;
+export type HabitWithHistory = HabitFlat & History;
 
 // An overarching objective, formed by a collection of habits
 export type Goal = {
   name: string;
-  description?: string;
+  description: string | null;
 };
 
 export type GoalWithHabitHistory = Goal & {

@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import { FaTrash } from 'react-icons/fa';
 import { useState } from 'react';
-import { HabitWithHistory } from '../../src/types/habits';
+import { HabitWithHistory } from '../../src/api/habits/types';
 import ButtonWithIcon from '../ButtonWithIcon';
 import CompleteButton from '../entries/CompleteButton';
 import Modal from '../Modal';
@@ -13,6 +13,7 @@ import {
   isBinaryHabit,
 } from './utils';
 import Button from '../Button';
+import { OnRemoveHabitEntry } from './types';
 
 const styles = {
   content: css({
@@ -71,7 +72,7 @@ type HabitDailyViewProps = {
   streak: number;
   date: string;
   onAddHabitEntry: () => void;
-  onRemoveHabitEntry: (entryId: string) => void;
+  onRemoveHabitEntry: OnRemoveHabitEntry;
   onDeleteHabit: (habitId: string) => void;
 };
 

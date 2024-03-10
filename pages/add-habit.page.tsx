@@ -4,32 +4,71 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSidePropsContext } from 'next';
 import Button from '../components/Button';
 import Link from '../src/components/Link';
-import habitsApi from '../src/api/habits';
 import logger from '../src/services/logger';
+import useGoalsAdapter from '../src/hooks/useGoalsAdapter';
+import { verifyCookies } from './api/utils';
+import { getGoals } from './api/goals/controller';
 
-export async function getStaticProps({ locale = 'en' }) {
-  return {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { locale = 'en' } = context;
+  const defaultProps = {
     props: {
       ...(await serverSideTranslations(locale, ['add-habit'])),
+      goalsProp: [],
+      uid: '',
     },
   };
+
+  try {
+    const token = await verifyCookies(context);
+
+    if (!token) {
+      logger.debug('null token');
+
+      return defaultProps;
+    }
+
+    logger.debug(token.user_id);
+
+    const goals = await getGoals({ userId: token.user_id });
+    logger.debug(goals);
+    const transformedGoals = goals.map(({ id, name, description }) => ({
+      id,
+      name,
+      description,
+    }));
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['add-habit'])),
+        goalsProp: transformedGoals,
+        uid: token.uid,
+      },
+    };
+  } catch (error) {
+    logger.error(error);
+  }
+
+  return defaultProps;
 }
 
 type FormType = {
   name?: string;
   description?: string;
-  target?: number;
-  unit?: string;
-  frequency: number;
+  targetQuantity?: number;
+  targetUnit?: string;
+  frequencyQuantity: number;
   frequencyUnit: string;
 };
 
 const defaultFormValues = {
   name: 'Drink water',
-  target: 1,
-  frequency: 1,
+  targetQuantity: 1,
+  targetUnit: 'glass',
+  frequencyQuantity: 1,
   frequencyUnit: 'daily',
 };
 
@@ -89,8 +128,20 @@ const styles = {
   }),
 };
 
-const AddHabit = () => {
+type AddHabitProps = {
+  goalsProp: { id: string; name: string; description: string }[];
+};
+
+const AddHabit = ({ goalsProp }: AddHabitProps) => {
   const router = useRouter();
+  const goalsAdapter = useGoalsAdapter();
+
+  if (!goalsProp) logger.warn('No goals available to add a habit to');
+  // TODO: Use the first goal ID as the one to add the habit to
+
+  const goalToAttachTo = goalsProp[0];
+
+  logger.debug({ goalToAttachTo, goalsProp });
 
   const { t } = useTranslation();
 
@@ -102,18 +153,45 @@ const AddHabit = () => {
     const { name, value } = event.target;
 
     setFormData({ ...formData, [name]: value });
-    logger.debug(`${name} changed to ${value}`);
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    habitsApi
-      .addHabit()
+
+    const {
+      name,
+      description,
+      frequencyQuantity,
+      frequencyUnit,
+      targetQuantity,
+      targetUnit,
+    } = formData;
+
+    if (
+      !name ||
+      !description ||
+      !frequencyQuantity ||
+      !frequencyUnit ||
+      !targetQuantity ||
+      !targetUnit
+    )
+      return;
+
+    goalsAdapter
+      .addHabit({
+        name,
+        description,
+        frequencyQuantity,
+        frequencyUnit,
+        targetQuantity,
+        targetUnit,
+        goalId: goalToAttachTo.id,
+      })
       .then((message) => {
-        logger.debug(message);
+        logger.debug('addHabit', { message });
         router.push('/');
       })
-      .catch((error) => logger.error(error));
+      .catch((error) => logger.error('Error adding a habit', error));
   };
 
   return (
@@ -152,8 +230,8 @@ const AddHabit = () => {
               css={styles.inputField}
               type='text'
               id='target'
-              name='target'
-              value={formData.target}
+              name='targetQuantity'
+              value={formData.targetQuantity}
               onChange={handleInputChange}
             />
           </label>
@@ -164,8 +242,8 @@ const AddHabit = () => {
               css={styles.inputField}
               type='text'
               id='unit'
-              name='unit'
-              value={formData.unit}
+              name='targetUnit'
+              value={formData.targetUnit}
               onChange={handleInputChange}
             />
           </label>
@@ -178,8 +256,8 @@ const AddHabit = () => {
                   css={styles.inputField}
                   type='text'
                   id='frequency'
-                  name='frequency'
-                  value={formData.frequency}
+                  name='frequencyQuantity'
+                  value={formData.frequencyQuantity}
                   onChange={handleInputChange}
                 />
               </label>

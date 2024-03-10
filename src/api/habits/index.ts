@@ -1,3 +1,3 @@
-import habitFactory from './adapters';
+import { jsonHabitService, restHabitService } from './adapters';
 
-export default habitFactory;
+export { jsonHabitService, restHabitService };

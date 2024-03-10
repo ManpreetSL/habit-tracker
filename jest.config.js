@@ -4,9 +4,8 @@ module.exports = {
     '^.+\\.(t|j)sx?$': ['@swc/jest'],
   },
   moduleNameMapper: {
-    '\\.css$': 'identity-obj-proxy',
-    'react-i18next': '<rootDir>/test/__mocks__/react-i18next.ts',
+    '\\.css$': 'identity-obj-proxy'
   },
   modulePathIgnorePatterns: ['.next'],
-  setupFilesAfterEnv: ['<rootDir>/test/set-up-tests.js'],
+  setupFilesAfterEnv: ['<rootDir>/test/set-up-tests.ts'],
 };

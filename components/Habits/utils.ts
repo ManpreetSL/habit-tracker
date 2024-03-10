@@ -1,5 +1,6 @@
-import { Entry, HabitWithHistory } from '../../src/types/habits';
+import { Entry } from '@prisma/client';
 import { CompletionPercentages } from './types';
+import { HabitWithHistory } from '../../src/api/habits/types';
 
 type EntriesByDay = {
   [date: string]: Entry[];
@@ -43,7 +44,7 @@ export const calculateCompletionPercentages = ({
 
       [currentDate]: getCompletionPercentage(
         checkCompletionQuantity(entriesByDay[currentDate]),
-        habitWithHistory.target.quantity
+        habitWithHistory.targetQuantity as unknown as number
       ),
     }),
     {} as CompletionPercentages
@@ -53,4 +54,4 @@ export const calculateCompletionPercentages = ({
 };
 
 export const isBinaryHabit = (habitWithHistory: HabitWithHistory) =>
-  habitWithHistory.target.quantity === 1;
+  (habitWithHistory.targetQuantity as unknown as number) === 1;

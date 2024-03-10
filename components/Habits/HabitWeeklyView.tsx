@@ -1,12 +1,13 @@
 import { css } from '@emotion/react';
-import { Entry, GoalWithHabitHistory } from '../../src/types/habits';
-
+import { Entry } from '@prisma/client';
 import CompleteButton from '../entries/CompleteButton';
 import {
   calculateCompletionPercentages,
   getEntriesForDay,
   isBinaryHabit,
 } from './utils';
+import { GoalWithHabitsAndEntries } from '../../src/api/habits/types';
+import { OnRemoveHabitEntry } from './types';
 
 const styles = {
   container: css({
@@ -56,10 +57,10 @@ const styles = {
 };
 
 type HabitWeeklyViewProps = {
-  goals: GoalWithHabitHistory[];
+  goals: GoalWithHabitsAndEntries[];
   dates: Date[];
   onAddHabitEntry: (habitId: string, date: Date) => void;
-  onRemoveHabitEntry: (habitId: string, entryId: string) => void;
+  onRemoveHabitEntry: OnRemoveHabitEntry;
 };
 
 const HabitWeeklyView = ({
@@ -78,7 +79,7 @@ const HabitWeeklyView = ({
   ) => {
     if (isComplete) {
       const entriesToday = getEntriesForDay(entries, date.toDateString());
-      onRemoveHabitEntry(habitId, entriesToday[0].id);
+      onRemoveHabitEntry(entriesToday[0].id);
     } else onAddHabitEntry(habitId, date);
   };
 
@@ -99,7 +100,7 @@ const HabitWeeklyView = ({
       </thead>
       <tbody>
         {goals.map(({ habits }) =>
-          habits.map((habitWithHistory) => {
+          habits?.map((habitWithHistory) => {
             const completionPercentagesByDay = calculateCompletionPercentages({
               habitWithHistory,
               dates: dateStrings,

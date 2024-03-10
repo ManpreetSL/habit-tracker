@@ -1,12 +1,16 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { v4 as uuidv4 } from 'uuid';
-import { AddEntryParams, HabitService, RemoveEntryParams } from '../types';
+import {
+  AddEntryParams,
+  HabitService,
+  RemoveEntryParams,
+  GetGoalsForDatesParams,
+} from '../types';
 import habitsData from '../../../../public/data/habits.json';
 import {
-  Frequency,
-  GoalWithHabitHistory,
+  GoalWithHabitsAndEntries,
   HabitWithHistory,
-} from '../../../types/habits';
+} from '../../../../prisma/types';
 
 type Response = typeof habitsData;
 
@@ -20,7 +24,6 @@ const jsonHabitServiceFactory = (): HabitService => {
       ...rest,
       habits: habits.map(({ entries, frequency, ...restHabits }) => ({
         ...restHabits,
-        frequency: frequency as Frequency,
         entries: entries.map(({ completionDate, ...restEntries }) => ({
           ...restEntries,
           completionDate: new Date(completionDate),
@@ -29,7 +32,7 @@ const jsonHabitServiceFactory = (): HabitService => {
     }));
   };
 
-  const getHabits = (): Promise<GoalWithHabitHistory[]> => {
+  const getHabits = (): Promise<GoalWithHabitsAndEntries[]> => {
     const localHabits = localStorage.getItem('habits');
     if (!localHabits) return Promise.resolve([]);
 
@@ -38,7 +41,7 @@ const jsonHabitServiceFactory = (): HabitService => {
     );
   };
 
-  const saveHabits = (habits: GoalWithHabitHistory[]) =>
+  const saveHabits = (habits: GoalWithHabitsAndEntries[]) =>
     Promise.resolve(
       localStorage.setItem('habits', JSON.stringify(habits))
     ).catch((error) =>
@@ -61,7 +64,7 @@ const jsonHabitServiceFactory = (): HabitService => {
     const newId = uuidv4();
     return getHabits()
       .then((goals) => {
-        const newGoals: GoalWithHabitHistory[] = cloneDeep(goals);
+        const newGoals: GoalWithHabitsAndEntries[] = cloneDeep(goals);
 
         // Nested find - find the habit from within the array of goals
         for (let i = 0; i < newGoals.length; i += 1) {
@@ -134,6 +137,9 @@ const jsonHabitServiceFactory = (): HabitService => {
       )
       .catch((error) => Promise.reject(error));
 
+  const getGoalsForDates = ({ fromDate }: GetGoalsForDatesParams) =>
+    getHabitsFromDate(fromDate);
+
   const deleteHabit = (habitId: string) =>
     getHabits()
       .then((goals) =>
@@ -147,6 +153,8 @@ const jsonHabitServiceFactory = (): HabitService => {
       .then(saveHabits)
       .catch((error) => Promise.reject(error));
 
+  const adapterType = 'json';
+
   return {
     addHabit,
     deleteHabit,
@@ -156,6 +164,8 @@ const jsonHabitServiceFactory = (): HabitService => {
     saveHabits,
     saveDefaultData,
     getHabitsFromDate,
+    getGoalsForDates,
+    adapterType,
   };
 };
 

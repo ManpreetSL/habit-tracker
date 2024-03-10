@@ -1,3 +1,6 @@
 import jsonHabitServiceFactory from './json';
+import restHabitServiceFactory from './REST';
 
-export default jsonHabitServiceFactory();
+const jsonHabitService = jsonHabitServiceFactory();
+const restHabitService = restHabitServiceFactory();
+export { jsonHabitService, restHabitService };

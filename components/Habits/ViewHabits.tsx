@@ -2,14 +2,15 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { GoalWithHabitHistory } from '../../src/types/habits';
-import habitsApi from '../../src/api/habits';
 import Link from '../../src/components/Link';
 import Button from '../Button';
 import HabitDailyView from './HabitDailyView';
 import HabitWeeklyView from './HabitWeeklyView';
 import logger from '../../src/services/logger';
 import Header from '../Header';
+import useGoalsAdapter from '../../src/hooks/useGoalsAdapter';
+import { GoalWithHabitsAndEntries } from '../../src/api/habits/types';
+import useUser from '../../src/services/auth/useUser';
 
 const styles = {
   container: css({
@@ -67,25 +68,57 @@ type TimeView = 'daily' | 'weekly';
 
 const DAYS_TO_SHOW = 7;
 
-const ViewHabits = () => {
+const calculateFromDate = () => {
+  const date = new Date();
+  date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
+  return date;
+};
+
+type ViewHabitsProps = {
+  goals: GoalWithHabitsAndEntries[] | null;
+  cookieUserId: string;
+};
+
+const ViewHabits = ({ goals, cookieUserId }: ViewHabitsProps) => {
   const { t } = useTranslation(['common', 'add-habit', 'habit']);
-  const [habitsData, setHabitsData] = useState<GoalWithHabitHistory[]>([]);
+
+  const [habitsData, setHabitsData] = useState<GoalWithHabitsAndEntries[]>(
+    goals ?? []
+  );
   const [timeView, setTimeView] = useState<TimeView>('daily');
 
   const dates = calculateDates(DAYS_TO_SHOW);
+
+  const goalsAdapter = useGoalsAdapter();
+  const { user } = useUser();
+
+  const userId = user?.uid ?? cookieUserId;
 
   // Now fetch the data based on the number of days to show
   // We don't want to fetch all habits data, as it would be inefficient to pull in potentially years' worth of data
   // But this also means when saving data, these 7 days and any changes will have to be merged into the full set of entries
   useEffect(() => {
-    const date = new Date();
-    date.setDate(date.getDate() - (DAYS_TO_SHOW - 1));
+    // If user is null, useUser() isn't ready yet, so return
+    if (!user?.uid) return;
 
-    habitsApi
-      .getHabitsFromDate(date)
+    // If user ID is same as the ID from getServerSideProps, return
+    // Check what happens if we log out and log back in as the same user?
+    if (cookieUserId === user?.uid) return;
+
+    // But user.id from useUser() will still be initialised as null... that's annoying
+    // Use empty string from server side, and null from user hook to differentiate
+
+    const date = calculateFromDate();
+
+    goalsAdapter
+      .getGoals({ fromDate: date, toDate: new Date() })
+      .then((data) => {
+        logger.debug({ data });
+        return data;
+      })
       .then(setHabitsData)
       .catch((error) => logger.error(error));
-  }, []);
+  }, [cookieUserId, user?.uid, goalsAdapter]);
 
   const toggleTimeView = () => {
     if (timeView === 'daily') setTimeView('weekly');
@@ -93,19 +126,29 @@ const ViewHabits = () => {
   };
 
   const addHabitEntry = (habitId: string, date: Date) => {
-    habitsApi
+    goalsAdapter
       .addEntry({ habitId, date })
-      .then(() => habitsApi.getHabits())
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData)
       .catch((error) =>
         logger.error('addHabitEntry encountered an issue', error)
       );
   };
 
-  const removeHabitEntry = (habitId: string, entryId: string) => {
-    habitsApi
-      .removeEntry({ entryId, habitId })
-      .then(() => habitsApi.getHabits())
+  const removeHabitEntry = (entryId: string) => {
+    goalsAdapter
+      .removeEntry({ entryId })
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData)
       .catch((error) =>
         logger.error('removeHabitEntry encountered an issue', error)
@@ -113,20 +156,36 @@ const ViewHabits = () => {
   };
 
   const deleteHabit = (habitId: string) =>
-    habitsApi
+    goalsAdapter
       .deleteHabit(habitId)
-      .then(() => habitsApi.getHabits())
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
       .then(setHabitsData)
       .catch((error) =>
         logger.error('deleteHabit encountered an issue', error)
       );
 
   const saveExampleData = () => {
-    habitsApi.saveDefaultData().then(habitsApi.getHabits).then(setHabitsData);
+    goalsAdapter
+      .saveDefaultData(userId)
+      .then(() =>
+        goalsAdapter.getGoals({
+          fromDate: calculateFromDate(),
+          toDate: new Date(),
+        })
+      )
+      .then(setHabitsData);
   };
 
   return (
     <div css={styles.container}>
+      type: {goalsAdapter.adapterType} | anon: {String(user?.isAnonymous)} |
+      email:
+      {user?.email} | uid: {user?.uid}
       <Header
         left={
           <Button
@@ -163,21 +222,18 @@ const ViewHabits = () => {
           </Link>
         }
       />
-
       <div css={styles.habitsContainer}>
         {timeView === 'weekly' && (
           <HabitWeeklyView
             goals={habitsData}
             dates={dates}
             onAddHabitEntry={(habitId, date) => addHabitEntry(habitId, date)}
-            onRemoveHabitEntry={(habitId, entryId) =>
-              removeHabitEntry(habitId, entryId)
-            }
+            onRemoveHabitEntry={removeHabitEntry}
           />
         )}
         {timeView === 'daily' &&
-          habitsData.map(({ habits }) =>
-            habits.map((habitWithHistory) => (
+          habitsData?.map(({ habits }) =>
+            habits?.map((habitWithHistory) => (
               <HabitDailyView
                 key={habitWithHistory.id}
                 habitWithHistory={habitWithHistory}
@@ -186,15 +242,13 @@ const ViewHabits = () => {
                 onAddHabitEntry={() =>
                   addHabitEntry(habitWithHistory.id, dates[0])
                 }
-                onRemoveHabitEntry={(entryId) =>
-                  removeHabitEntry(habitWithHistory.id, entryId)
-                }
+                onRemoveHabitEntry={removeHabitEntry}
                 onDeleteHabit={deleteHabit}
               />
             ))
           )}
 
-        {habitsData.length === 0 ? (
+        {!habitsData || habitsData.length === 0 ? (
           <div css={styles.noHabitsContainer}>
             <p>{t('habit:noHabits')}</p>
             <Button onClick={saveExampleData}>

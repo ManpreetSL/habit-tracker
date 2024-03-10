@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Goal {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  habits      Habit[]
+  userId      String
+}
+
+model Habit {
+  id                String  @id @default(cuid())
+  name              String
+  description       String?
+  frequencyUnit     String
+  frequencyQuantity Decimal @db.Decimal(10, 2)
+  targetUnit        String
+  targetQuantity    Decimal @db.Decimal(10, 2)
+  streak            Int
+  entries           Entry[]
+  Goal              Goal    @relation(fields: [goalId], references: [id])
+  goalId            String
+}
+
+model Entry {
+  id             String   @id @default(cuid())
+  completionDate DateTime
+  quantity       Int
+  Habit          Habit    @relation(fields: [habitId], references: [id])
+  habitId        String
+}
